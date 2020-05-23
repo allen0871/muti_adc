@@ -758,12 +758,12 @@ ARM Macro Assembler    Page 12
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=stm32f401spitest\startup_stm32f401xc.d -ostm32f401spitest\start
-up_stm32f401xc.o -I.\RTE\_stm32f401spitest -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.
-1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\D
-evice\ST\STM32F4xx\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISI
-ON_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="STM32F401xC SETA 1
-" --list=startup_stm32f401xc.lst startup_stm32f401xc.s
+erwork --depend=mutiadc\startup_stm32f401xc.d -omutiadc\startup_stm32f401xc.o -
+I.\RTE\_mutiadc -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v
+5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include 
+--predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --pred
+efine="_RTE_ SETA 1" --predefine="STM32F401xC SETA 1" --list=startup_stm32f401x
+c.lst startup_stm32f401xc.s
 
 
 

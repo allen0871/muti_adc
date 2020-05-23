@@ -4,30 +4,15 @@
   * @file    stm32f4xx_it.c
   * @brief   Interrupt Service Routines.
   ******************************************************************************
+  * @attention
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -71,6 +56,10 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc1;
+extern ADC_HandleTypeDef hadc1;
+extern DMA_HandleTypeDef hdma_usart1_rx;
+extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -204,17 +193,92 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 1 */
 }
 
+/******************************************************************************/
+/* STM32F4xx Peripheral Interrupt Handlers                                    */
+/* Add here the Interrupt Handlers for the used peripherals.                  */
+/* For the available peripheral interrupt handler names,                      */
+/* please refer to the startup file (startup_stm32f4xx.s).                    */
+/******************************************************************************/
+
+/**
+  * @brief This function handles ADC1 global interrupt.
+  */
+void ADC_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC_IRQn 0 */
+
+  /* USER CODE END ADC_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc1);
+  /* USER CODE BEGIN ADC_IRQn 1 */
+
+  /* USER CODE END ADC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART1 global interrupt.
+  */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
+volatile char adcstart = 0;
+ uint32_t adcbuf[10240] = {0};
+extern ADC_HandleTypeDef hadc1;
+/**
+  * @brief This function handles DMA2 stream0 global interrupt.
+  */
+void DMA2_Stream0_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream0_IRQn 0 */
+	adcstart = 0;
+  HAL_DMA_IRQHandler(&hdma_adc1);
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream2 global interrupt.
+  */
+void DMA2_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 0 */
+	adcstart = 0;
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 1 */
+}
+
+/* USER CODE BEGIN 1 */
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim5;
 extern volatile char init;
-#define REFCCR TIM2->CCR2
-#define REFNCCR TIM2->CCR1
+
 volatile char flag = 0;
 volatile unsigned int* ccra;
 volatile unsigned int* ccrb;
 void (*time2_handler)(void);
 int tim2needStop;
 int tim2needStart;
+extern volatile uint32_t refTime;
+extern volatile uint32_t refnTime;
+extern volatile uint32_t curRefCount;
+extern volatile uint32_t curRefnCount;
+extern volatile uint32_t debugRef;
+extern volatile uint32_t debugRefn;
+extern volatile uint32_t adc_status;
 
 void TIM2_IRQStop(void);
 
@@ -223,34 +287,75 @@ void TIM2_IRQHandler(void)
 	time2_handler();
 }
 int t;
+
+
 void TIM2_IRQClean(void)
 {
 	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
 	{
-			 REFCCR = 150;
-			 REFNCCR = 1000;
-		   TIM2->ARR = 10000;
-		   TIM2->CCMR1 = 0x1010;
+			 REFCCR = 750;
+			 REFNCCR = 150;
+			TIM2->CCR4 = 750;
+		  TIM2->ARR = 1679;
+			TIM2->CCMR1 = 0x1010; 
+			time2_handler = TIM2_IRQStart;
+		adc_status = 0;
+		curRefCount = 0;
+		curRefnCount = 0;
+		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
+		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+				HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 	}
 	else if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
 	{
-		
-		t = 1;
-		while(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4))
-		{
-			t++;
-			if(t>100)
-			{
-				t = 0;
-				break;
-			}
+		if(adc_status == 0) {
+			adc_status = 1;
+		}
+		else if(adc_status == 2){
+			debugRef = TIM2->CCR4;
+			REFCCR = TIM2->CNT + 80;
+			REFNCCR = REFCCR;
+			TIM2->CCMR1 = 0x2020;
+			adc_status = 3;
+			refTime += (debugRef-curRefCount);
+			refnTime += (debugRef-curRefnCount);
+		}
+		/*
+		//等等变负
+		while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+		//160 cnt后正ref关闭
+		REFCCR = TIM2->CNT + 100;
+		//负ref打开,上升
+		REFNCCR = REFCCR+100; 
+		TIM2->CCMR1 = 0x2030; 
+		//等待变正
+		while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
+		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
+		if(!adcstart) {
+			adcstart = 1;
+			//HAL_ADC_Start_DMA(&hadc1,adcbuf,1024);
 		}
 		REFCCR = TIM2->CNT + 60;
-		//REFCCR = 800;
-		TIM2->CCMR1 = 0x3040; 
+		TIM2->CCMR1 = 0x3010;
+		while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+		
+		REFCCR = TIM2->CNT + 80;
+		REFNCCR = REFCCR;
+		TIM2->CCMR1 = 0x3030;
+		
+		//TIM2->CCR4 = 5500;
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
-		time2_handler = TIM2_IRQStop;
+					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		//TIM2->CCR1 = 750;
+		//TIM2->ARR = 1679; */
 	}
 }
 
@@ -258,56 +363,74 @@ void TIM2_IRQStart(void)
 {
 /*	if(TIM2->CCMR1 != 0x3030)
 	{
-		//����OCMode��force lowΪtoggle
+		//设置OCMode从force low为toggle
 		
 		TIM2->CCMR1 = 0x3030;
 	}*/
 	 if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
   {
-		 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		 //HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		 
-		 if(GPIOB->IDR & GPIO_PIN_0)
+		 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
 		 //if(0)
 		 {
-			 REFCCR = 800;
-			 REFNCCR = 550;
+			 REFCCR = 1650;
+			 REFNCCR = 1050;
+			 TIM2->CCMR1 = 0x2020;//强制低
+			 refTime += (1650-curRefCount);
+			 refnTime += (1050 - curRefnCount);
 		 }
 		 else
 		 {
-			 REFCCR = 550;
-			 REFNCCR = 800;
+			 REFCCR = 1050;
+			 REFNCCR = 1650;
+			 TIM2->CCMR1 = 0x2020;//强制低
+			 refTime += (1650-curRefCount);
+			 refnTime += (1050 - curRefnCount);
 		 }
-		 TIM2->CCMR1 = 0x3030;  //toggle
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		//HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
      __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
-		 if(tim2needStop)
-		 {
-			 tim2needStop = 0;
-			 time2_handler = TIM2_IRQClean;
-		 }
+
 
   }
 	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
   {
-     if(GPIOB->IDR & GPIO_PIN_0)
+     if(VCENT_GPIO_Port->IDR & VCENT_Pin)
 		 //if(1)
 		 {
 			 REFCCR = 150;
-			 REFNCCR = 400;
+			 REFNCCR = 750;
+			 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
+			 curRefCount = 150;
+			 curRefnCount = 750;
 		 }
 		 else
 		 {
-			 REFCCR = 400;
+			 REFCCR = 750;
 			 REFNCCR = 150;
+			 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
+			 curRefCount = 750;
+			 curRefnCount = 150;
 		 }
-		 TIM2->CCMR1 = 0x1010;  //OC1M/2M ǿ�����
-				 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		 		 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		 
+		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
+		 		 if(tim2needStop && !tim2needStart)
+		 {
+			 //tim2needStop = 0;
+			 time2_handler = TIM2_IRQClean;
+			 REFCCR = 150;
+			 curRefCount = 150;
+			 REFNCCR = 200000;
+		   TIM2->ARR = 419999;
+		   TIM2->CCMR1 = 0x1010;
+		   TIM2->CCR4 = 150;
+			tim2needStop = 0;
+			 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 }
   }
-
 }
 
 void TIM2_IRQStop(void)
@@ -329,30 +452,25 @@ void TIM2_IRQStop(void)
 	}
 }
 
-void TIM3_IRQHandler(void) 
+void TIM5_IRQHandler(void) 
 {
-	if(__HAL_TIM_GET_FLAG(&htim3, TIM_FLAG_UPDATE) != RESET)
+	if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_UPDATE) != RESET)
 	{
-		__HAL_TIM_CLEAR_IT(&htim3, TIM_FLAG_UPDATE);
+		__HAL_TIM_CLEAR_IT(&htim5, TIM_FLAG_UPDATE);
 		//time2_handler = TIM2_IRQStart;
 		tim2needStart = 1;
 	}
-	else if(__HAL_TIM_GET_FLAG(&htim3, TIM_FLAG_CC1) != RESET)
+	else if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC3) != RESET)
 	{
-		__HAL_TIM_CLEAR_IT(&htim3, TIM_FLAG_CC1);
+		__HAL_TIM_CLEAR_IT(&htim5, TIM_FLAG_CC3);
 		tim2needStop = 1;
 		tim2needStart = 0;
+		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 	}
 }
-
-/******************************************************************************/
-/* STM32F4xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32f4xx.s).                    */
-/******************************************************************************/
-
-/* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

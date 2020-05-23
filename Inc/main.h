@@ -5,35 +5,15 @@
   * @brief          : Header for main.c file.
   *                   This file contains the common defines of the application.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -76,10 +56,37 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+#define REFCCR TIM2->CCR2
+#define REFNCCR TIM2->CCR1
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define PC4_Pin GPIO_PIN_13
+#define PC4_GPIO_Port GPIOC
+#define PC3_Pin GPIO_PIN_14
+#define PC3_GPIO_Port GPIOC
+#define PC5_Pin GPIO_PIN_15
+#define PC5_GPIO_Port GPIOC
+#define CREFN_Pin GPIO_PIN_0
+#define CREFN_GPIO_Port GPIOA
+#define CREFP_Pin GPIO_PIN_1
+#define CREFP_GPIO_Port GPIOA
+#define CVIN_Pin GPIO_PIN_2
+#define CVIN_GPIO_Port GPIOA
+#define CZERO_Pin GPIO_PIN_3
+#define CZERO_GPIO_Port GPIOA
+#define VCENT_Pin GPIO_PIN_4
+#define VCENT_GPIO_Port GPIOA
+#define CADC_Pin GPIO_PIN_5
+#define CADC_GPIO_Port GPIOA
+#define VPREZ_Pin GPIO_PIN_0
+#define VPREZ_GPIO_Port GPIOB
+#define VZERO_Pin GPIO_PIN_1
+#define VZERO_GPIO_Port GPIOB
+#define CLOG_Pin GPIO_PIN_2
+#define CLOG_GPIO_Port GPIOB
+#define CLOG2_Pin GPIO_PIN_10
+#define CLOG2_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
