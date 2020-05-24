@@ -78,15 +78,30 @@ volatile uint32_t curRefnCount = 0;
 volatile uint32_t debugRef = 0;
 volatile uint32_t debugRefn = 0;
 volatile uint32_t adc_status = 0;
+static uint16_t adc_log1[4096];
+static uint16_t adc_log2[4096];
+volatile uint32_t adc_reflast;
+volatile uint32_t adc_refnlast;
+volatile uint32_t adc_reffirst;
+volatile uint32_t adc_refnfirst;
+volatile uint16_t *adc_log;
+volatile uint32_t adc_index;
+volatile uint32_t adc_t;
+uint32_t adc_nplc = 5;
+volatile int32_t adc_count;
+volatile uint32_t adc_sumTime;
+volatile uint32_t adc_nplcCT;
+#define NPLC  20000
+#define NPLC10 200000
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-extern volatile char adcstart;
-extern uint32_t adcbuf[1024];
 
 static void enableTim2OCInput(void) {
+	uint32_t tmpccmr2;
+  uint32_t tmpccer;
 	TIM_IC_InitTypeDef sConfigIC = {0};
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	GPIO_InitStruct.Pin = GPIO_PIN_3;
@@ -99,7 +114,25 @@ static void enableTim2OCInput(void) {
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
-  HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4);
+	
+	htim2.Instance->CCER &= ~TIM_CCER_CC4E;
+	tmpccmr2 = htim2.Instance->CCMR2;
+  tmpccer = htim2.Instance->CCER;
+  /* Select the Input */
+  tmpccmr2 &= ~TIM_CCMR2_CC4S;
+  tmpccmr2 |= (sConfigIC.ICSelection << 8U);
+  /* Set the filter */
+  tmpccmr2 &= ~TIM_CCMR2_IC4F;
+  tmpccmr2 |= ((sConfigIC.ICFilter << 12U) & TIM_CCMR2_IC4F);
+  /* Select the Polarity and set the CC4E Bit */
+  tmpccer &= ~(TIM_CCER_CC4P | TIM_CCER_CC4NP);
+  tmpccer |= ((sConfigIC.ICPolarity << 12U) & (TIM_CCER_CC4P | TIM_CCER_CC4NP));
+  /* Write to TIMx CCMR2 and CCER registers */
+  htim2.Instance->CCMR2 = tmpccmr2;
+  htim2.Instance->CCER = tmpccer ;
+	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);
+  //HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4);
+	//HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
 }
 
 static void disableTim2OCInput(void) {
@@ -115,6 +148,7 @@ static void disableTim2OCInput(void) {
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4);
+	TIM_CCxChannelCmd(htim2.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);
 }
 /* USER CODE END 0 */
 
@@ -125,7 +159,19 @@ static void disableTim2OCInput(void) {
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	volatile uint16_t *adc_tmp;
+	uint32_t adc_indextmp;
+	adc_log = adc_log1;
+	adc_index = 0;
+	adc_nplcCT = adc_nplc*1000;
+	adc_count = adc_nplcCT;
+	adc_sumTime = 0;
+	adc_t = 0;
+	uint32_t  sumRef = 0;
+	uint32_t  sumNRef = 0;
+	uint32_t  sumTime = 0;
+	uint32_t  sumCount = 0;
+	uint32_t  skipcount = 10;
   /* USER CODE END 1 */
   
 
@@ -175,7 +221,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_OC_Start_IT(&htim5,TIM_CHANNEL_3);
 	//HAL_TIM_OC_Start(&htim5,TIM_CHANNEL_4);
-	
+	printf("hello\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -190,7 +236,12 @@ int main(void)
 			//负ref打开,之后积分器电压上升
 			REFNCCR = REFCCR+100; 
 			TIM2->CCMR1 = 0x2010; 
-			refTime += (REFCCR-curRefCount);
+			adc_reffirst = refTime;
+			adc_refnfirst = refnTime;
+			uint32_t tmp = (REFCCR-curRefCount);
+			adc_log[adc_index++] = tmp;
+			adc_log[adc_index++] = 0;
+			refTime += tmp;
 			curRefnCount = REFNCCR;
 			//等待积分电压变正
 			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
@@ -201,10 +252,57 @@ int main(void)
 			curRefCount = REFCCR;
 			adc_status = 2;
 			enableTim2OCInput();
+			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+			//debugRef = TIM2->CNT;
+			REFCCR = TIM2->CNT + 80;
+			REFNCCR = REFCCR;
+			TIM2->CCMR1 = 0x2020;
+			//adc_status = 3;
+			//refTime += (debugRef-curRefCount);
+			//refnTime += (debugRef-curRefnCount);
+			disableTim2OCInput();
+			TIM2->CCR4 = 410000;
+			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 		}
 		else if(adc_status == 3) {
-			
+			adc_status = 4;
+			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
+			adc_tmp = adc_log;
+			adc_indextmp = adc_index;
+			if(adc_t == 0) {
+				adc_log = adc_log2;
+				adc_t = 1;
+			}
+			else {
+				adc_log = adc_log1;
+				adc_t = 0;
+			}
+			adc_index = 0;
+			adc_count = adc_nplcCT;
+			if(skipcount==0) { 
+				sumTime += adc_sumTime;
+				sumRef += refTime;
+				sumNRef += refnTime;
+				sumCount ++;
+				if(sumCount == 200) {
+					printf("%u %u %u %u\n",sumTime, sumRef,sumNRef,sumNRef - sumRef);
+					sumTime = 0;
+					sumRef = 0;
+					sumNRef = 0;
+					sumCount = 0;
+				}
+		  }
+			else {
+				skipcount--;
+			}
+			//disableTim2OCInput();
+			/*for(int i=0;i<4;i=i+2) {
+				printf("%u %u\n",adc_tmp[i],adc_tmp[i+1]);
+			}*/
+			//printf("%u %u %u %d\n",adc_tmp[adc_indextmp-2],adc_reffirst,adc_refnfirst,refTime-refnTime);
+			//printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,adc_tmp[adc_indextmp-2],adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refTime-refnTime);
 		}
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -445,7 +543,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 83;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 25000-1;
+  htim5.Init.Period = NPLC*adc_nplc + 5000-1;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_OC_Init(&htim5) != HAL_OK)
@@ -463,7 +561,7 @@ static void MX_TIM5_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 20000;
+  sConfigOC.Pulse = NPLC*adc_nplc;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_OC_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)

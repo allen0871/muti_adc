@@ -227,8 +227,7 @@ void USART1_IRQHandler(void)
 
   /* USER CODE END USART1_IRQn 1 */
 }
-volatile char adcstart = 0;
- uint32_t adcbuf[10240] = {0};
+
 extern ADC_HandleTypeDef hadc1;
 /**
   * @brief This function handles DMA2 stream0 global interrupt.
@@ -238,7 +237,6 @@ void DMA2_Stream0_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
 
   /* USER CODE END DMA2_Stream0_IRQn 0 */
-	adcstart = 0;
   HAL_DMA_IRQHandler(&hdma_adc1);
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
 
@@ -253,7 +251,6 @@ void DMA2_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
 
   /* USER CODE END DMA2_Stream2_IRQn 0 */
-	adcstart = 0;
   HAL_DMA_IRQHandler(&hdma_usart1_rx);
   /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
 
@@ -279,6 +276,12 @@ extern volatile uint32_t curRefnCount;
 extern volatile uint32_t debugRef;
 extern volatile uint32_t debugRefn;
 extern volatile uint32_t adc_status;
+extern volatile uint16_t *adc_log;
+extern volatile uint32_t adc_index;
+extern volatile uint32_t adc_reflast;
+extern volatile uint32_t adc_refnlast;
+extern volatile int32_t adc_count;
+extern volatile uint32_t adc_sumTime;
 
 void TIM2_IRQStop(void);
 
@@ -295,14 +298,18 @@ void TIM2_IRQClean(void)
 	{
 			 REFCCR = 750;
 			 REFNCCR = 150;
+		   
 			TIM2->CCR4 = 750;
 		  TIM2->ARR = 1679;
 			TIM2->CCMR1 = 0x1010; 
 			time2_handler = TIM2_IRQStart;
 		adc_status = 0;
-		curRefCount = 0;
-		curRefnCount = 0;
-		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
+		curRefCount = 750;
+		curRefnCount = 150;
+		refTime = 0;
+		refnTime = 0;
+		
+		//HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
@@ -319,43 +326,25 @@ void TIM2_IRQClean(void)
 			REFCCR = TIM2->CNT + 80;
 			REFNCCR = REFCCR;
 			TIM2->CCMR1 = 0x2020;
+			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			
+			uint32_t tmp = (debugRef-curRefCount);
+			refTime += tmp;
+			adc_reflast = tmp;
+			tmp = (debugRef-curRefnCount);
+			adc_refnlast = tmp;
+			refnTime += tmp;
+			adc_sumTime = debugRef;
 			adc_status = 3;
-			refTime += (debugRef-curRefCount);
-			refnTime += (debugRef-curRefnCount);
+			//REFCCR = TIM2->CNT + 80;
+			//REFNCCR = REFCCR;
+			//TIM2->CCMR1 = 0x2020;
 		}
-		/*
-		//等等变负
-		while(VZERO_GPIO_Port->IDR & VZERO_Pin);
-		//160 cnt后正ref关闭
-		REFCCR = TIM2->CNT + 100;
-		//负ref打开,上升
-		REFNCCR = REFCCR+100; 
-		TIM2->CCMR1 = 0x2030; 
-		//等待变正
-		while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
-		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
-		if(!adcstart) {
-			adcstart = 1;
-			//HAL_ADC_Start_DMA(&hadc1,adcbuf,1024);
+		else if(adc_status == 4) {
+			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
 		}
-		REFCCR = TIM2->CNT + 60;
-		TIM2->CCMR1 = 0x3010;
-		while(VZERO_GPIO_Port->IDR & VZERO_Pin);
-		
-		REFCCR = TIM2->CNT + 80;
-		REFNCCR = REFCCR;
-		TIM2->CCMR1 = 0x3030;
-		
-		//TIM2->CCR4 = 5500;
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
-					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-					 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		//TIM2->CCR1 = 750;
-		//TIM2->ARR = 1679; */
 	}
 }
 
@@ -377,17 +366,26 @@ void TIM2_IRQStart(void)
 			 REFCCR = 1650;
 			 REFNCCR = 1050;
 			 TIM2->CCMR1 = 0x2020;//强制低
-			 refTime += (1650-curRefCount);
-			 refnTime += (1050 - curRefnCount);
+			 uint16_t tmp = (1650-curRefCount);
+			 refTime += tmp;
+			 //adc_log[adc_index++] = tmp;
+			 tmp = (1050 - curRefnCount);
+			 //adc_log[adc_index++] = tmp;
+			 refnTime += tmp;
 		 }
 		 else
 		 {
 			 REFCCR = 1050;
 			 REFNCCR = 1650;
 			 TIM2->CCMR1 = 0x2020;//强制低
-			 refTime += (1650-curRefCount);
-			 refnTime += (1050 - curRefnCount);
+			 uint16_t tmp = (1050-curRefCount);
+			 refTime += tmp;
+			 //adc_log[adc_index++] = tmp;
+			 tmp = (1650 - curRefnCount);
+			 //adc_log[adc_index++] = tmp;
+			 refnTime += tmp;
 		 }
+		 adc_count--;
 		//HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
      __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
 
@@ -395,41 +393,46 @@ void TIM2_IRQStart(void)
   }
 	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
   {
-     if(VCENT_GPIO_Port->IDR & VCENT_Pin)
-		 //if(1)
+		 //if(tim2needStop && !tim2needStart)
+		 if(adc_count <= 1) 
 		 {
+			 //tim2needStop = 0;
+			 
 			 REFCCR = 150;
-			 REFNCCR = 750;
-			 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
+			 REFNCCR = 419699;
+			 TIM2->CCMR1 = 0x1020;  //OC1M/2M 强制设高
+			 TIM2->ARR = 419599;
+			 time2_handler = TIM2_IRQClean;
 			 curRefCount = 150;
-			 curRefnCount = 750;
+		   TIM2->CCR4 = 350;
+			tim2needStop = 0;
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		 }
-		 else
-		 {
-			 REFCCR = 750;
-			 REFNCCR = 150;
-			 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
-			 curRefCount = 750;
-			 curRefnCount = 150;
-		 }
-		 
+		 else {
+			 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
+			 {
+				 REFCCR = 150;
+				 REFNCCR = 750;
+				 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
+				 curRefCount = 150;
+				 curRefnCount = 750;
+			 }
+			 else
+			 {
+				 REFCCR = 750;
+				 REFNCCR = 150;
+				 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
+				 curRefCount = 750;
+				 curRefnCount = 150;
+			 }
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+	 }
 		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
-		 		 if(tim2needStop && !tim2needStart)
-		 {
-			 //tim2needStop = 0;
-			 time2_handler = TIM2_IRQClean;
-			 REFCCR = 150;
-			 curRefCount = 150;
-			 REFNCCR = 200000;
-		   TIM2->ARR = 419999;
-		   TIM2->CCMR1 = 0x1010;
-		   TIM2->CCR4 = 150;
-			tim2needStop = 0;
-			 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 }
+
   }
 }
 

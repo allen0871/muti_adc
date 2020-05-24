@@ -2,3 +2,13 @@
 *.d
 *.crf
 *.o
+MDK-ARM/JLinkLog.txt
+MDK-ARM/mutiadc.uvguix.allen-pc
+MDK-ARM/mutiadc.uvguix.allen-pc
+MDK-ARM/mutiadc/mutiadc.axf
+*.htm
+MDK-ARM/mutiadc/mutiadc_mutiadc.dep
+MDK-ARM/mutiadc/mutiadc.map
+*.map
+*.dep
+*.htm
