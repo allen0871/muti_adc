@@ -87,7 +87,7 @@ volatile uint32_t adc_refnfirst;
 volatile uint16_t *adc_log;
 volatile uint32_t adc_index;
 volatile uint32_t adc_t;
-uint32_t adc_nplc = 5;
+uint32_t adc_nplc = 20;
 volatile int32_t adc_count;
 volatile uint32_t adc_sumTime;
 volatile uint32_t adc_nplcCT;
@@ -167,8 +167,8 @@ int main(void)
 	adc_count = adc_nplcCT;
 	adc_sumTime = 0;
 	adc_t = 0;
-	uint32_t  sumRef = 0;
-	uint32_t  sumNRef = 0;
+	uint64_t  sumRef = 0;
+	uint64_t  sumNRef = 0;
 	uint32_t  sumTime = 0;
 	uint32_t  sumCount = 0;
 	uint32_t  skipcount = 10;
@@ -284,13 +284,13 @@ int main(void)
 				sumRef += refTime;
 				sumNRef += refnTime;
 				sumCount ++;
-				if(sumCount == 200) {
-					printf("%u %u %u %u\n",sumTime, sumRef,sumNRef,sumNRef - sumRef);
+				/*if(sumCount == 100) {
+					printf("%u %llu %llu %llu\n",sumTime, sumRef,sumNRef,sumNRef - sumRef);
 					sumTime = 0;
 					sumRef = 0;
 					sumNRef = 0;
 					sumCount = 0;
-				}
+				}*/
 		  }
 			else {
 				skipcount--;
@@ -300,7 +300,7 @@ int main(void)
 				printf("%u %u\n",adc_tmp[i],adc_tmp[i+1]);
 			}*/
 			//printf("%u %u %u %d\n",adc_tmp[adc_indextmp-2],adc_reffirst,adc_refnfirst,refTime-refnTime);
-			//printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,adc_tmp[adc_indextmp-2],adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refTime-refnTime);
+			printf("%u %u %u %u %u %u %d %u %u %d\n",adc_sumTime,adc_reffirst,adc_refnfirst,adc_tmp[adc_indextmp-2],adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refnTime-refTime);
 		}
 		
     /* USER CODE END WHILE */
