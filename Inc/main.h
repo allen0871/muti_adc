@@ -81,8 +81,8 @@ void Error_Handler(void);
 #define CADC_GPIO_Port GPIOA
 #define VPREZ_Pin GPIO_PIN_0
 #define VPREZ_GPIO_Port GPIOB
-#define VZERO_Pin GPIO_PIN_1
-#define VZERO_GPIO_Port GPIOB
+#define VZERO_Pin GPIO_PIN_3
+#define VZERO_GPIO_Port GPIOA
 #define CLOG_Pin GPIO_PIN_2
 #define CLOG_GPIO_Port GPIOB
 #define CLOG2_Pin GPIO_PIN_10

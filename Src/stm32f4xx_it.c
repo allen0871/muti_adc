@@ -283,8 +283,6 @@ extern volatile uint32_t adc_refnlast;
 extern volatile int32_t adc_count;
 extern volatile uint32_t adc_sumTime;
 
-void TIM2_IRQStop(void);
-
 void TIM2_IRQHandler(void)
 {
 	time2_handler();
@@ -350,18 +348,11 @@ void TIM2_IRQClean(void)
 
 void TIM2_IRQStart(void)
 {
-/*	if(TIM2->CCMR1 != 0x3030)
-	{
-		//设置OCMode从force low为toggle
-		
-		TIM2->CCMR1 = 0x3030;
-	}*/
 	 if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
   {
 		 //HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		 
 		 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
-		 //if(0)
 		 {
 			 REFCCR = 1650;
 			 REFNCCR = 1050;
@@ -385,6 +376,8 @@ void TIM2_IRQStart(void)
 			 //adc_log[adc_index++] = tmp;
 			 refnTime += tmp;
 		 }
+		 	HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		 adc_count--;
 		//HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
      __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
@@ -406,8 +399,8 @@ void TIM2_IRQStart(void)
 			 curRefCount = 150;
 		   TIM2->CCR4 = 350;
 			tim2needStop = 0;
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			//HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			//HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		 }
 		 else {
 			 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
@@ -426,33 +419,14 @@ void TIM2_IRQStart(void)
 				 curRefCount = 750;
 				 curRefnCount = 150;
 			 }
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			/*HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			 HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
+			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);*/
 	 }
-		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 //HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
 
   }
-}
-
-void TIM2_IRQStop(void)
-{
-	TIM2->CCMR1 = 0x4040;
-	TIM2->ARR = 839;
-	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
-	{
-		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
-	}
-	else if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
-	{
-		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_CC4);
-		if(tim2needStart)
-		{
-			tim2needStart = 0;
-			time2_handler = TIM2_IRQStart;
-		}
-	}
 }
 
 void TIM5_IRQHandler(void) 

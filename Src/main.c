@@ -204,9 +204,10 @@ int main(void)
 	disableTim2OCInput();
   /* USER CODE BEGIN 2 */
 	HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(PC4_GPIO_Port,PC4_Pin,GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(PC5_GPIO_Port,PC5_Pin,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(PC4_GPIO_Port,PC4_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(PC5_GPIO_Port,PC5_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PC3_GPIO_Port,PC3_Pin,GPIO_PIN_RESET);
+	TIM2->CCR4 = 750;
 	//HAL_ADC_Start_DMA(&hadc1,adcbuf,10240);
   HAL_NVIC_EnableIRQ(TIM2_IRQn); 
 	HAL_TIM_Base_Start(&htim2);
@@ -226,6 +227,17 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	/*while (1) {
+		if(VCENT_GPIO_Port->IDR & VCENT_Pin) {
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
+		}
+		else if(!(VCENT_GPIO_Port->IDR & VZERO_Pin)) {
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_RESET);
+		}
+	}*/
+	
   while (1)
   {
 		if(adc_status == 1) {
@@ -284,22 +296,10 @@ int main(void)
 				sumRef += refTime;
 				sumNRef += refnTime;
 				sumCount ++;
-				/*if(sumCount == 100) {
-					printf("%u %llu %llu %llu\n",sumTime, sumRef,sumNRef,sumNRef - sumRef);
-					sumTime = 0;
-					sumRef = 0;
-					sumNRef = 0;
-					sumCount = 0;
-				}*/
 		  }
 			else {
 				skipcount--;
 			}
-			//disableTim2OCInput();
-			/*for(int i=0;i<4;i=i+2) {
-				printf("%u %u\n",adc_tmp[i],adc_tmp[i+1]);
-			}*/
-			//printf("%u %u %u %d\n",adc_tmp[adc_indextmp-2],adc_reffirst,adc_refnfirst,refTime-refnTime);
 			printf("%u %u %u %u %u %u %d %u %u %d\n",adc_sumTime,adc_reffirst,adc_refnfirst,adc_tmp[adc_indextmp-2],adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refnTime-refTime);
 		}
 		
@@ -690,11 +690,17 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
 	//TODO remove it 
-	    GPIO_InitStruct.Pin = VZERO_Pin;
+	/*    GPIO_InitStruct.Pin = VZERO_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+		
+   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);*/
 
 }
 

@@ -155,25 +155,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>237</LineNumber>
+          <LineNumber>360</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134229282</Address>
+          <Address>134226066</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\main.c</Filename>
+          <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\mutiadc\../Src/main.c\237</Expression>
+          <Expression>\\\../Src/stm32f4xx_it.c\360</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>297</LineNumber>
+          <LineNumber>412</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134226070</Address>
+          <Address>134226198</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -182,14 +182,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\mutiadc\../Src/stm32f4xx_it.c\297</Expression>
+          <Expression>\\mutiadc\../Src/stm32f4xx_it.c\412</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>402</LineNumber>
+          <LineNumber>426</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134226646</Address>
+          <Address>134226228</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -198,23 +198,23 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\mutiadc\../Src/stm32f4xx_it.c\402</Expression>
+          <Expression>\\mutiadc\../Src/stm32f4xx_it.c\426</Expression>
         </Bp>
         <Bp>
           <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>164</LineNumber>
+          <LineNumber>381</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134228938</Address>
+          <Address>134226134</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\main.c</Filename>
+          <Filename>D:\纭欢\2020\mutiADC\soft\muti_adc\muti_adc\Src\stm32f4xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\mutiadc\../Src/main.c\164</Expression>
+          <Expression>\\mutiadc\../Src/stm32f4xx_it.c\381</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -272,6 +272,10 @@
       <pSingCmdsp></pSingCmdsp>
       <pMultCmdsp></pMultCmdsp>
       <SystemViewers>
+        <Entry>
+          <Name>System Viewer\GPIOA</Name>
+          <WinId>35904</WinId>
+        </Entry>
         <Entry>
           <Name>System Viewer\TIM2</Name>
           <WinId>35905</WinId>
