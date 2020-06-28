@@ -87,7 +87,7 @@ volatile uint32_t adc_refnfirst;
 volatile uint16_t *adc_log;
 volatile uint32_t adc_index;
 volatile uint32_t adc_t;
-uint32_t adc_nplc = 20;
+uint32_t adc_nplc = 10;
 volatile int32_t adc_count;
 volatile uint32_t adc_sumTime;
 volatile uint32_t adc_nplcCT;
@@ -167,6 +167,7 @@ int main(void)
 	adc_count = adc_nplcCT;
 	adc_sumTime = 0;
 	adc_t = 0;
+	uint32_t  addRef = 0;
 	uint64_t  sumRef = 0;
 	uint64_t  sumNRef = 0;
 	uint32_t  sumTime = 0;
@@ -242,21 +243,28 @@ int main(void)
   {
 		if(adc_status == 1) {
 			//等待积分电压变负
-			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+			while(VZERO_GPIO_Port->IDR & VZERO_Pin && adc_status == 1);
+			if(adc_status != 1) {
+				continue;
+			}
 			//100 cnt后正ref关闭
 			REFCCR = TIM2->CNT + 100;
 			//负ref打开,之后积分器电压上升
-			REFNCCR = REFCCR+100; 
+			REFNCCR = REFCCR; 
 			TIM2->CCMR1 = 0x2010; 
 			adc_reffirst = refTime;
 			adc_refnfirst = refnTime;
 			uint32_t tmp = (REFCCR-curRefCount);
+			addRef = tmp;
 			adc_log[adc_index++] = tmp;
 			adc_log[adc_index++] = 0;
 			refTime += tmp;
 			curRefnCount = REFNCCR;
 			//等待积分电压变正
-			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
+			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin) && adc_status == 1);
+			if(adc_status != 1) {
+				continue;
+			}
 			//HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 			//当前时间60 tick 后正ref打开，积分器缓慢下降
 			REFCCR = TIM2->CNT + 60;
@@ -264,7 +272,10 @@ int main(void)
 			curRefCount = REFCCR;
 			adc_status = 2;
 			enableTim2OCInput();
-			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+			while(VZERO_GPIO_Port->IDR & VZERO_Pin && adc_status != 0);
+			if(adc_status == 0) {
+				continue;
+			}
 			//debugRef = TIM2->CNT;
 			REFCCR = TIM2->CNT + 80;
 			REFNCCR = REFCCR;
@@ -274,7 +285,7 @@ int main(void)
 			//refnTime += (debugRef-curRefnCount);
 			disableTim2OCInput();
 			TIM2->CCR4 = 410000;
-			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
+			//HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 		}
 		else if(adc_status == 3) {
 			adc_status = 4;
@@ -300,7 +311,7 @@ int main(void)
 			else {
 				skipcount--;
 			}
-			printf("%u %u %u %u %u %u %d %u %u %d\n",adc_sumTime,adc_reffirst,adc_refnfirst,adc_tmp[adc_indextmp-2],adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refnTime-refTime);
+			printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,addRef,adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refnTime-refTime);
 		}
 		
     /* USER CODE END WHILE */
@@ -446,7 +457,7 @@ static void MX_TIM2_Init(void)
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
   sConfigOC.Pulse = 150;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCFastMode = TIM_OCFAST_ENABLE;
   if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
@@ -563,7 +574,7 @@ static void MX_TIM5_Init(void)
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
   sConfigOC.Pulse = NPLC*adc_nplc;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCFastMode = TIM_OCFAST_ENABLE;
   if (HAL_TIM_OC_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();

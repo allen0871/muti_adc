@@ -300,14 +300,14 @@ void TIM2_IRQClean(void)
 			TIM2->CCR4 = 750;
 		  TIM2->ARR = 1679;
 			TIM2->CCMR1 = 0x1010; 
-			time2_handler = TIM2_IRQStart;
+			//time2_handler = TIM2_IRQStart;
 		adc_status = 0;
 		curRefCount = 750;
 		curRefnCount = 150;
 		refTime = 0;
 		refnTime = 0;
 		
-		//HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
@@ -387,7 +387,7 @@ void TIM2_IRQStart(void)
 	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
   {
 		 //if(tim2needStop && !tim2needStart)
-		 if(adc_count <= 1) 
+		 if(adc_count <= 0) 
 		 {
 			 //tim2needStop = 0;
 			 
@@ -399,8 +399,12 @@ void TIM2_IRQStart(void)
 			 curRefCount = 150;
 		   TIM2->CCR4 = 350;
 			tim2needStop = 0;
-			//HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			//HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+					HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			 		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+			 		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		 }
 		 else {
 			 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
@@ -419,10 +423,8 @@ void TIM2_IRQStart(void)
 				 curRefCount = 750;
 				 curRefnCount = 150;
 			 }
-			/*HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			 HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);*/
+		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
+		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 	 }
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
 
@@ -434,7 +436,20 @@ void TIM5_IRQHandler(void)
 	if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_UPDATE) != RESET)
 	{
 		__HAL_TIM_CLEAR_IT(&htim5, TIM_FLAG_UPDATE);
-		//time2_handler = TIM2_IRQStart;
+					 REFCCR = 750;
+			 REFNCCR = 150;
+		   
+			TIM2->CCR4 = 750;
+		  TIM2->ARR = 1679;
+			TIM2->CCMR1 = 0x1010; 
+			//time2_handler = TIM2_IRQStart;
+		adc_status = 0;
+		curRefCount = 750;
+		curRefnCount = 150;
+		refTime = 0;
+		refnTime = 0;
+		TIM2->CNT=0;
+		time2_handler = TIM2_IRQStart;
 		tim2needStart = 1;
 	}
 	else if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC3) != RESET)
