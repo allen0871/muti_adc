@@ -328,16 +328,13 @@ void TIM2_IRQClean(void)
 			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 			
 			uint32_t tmp = (debugRef-curRefCount);
-			refTime += tmp;
+			//refTime += tmp;
 			adc_reflast = tmp;
 			tmp = (debugRef-curRefnCount);
 			adc_refnlast = tmp;
-			refnTime += tmp;
+			refnTime += (adc_refnlast-adc_reflast);
 			adc_sumTime = debugRef;
 			adc_status = 3;
-			//REFCCR = TIM2->CNT + 80;
-			//REFNCCR = REFCCR;
-			//TIM2->CCMR1 = 0x2020;
 		}
 		else if(adc_status == 4) {
 			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
@@ -352,7 +349,7 @@ void TIM2_IRQStart(void)
   {
 		 //HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		 
-		 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
+		 if(VCENT_GPIO_Port->IDR & VZERO_Pin)
 		 {
 			 REFCCR = 1650;
 			 REFNCCR = 1050;
@@ -407,7 +404,7 @@ void TIM2_IRQStart(void)
 		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
 		 }
 		 else {
-			 if(VCENT_GPIO_Port->IDR & VCENT_Pin)
+			 if(VCENT_GPIO_Port->IDR & VZERO_Pin)
 			 {
 				 REFCCR = 150;
 				 REFNCCR = 750;

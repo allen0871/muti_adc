@@ -87,7 +87,7 @@ volatile uint32_t adc_refnfirst;
 volatile uint16_t *adc_log;
 volatile uint32_t adc_index;
 volatile uint32_t adc_t;
-uint32_t adc_nplc = 10;
+uint32_t adc_nplc = 1;
 volatile int32_t adc_count;
 volatile uint32_t adc_sumTime;
 volatile uint32_t adc_nplcCT;
@@ -248,7 +248,7 @@ int main(void)
 				continue;
 			}
 			//100 cnt后正ref关闭
-			REFCCR = TIM2->CNT + 100;
+			REFCCR = TIM2->CNT + 200;
 			//负ref打开,之后积分器电压上升
 			REFNCCR = REFCCR; 
 			TIM2->CCMR1 = 0x2010; 
@@ -311,7 +311,8 @@ int main(void)
 			else {
 				skipcount--;
 			}
-			printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,addRef,adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime,refnTime,refnTime-refTime);
+			int ttt = (int)(adc_reflast*0.015);
+			printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,addRef,adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime+ttt,refnTime,refnTime-refTime);
 		}
 		
     /* USER CODE END WHILE */
