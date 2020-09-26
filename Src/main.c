@@ -87,7 +87,7 @@ volatile uint32_t adc_refnfirst;
 volatile uint16_t *adc_log;
 volatile uint32_t adc_index;
 volatile uint32_t adc_t;
-uint32_t adc_nplc = 1;
+uint32_t adc_nplc = 10;
 volatile int32_t adc_count;
 volatile uint32_t adc_sumTime;
 volatile uint32_t adc_nplcCT;
@@ -204,7 +204,7 @@ int main(void)
   MX_ADC1_Init();
 	disableTim2OCInput();
   /* USER CODE BEGIN 2 */
-	HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PC4_GPIO_Port,PC4_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PC5_GPIO_Port,PC5_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PC3_GPIO_Port,PC3_Pin,GPIO_PIN_RESET);
@@ -222,6 +222,7 @@ int main(void)
 	HAL_TIM_Base_Start(&htim5);
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_OC_Start_IT(&htim5,TIM_CHANNEL_3);
+	HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 	//HAL_TIM_OC_Start(&htim5,TIM_CHANNEL_4);
 	printf("hello\n");
   /* USER CODE END 2 */
@@ -249,6 +250,9 @@ int main(void)
 			}
 			//100 cnt后正ref关闭
 			REFCCR = TIM2->CNT + 200;
+			/*uint32_t t = TIM2->CNT;
+			uint32_t yu = t % 10;
+			REFCCR = t + 200 - yu;*/
 			//负ref打开,之后积分器电压上升
 			REFNCCR = REFCCR; 
 			TIM2->CCMR1 = 0x2010; 
@@ -268,6 +272,10 @@ int main(void)
 			//HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 			//当前时间60 tick 后正ref打开，积分器缓慢下降
 			REFCCR = TIM2->CNT + 60;
+			/*
+			t = TIM2->CNT;
+			yu = t % 10;
+			REFCCR = t + 200 - yu;*/
 			TIM2->CCMR1 = 0x1010;
 			curRefCount = REFCCR;
 			adc_status = 2;
@@ -289,7 +297,7 @@ int main(void)
 		}
 		else if(adc_status == 3) {
 			adc_status = 4;
-			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
 			adc_tmp = adc_log;
 			adc_indextmp = adc_index;
 			if(adc_t == 0) {
@@ -311,8 +319,10 @@ int main(void)
 			else {
 				skipcount--;
 			}
-			int ttt = (int)(adc_reflast*0.015);
-			printf("%u %u %u %u %u %d %u %u %d\n",adc_reffirst,adc_refnfirst,addRef,adc_reflast,adc_refnlast,adc_refnlast-adc_reflast,refTime+ttt,refnTime,refnTime-refTime);
+			int ttt = (int)(adc_reflast*0.00375);
+			uint32_t totleP = adc_reffirst+addRef;
+			uint32_t totleN = adc_refnfirst+(adc_refnlast-adc_reflast) + ttt;
+			printf("%u %u add=%u %u %u neg=%d %u %d\n",adc_reffirst,adc_refnfirst,addRef,totleP,totleN,adc_refnlast-adc_reflast,ttt,totleN-totleP);
 		}
 		
     /* USER CODE END WHILE */
@@ -669,7 +679,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, PC4_Pin|PC3_Pin|PC5_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(CADC_GPIO_Port, CADC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(CADC_GPIO_Port, CADC_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, CLOG_Pin|CLOG2_Pin, GPIO_PIN_RESET);

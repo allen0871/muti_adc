@@ -307,7 +307,7 @@ void TIM2_IRQClean(void)
 		refTime = 0;
 		refnTime = 0;
 		
-		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
 		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
@@ -332,12 +332,12 @@ void TIM2_IRQClean(void)
 			adc_reflast = tmp;
 			tmp = (debugRef-curRefnCount);
 			adc_refnlast = tmp;
-			refnTime += (adc_refnlast-adc_reflast);
-			adc_sumTime = debugRef;
+			//refnTime += (adc_refnlast-adc_reflast);
+			//adc_sumTime = debugRef;
 			adc_status = 3;
 		}
 		else if(adc_status == 4) {
-			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
 		}
 		__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
 	}
@@ -385,6 +385,7 @@ void TIM2_IRQStart(void)
   {
 		 //if(tim2needStop && !tim2needStart)
 		 if(adc_count <= 0) 
+		//if(0)
 		 {
 			 //tim2needStop = 0;
 			 
