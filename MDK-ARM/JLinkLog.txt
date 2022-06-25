@@ -1,852 +1,1960 @@
-
-T86E0 000:002 SEGGER J-Link V6.16c Log File (0000ms, 0002ms total)
-T86E0 000:002 DLL Compiled: Jun 16 2017 18:14:49 (0000ms, 0002ms total)
-T86E0 000:002 Logging started @ 2020-07-18 23:23 (0000ms, 0002ms total)
-T86E0 000:002 JLINK_SetWarnOutHandler(...) (0000ms, 0002ms total)
-T86E0 000:002 JLINK_OpenEx(...)
-Firmware: J-Link V9 compiled Oct 25 2018 11:46:07
-Hardware: V9.50
-S/N: 59518001
-Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash, RDDIWEBSRV Webserver running on local port 19080 (0047ms, 0049ms total)
-T86E0 000:002   returns O.K. (0047ms, 0049ms total)
-T86E0 000:049 JLINK_GetEmuCaps()  returns 0xB9FF7BBF (0000ms, 0049ms total)
-T86E0 000:049 JLINK_TIF_GetAvailable(...) (0000ms, 0049ms total)
-T86E0 000:049 JLINK_SetErrorOutHandler(...) (0000ms, 0049ms total)
-T86E0 000:049 JLINK_ExecCommand("ProjectFile = "D:\Ó²¼þ\2020\mutiADC\soft\muti_adc\muti_adc\MDK-ARM\JLinkSettings.ini"", ...).   returns 0x00 (0080ms, 0129ms total)
-T86E0 000:153 JLINK_ExecCommand("Device = STM32F401CCUx", ...). Device "STM32F401CC" selected.  returns 0x00 (0044ms, 0173ms total)
-T86E0 000:197 JLINK_ExecCommand("DisableConnectionTimeout", ...).   returns 0x01 (0000ms, 0173ms total)
-T86E0 000:197 JLINK_GetHardwareVersion()  returns 0x17318 (0000ms, 0173ms total)
-T86E0 000:197 JLINK_GetDLLVersion()  returns 61603 (0000ms, 0173ms total)
-T86E0 000:197 JLINK_GetFirmwareString(...) (0000ms, 0173ms total)
-T86E0 000:258 JLINK_GetDLLVersion()  returns 61603 (0000ms, 0173ms total)
-T86E0 000:258 JLINK_GetCompileDateTime() (0000ms, 0173ms total)
-T86E0 000:262 JLINK_GetFirmwareString(...) (0000ms, 0173ms total)
-T86E0 000:268 JLINK_GetHardwareVersion()  returns 0x17318 (0000ms, 0173ms total)
-T86E0 000:292 JLINK_TIF_Select(JLINKARM_TIF_SWD)  returns 0x00 (0001ms, 0174ms total)
-T86E0 000:293 JLINK_SetSpeed(5000) (0001ms, 0175ms total)
-T86E0 000:294 JLINK_GetId() >0x10B TIF>Found SW-DP with ID 0x2BA01477 >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF>
- >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x10B TIF>Found SW-DP with ID 0x2BA01477 >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF>Scanning APs, stopping at first AHB-AP found. >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF>AP[0] IDR: 0x24770011 (AHB-AP) >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF>
-AHB-AP ROM: 0xE00FF000 (Base addr. of first ROM table) >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x21 TIF>CPUID reg: 0x410FC241. Implementer code: 0x41 (ARM)Found Cortex-M4 r0p1, Little endian. -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE000EDF0) -- CPU_ReadMem(4 bytes @ 0xE0002000)FPUnit: 6 code (BP) slots and 2 literal slots
- -- CPU_ReadMem(4 bytes @ 0xE000EDFC) -- CPU_WriteMem(4 bytes @ 0xE000EDFC) -- CPU_ReadMem(4 bytes @ 0xE0001000) -- CPU_WriteMem(4 bytes @ 0xE0001000) -- CPU_ReadMem(4 bytes @ 0xE000ED88) -- CPU_WriteMem(4 bytes @ 0xE000ED88) -- CPU_ReadMem(4 bytes @ 0xE000ED88) -- CPU_WriteMem(4 bytes @ 0xE000ED88)CoreSight components:ROMTbl[0] @ E00FF000 -- CPU_ReadMem(16 bytes @ 0xE00FF000) -- CPU_ReadMem(16 bytes @ 0xE000EFF0) -- CPU_ReadMem(16 bytes @ 0xE000EFE0)
-ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB00C SCS -- CPU_ReadMem(16 bytes @ 0xE0001FF0) -- CPU_ReadMem(16 bytes @ 0xE0001FE0)ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 003BB002 DWT -- CPU_ReadMem(16 bytes @ 0xE0002FF0) -- CPU_ReadMem(16 bytes @ 0xE0002FE0)ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 002BB003 FPB -- CPU_ReadMem(16 bytes @ 0xE0000FF0) -- CPU_ReadMem(16 bytes @ 0xE0000FE0)ROMTbl[0][3]: E0000000, CID: B105E00D, PID: 003BB001 ITM -- CPU_ReadMem(16 bytes @ 0xE00FF010)
- -- CPU_ReadMem(16 bytes @ 0xE0040FF0) -- CPU_ReadMem(16 bytes @ 0xE0040FE0)ROMTbl[0][4]: E0040000, CID: B105900D, PID: 000BB9A1 TPIU -- CPU_ReadMem(16 bytes @ 0xE0041FF0) -- CPU_ReadMem(16 bytes @ 0xE0041FE0)ROMTbl[0][5]: E0041000, CID: B105900D, PID: 000BB925 ETM >0x0D TIF> >0x21 TIF>  returns 0x2BA01477 (0118ms, 0293ms total)
-T86E0 000:412 JLINK_GetDLLVersion()  returns 61603 (0000ms, 0293ms total)
-T86E0 000:412 JLINK_CORE_GetFound()  returns 0xE0000FF (0000ms, 0293ms total)
-T86E0 000:412 JLINK_GetDebugInfo(0x100 = JLINKARM_ROM_TABLE_ADDR_INDEX) -- Value=0xE00FF000  returns 0x00 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_GetDebugInfo(0x100 = JLINKARM_ROM_TABLE_ADDR_INDEX) -- Value=0xE00FF000  returns 0x00 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_GetDebugInfo(0x101 = JLINKARM_DEBUG_INFO_ETM_ADDR_INDEX) -- Value=0xE0041000  returns 0x00 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_ReadMemEx(0xE0041FD0, 0x0020 Bytes, ..., Flags = 0x02000004) -- CPU_ReadMem(32 bytes @ 0xE0041FD0) - Data: 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...  returns 0x20 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_GetDebugInfo(0x102 = JLINKARM_DEBUG_INFO_MTB_ADDR_INDEX) -- Value=0x00000000  returns 0x00 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_GetDebugInfo(0x103 = JLINKARM_DEBUG_INFO_TPIU_ADDR_INDEX) -- Value=0xE0040000  returns 0x00 (0000ms, 0293ms total)
-T86E0 000:417 JLINK_GetDebugInfo(0x104 = JLINKARM_DEBUG_INFO_ITM_ADDR_INDEX) -- Value=0xE0000000  returns 0x00 (0001ms, 0294ms total)
-T86E0 000:418 JLINK_GetDebugInfo(0x105 = JLINKARM_DEBUG_INFO_DWT_ADDR_INDEX) -- Value=0xE0001000  returns 0x00 (0000ms, 0294ms total)
-T86E0 000:418 JLINK_GetDebugInfo(0x106 = JLINKARM_DEBUG_INFO_FPB_ADDR_INDEX) -- Value=0xE0002000  returns 0x00 (0000ms, 0294ms total)
-T86E0 000:418 JLINK_GetDebugInfo(0x107 = JLINKARM_DEBUG_INFO_NVIC_ADDR_INDEX) -- Value=0xE000E000  returns 0x00 (0000ms, 0294ms total)
-T86E0 000:418 JLINK_GetDebugInfo(0x10C = JLINKARM_DEBUG_INFO_DBG_ADDR_INDEX) -- Value=0xE000EDF0  returns 0x00 (0000ms, 0294ms total)
-T86E0 000:418 JLINK_ReadMemU32(0xE000EF40, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000EF40) - Data: 21 00 11 10  returns 0x01 (0000ms, 0294ms total)
-T86E0 000:418 JLINK_ReadMemU32(0xE000EF44, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000EF44) - Data: 11 00 00 11  returns 0x01 (0001ms, 0295ms total)
-T86E0 000:419 JLINK_ReadMemU32(0xE000ED00, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000ED00) - Data: 41 C2 0F 41  returns 0x01 (0000ms, 0295ms total)
-T86E0 000:419 JLINK_GetDebugInfo(0x10F = JLINKARM_DEBUG_INFO_HAS_CORTEX_M_SECURITY_EXT_INDEX) -- Value=0x00000000  returns 0x00 (0000ms, 0295ms total)
-T86E0 000:419 JLINK_SetResetType(JLINKARM_CM3_RESET_TYPE_NORMAL)  returns JLINKARM_CM3_RESET_TYPE_NORMAL (0000ms, 0295ms total)
-T86E0 000:419 JLINK_Reset() -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000EDF0) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000EDFC) >0x35 TIF>Setting AIRCR.SYSRESETREQ -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000ED0C) >0x0D TIF> >0x28 TIF> -- CPU_ReadMem(4 bytes @ 0xE000ED0C) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000EDF0) -- CPU is running
- -- CPU_WriteMem(4 bytes @ 0xE000EDFC) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE0002000) -- CPU_ReadMem(4 bytes @ 0xE000EDFC) -- CPU_ReadMem(4 bytes @ 0xE0001000) (0071ms, 0366ms total)
-T86E0 000:490 JLINK_Halt()  returns 0x00 (0000ms, 0366ms total)
-T86E0 000:490 JLINK_ReadMemU32(0xE000EDF0, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) - Data: 03 00 03 00  returns 0x01 (0000ms, 0366ms total)
-T86E0 000:490 JLINK_WriteU32(0xE000EDF0, 0xA05F0003) -- CPU_WriteMem(4 bytes @ 0xE000EDF0)  returns 0x00 (0001ms, 0367ms total)
-T86E0 000:491 JLINK_WriteU32(0xE000EDFC, 0x01000000) -- CPU_WriteMem(4 bytes @ 0xE000EDFC)  returns 0x00 (0000ms, 0367ms total)
-T86E0 000:509 JLINK_GetHWStatus(...)  returns 0x00 (0001ms, 0368ms total)
-T86E0 000:520 JLINK_GetNumBPUnits(Type = 0xFFFFFF00)  returns 0x06 (0000ms, 0368ms total)
-T86E0 000:520 JLINK_GetNumBPUnits(Type = 0xF0)  returns 0x2000 (0000ms, 0368ms total)
-T86E0 000:520 JLINK_GetNumWPUnits()  returns 0x04 (0000ms, 0368ms total)
-T86E0 000:528 JLINK_GetSpeed()  returns 0xFA0 (0000ms, 0368ms total)
-T86E0 000:540 JLINK_ReadMemU32(0xE000E004, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000E004) - Data: 02 00 00 00  returns 0x01 (0000ms, 0368ms total)
-T86E0 000:540 JLINK_ReadMemU32(0xE000E004, 0x0001 Items, ...) -- CPU_ReadMem(4 bytes @ 0xE000E004) - Data: 02 00 00 00  returns 0x01 (0001ms, 0369ms total)
-T86E0 000:541 JLINK_WriteMemEx(0xE0001000, 0x001C Bytes, ..., Flags = 0x02000004) - Data: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ... -- CPU_WriteMem(28 bytes @ 0xE0001000)  returns 0x1C (0001ms, 0370ms total)
-T86E0 000:542 JLINK_Halt()  returns 0x00 (0000ms, 0370ms total)
-T86E0 000:542 JLINK_IsHalted()  returns TRUE (0000ms, 0370ms total)
-T86E0 000:545 JLINK_WriteMem(0x20000000, 0x0188 Bytes, ...) - Data: 00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ... -- CPU_WriteMem(392 bytes @ 0x20000000)  returns 0x188 (0003ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R1, 0x0501BD00)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R2, 0x00000001)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(R15 (PC), 0x2000005E)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0373ms total)
-T86E0 000:548 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2) -- CPU_ReadMem(2 bytes @ 0x20000000)  returns 0x00000001 (0001ms, 0374ms total)
-T86E0 000:549 JLINK_Go() -- CPU_WriteMem(2 bytes @ 0x20000000) -- CPU_ReadMem(4 bytes @ 0xE0001000) -- CPU_WriteMem(4 bytes @ 0xE0002008) -- CPU_WriteMem(4 bytes @ 0xE000200C) -- CPU_WriteMem(4 bytes @ 0xE0002010) -- CPU_WriteMem(4 bytes @ 0xE0002014) -- CPU_WriteMem(4 bytes @ 0xE0002018) -- CPU_WriteMem(4 bytes @ 0xE000201C) -- CPU_WriteMem(4 bytes @ 0xE0001004) (0004ms, 0378ms total)
-T86E0 000:553 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0381ms total)
-T86E0 000:556 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0378ms total)
-T86E0 000:556 JLINK_ClrBPEx(BPHandle = 0x00000001)  returns 0x00 (0000ms, 0378ms total)
-T86E0 000:556 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0378ms total)
-T86E0 000:556 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0378ms total)
-T86E0 000:556 JLINK_WriteReg(R1, 0x00004000)  returns 0x00 (0000ms, 0378ms total)
-T86E0 000:556 JLINK_WriteReg(R2, 0x000000FF)  returns 0x00 (0001ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(R15 (PC), 0x20000020)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000002 (0000ms, 0379ms total)
-T86E0 000:557 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0381ms total)
-T86E0 000:559 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0384ms total)
-T86E0 000:562 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_ClrBPEx(BPHandle = 0x00000002)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_ReadReg(R0)  returns 0x00000001 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R1, 0x00004000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R2, 0x000000FF)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(R15 (PC), 0x200000C6)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000003 (0000ms, 0381ms total)
-T86E0 000:562 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0383ms total)
-T86E0 000:564 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:635 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:637 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:639 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:641 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:643 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:645 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:647 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:649 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:651 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:653 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:655 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:658 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:660 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:662 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:664 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:666 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:668 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:673 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:675 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:677 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:679 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:681 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:683 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:685 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:687 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:689 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:691 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:693 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:695 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:697 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:699 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:701 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:703 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:705 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:707 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:709 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:711 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:713 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:715 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:720 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:722 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:724 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:726 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:728 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:730 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:732 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:734 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:736 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:738 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:740 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:742 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:744 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:746 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:748 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:750 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:752 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:754 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:756 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:758 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:760 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:762 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:766 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:768 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:770 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:772 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:774 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:776 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:778 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:780 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:785 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:787 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:789 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:791 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:793 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:798 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:800 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:802 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:804 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:806 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:808 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:811 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:813 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:815 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:817 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:819 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:821 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:823 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:825 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:827 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:833 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:835 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:837 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:839 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:843 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:845 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:847 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:849 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:851 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:853 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:855 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:857 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:859 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:861 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:863 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:865 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:867 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:869 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:872 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:874 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:876 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:879 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:882 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:885 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:889 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:892 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:894 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:896 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:898 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:900 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:904 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:907 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:909 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:911 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:913 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:915 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:917 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:919 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:921 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:923 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:925 JLINK_IsHalted()  returns FALSE (0000ms, 0383ms total)
-T86E0 000:927 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0386ms total)
-T86E0 000:930 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_ClrBPEx(BPHandle = 0x00000003)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R0, 0x00000001)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R1, 0x00004000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R2, 0x000000FF)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(R15 (PC), 0x2000008C)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000004 (0000ms, 0383ms total)
-T86E0 000:930 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0003ms, 0386ms total)
-T86E0 000:933 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0389ms total)
-T86E0 000:936 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0386ms total)
-T86E0 000:936 JLINK_ClrBPEx(BPHandle = 0x00000004)  returns 0x00 (0000ms, 0386ms total)
-T86E0 000:936 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0386ms total)
-T86E0 000:996 JLINK_WriteMem(0x20000000, 0x0188 Bytes, ...) - Data: 00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ... -- CPU_WriteMem(392 bytes @ 0x20000000)  returns 0x188 (0002ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R1, 0x0501BD00)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R2, 0x00000002)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(R15 (PC), 0x2000005E)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0388ms total)
-T86E0 000:998 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2) -- CPU_ReadMem(2 bytes @ 0x20000000)  returns 0x00000005 (0001ms, 0389ms total)
-T86E0 000:999 JLINK_Go() -- CPU_WriteMem(2 bytes @ 0x20000000) -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0391ms total)
-T86E0 001:001 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0394ms total)
-T86E0 001:004 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0391ms total)
-T86E0 001:004 JLINK_ClrBPEx(BPHandle = 0x00000005)  returns 0x00 (0000ms, 0391ms total)
-T86E0 001:004 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0391ms total)
-T86E0 001:004 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 70 46 00 20 A9 01 00 08 AF 21 00 08 FB 1E 00 08 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0394ms total)
-T86E0 001:007 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: C3 F3 0A 54 C1 F3 0A 55 2C 44 A4 F2 F3 34 01 94 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0396ms total)
-T86E0 001:009 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0001ms, 0397ms total)
-T86E0 001:010 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000006 (0000ms, 0397ms total)
-T86E0 001:010 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0001ms, 0398ms total)
-T86E0 001:011 JLINK_IsHalted()  returns FALSE (0001ms, 0399ms total)
-T86E0 001:021 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0401ms total)
-T86E0 001:024 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0398ms total)
-T86E0 001:024 JLINK_ClrBPEx(BPHandle = 0x00000006)  returns 0x00 (0000ms, 0398ms total)
-T86E0 001:024 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0398ms total)
-T86E0 001:024 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 08 DA 40 1C 41 F1 00 01 92 18 5B 41 1A 43 01 D1 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0401ms total)
-T86E0 001:027 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 01 2A 06 D0 02 2A 03 D1 C9 6A C9 01 00 D5 01 20 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R0, 0x08000400)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000007 (0000ms, 0403ms total)
-T86E0 001:029 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0405ms total)
-T86E0 001:031 JLINK_IsHalted()  returns FALSE (0001ms, 0406ms total)
-T86E0 001:037 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0407ms total)
-T86E0 001:039 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0001ms, 0406ms total)
-T86E0 001:040 JLINK_ClrBPEx(BPHandle = 0x00000007)  returns 0x00 (0000ms, 0406ms total)
-T86E0 001:040 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0406ms total)
-T86E0 001:040 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 00 68 01 68 42 68 C1 F3 40 01 C2 F3 40 12 51 B3 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0409ms total)
-T86E0 001:043 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: B0 FB F1 F7 2E 68 94 F8 5C 10 08 20 00 FA 01 F1 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R0, 0x08000800)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000008 (0000ms, 0411ms total)
-T86E0 001:045 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0413ms total)
-T86E0 001:047 JLINK_IsHalted()  returns FALSE (0001ms, 0414ms total)
-T86E0 001:052 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0415ms total)
-T86E0 001:054 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0413ms total)
-T86E0 001:054 JLINK_ClrBPEx(BPHandle = 0x00000008)  returns 0x00 (0000ms, 0413ms total)
-T86E0 001:054 JLINK_ReadReg(R0)  returns 0x00000000 (0001ms, 0414ms total)
-T86E0 001:055 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 2D E9 F0 41 04 46 00 F0 3B F9 06 46 5C B1 00 25 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0417ms total)
-T86E0 001:058 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 81 61 70 47 09 04 FB E7 01 48 80 68 70 47 00 00 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R0, 0x08000C00)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000009 (0000ms, 0419ms total)
-T86E0 001:061 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0421ms total)
-T86E0 001:063 JLINK_IsHalted()  returns FALSE (0001ms, 0422ms total)
-T86E0 001:069 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0423ms total)
-T86E0 001:071 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0421ms total)
-T86E0 001:071 JLINK_ClrBPEx(BPHandle = 0x00000009)  returns 0x00 (0000ms, 0421ms total)
-T86E0 001:071 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0421ms total)
-T86E0 001:072 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 20 7A 41 EA 00 70 3D 49 84 31 08 60 C8 F8 68 90 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0424ms total)
-T86E0 001:075 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 5C 00 00 20 08 38 02 40 F0 30 00 08 15 48 10 B5 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R0, 0x08001000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0426ms total)
-T86E0 001:077 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000A (0000ms, 0426ms total)
-T86E0 001:077 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0428ms total)
-T86E0 001:079 JLINK_IsHalted()  returns FALSE (0001ms, 0429ms total)
-T86E0 001:086 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0431ms total)
-T86E0 001:089 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0428ms total)
-T86E0 001:089 JLINK_ClrBPEx(BPHandle = 0x0000000A)  returns 0x00 (0000ms, 0428ms total)
-T86E0 001:089 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0428ms total)
-T86E0 001:089 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: C8 F8 00 90 FF F7 3C FD 06 46 04 E0 FF F7 38 FD ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0431ms total)
-T86E0 001:092 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 80 F8 3C 40 02 22 80 F8 3D 20 03 68 5A 68 9D 68 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R0, 0x08001400)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0433ms total)
-T86E0 001:094 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0001ms, 0434ms total)
-T86E0 001:095 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0434ms total)
-T86E0 001:095 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0434ms total)
-T86E0 001:095 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0434ms total)
-T86E0 001:095 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0434ms total)
-T86E0 001:095 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0434ms total)
-T86E0 001:095 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000B (0000ms, 0434ms total)
-T86E0 001:095 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0436ms total)
-T86E0 001:097 JLINK_IsHalted()  returns FALSE (0000ms, 0436ms total)
-T86E0 001:103 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0439ms total)
-T86E0 001:106 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0436ms total)
-T86E0 001:106 JLINK_ClrBPEx(BPHandle = 0x0000000B)  returns 0x00 (0000ms, 0436ms total)
-T86E0 001:106 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0436ms total)
-T86E0 001:106 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 81 61 D3 E7 D5 E9 00 2C 2F 7B 01 6A 21 F4 80 71 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0439ms total)
-T86E0 001:109 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 40 F0 02 00 02 E0 D0 68 40 F0 04 00 D0 60 01 22 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R0, 0x08001800)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0441ms total)
-T86E0 001:111 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000C (0000ms, 0441ms total)
-T86E0 001:111 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0443ms total)
-T86E0 001:113 JLINK_IsHalted()  returns FALSE (0001ms, 0444ms total)
-T86E0 001:119 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0446ms total)
-T86E0 001:122 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0443ms total)
-T86E0 001:122 JLINK_ClrBPEx(BPHandle = 0x0000000C)  returns 0x00 (0000ms, 0443ms total)
-T86E0 001:122 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0443ms total)
-T86E0 001:122 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 01 01 01 60 00 20 10 BD 00 00 01 40 70 47 00 00 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0446ms total)
-T86E0 001:125 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 81 46 E6 84 84 F8 38 80 26 E0 01 20 BD E8 F8 83 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R0, 0x08001C00)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0448ms total)
-T86E0 001:127 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000D (0000ms, 0448ms total)
-T86E0 001:127 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0450ms total)
-T86E0 001:129 JLINK_IsHalted()  returns FALSE (0001ms, 0451ms total)
-T86E0 001:132 JLINK_IsHalted()  returns FALSE (0000ms, 0450ms total)
-T86E0 001:135 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0452ms total)
-T86E0 001:137 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0450ms total)
-T86E0 001:137 JLINK_ClrBPEx(BPHandle = 0x0000000D)  returns 0x00 (0000ms, 0450ms total)
-T86E0 001:138 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0450ms total)
-T86E0 001:138 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 69 46 40 46 03 94 FE F7 65 FE 00 96 CD E9 01 54 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0453ms total)
-T86E0 001:141 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 08 69 3E 4F C0 43 C2 07 DF F8 F4 80 3D 4B 3E 4E ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R0, 0x08002000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0455ms total)
-T86E0 001:143 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000E (0000ms, 0455ms total)
-T86E0 001:143 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0457ms total)
-T86E0 001:145 JLINK_IsHalted()  returns FALSE (0001ms, 0458ms total)
-T86E0 001:149 JLINK_IsHalted()  returns FALSE (0000ms, 0457ms total)
-T86E0 001:151 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0459ms total)
-T86E0 001:153 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0457ms total)
-T86E0 001:153 JLINK_ClrBPEx(BPHandle = 0x0000000E)  returns 0x00 (0000ms, 0457ms total)
-T86E0 001:153 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0457ms total)
-T86E0 001:154 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: A0 F2 1A 40 0E E0 A2 63 C4 F8 34 C0 A3 61 2A 68 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0461ms total)
-T86E0 001:157 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 1F 03 01 21 04 6A 99 40 8C 43 04 62 01 6A 9A 40 ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R0, 0x08002400)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0463ms total)
-T86E0 001:159 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x0000000F (0000ms, 0463ms total)
-T86E0 001:159 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0465ms total)
-T86E0 001:161 JLINK_IsHalted()  returns FALSE (0001ms, 0466ms total)
-T86E0 001:166 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0467ms total)
-T86E0 001:169 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0465ms total)
-T86E0 001:169 JLINK_ClrBPEx(BPHandle = 0x0000000F)  returns 0x00 (0000ms, 0465ms total)
-T86E0 001:169 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0465ms total)
-T86E0 001:169 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 0E 4E B0 42 03 D1 24 F0 03 04 14 43 01 E0 44 F0 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0468ms total)
-T86E0 001:172 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 02 62 02 68 09 78 51 60 C1 8C 49 1E 09 04 09 0C ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R0, 0x08002800)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000010 (0000ms, 0470ms total)
-T86E0 001:174 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0472ms total)
-T86E0 001:176 JLINK_IsHalted()  returns FALSE (0001ms, 0473ms total)
-T86E0 001:180 JLINK_IsHalted()  returns FALSE (0000ms, 0472ms total)
-T86E0 001:184 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0474ms total)
-T86E0 001:186 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0472ms total)
-T86E0 001:186 JLINK_ClrBPEx(BPHandle = 0x00000010)  returns 0x00 (0000ms, 0472ms total)
-T86E0 001:186 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0472ms total)
-T86E0 001:187 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 02 EB 41 01 00 EB 01 08 64 1C F2 E7 0A 98 64 1C ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0475ms total)
-T86E0 001:190 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: 40 46 FD F7 FC FF 01 22 D1 03 40 46 FD F7 F7 FF ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R0, 0x08002C00)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R1, 0x00000400)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000011 (0000ms, 0477ms total)
-T86E0 001:192 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0479ms total)
-T86E0 001:194 JLINK_IsHalted()  returns FALSE (0001ms, 0480ms total)
-T86E0 001:198 JLINK_IsHalted()  returns FALSE (0000ms, 0479ms total)
-T86E0 001:200 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0481ms total)
-T86E0 001:202 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0479ms total)
-T86E0 001:202 JLINK_ClrBPEx(BPHandle = 0x00000011)  returns 0x00 (0000ms, 0479ms total)
-T86E0 001:202 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0479ms total)
-T86E0 001:203 JLINK_WriteMem(0x20000188, 0x0278 Bytes, ...) - Data: 41 6A 3C 31 81 63 41 F2 10 01 81 61 81 6B C9 F8 ... -- CPU_WriteMem(632 bytes @ 0x20000188)  returns 0x278 (0003ms, 0482ms total)
-T86E0 001:206 JLINK_WriteMem(0x20000400, 0x0188 Bytes, ...) - Data: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF ... -- CPU_WriteMem(392 bytes @ 0x20000400)  returns 0x188 (0002ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R0, 0x08003000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R1, 0x0000017C)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(R15 (PC), 0x20000112)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000012 (0000ms, 0484ms total)
-T86E0 001:208 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0486ms total)
-T86E0 001:210 JLINK_IsHalted()  returns FALSE (0001ms, 0487ms total)
-T86E0 001:218 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0488ms total)
-T86E0 001:221 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_ClrBPEx(BPHandle = 0x00000012)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R0, 0x00000002)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R1, 0x0000017C)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R2, 0x20000188)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(R15 (PC), 0x2000008C)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000013 (0000ms, 0486ms total)
-T86E0 001:221 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0488ms total)
-T86E0 001:223 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0491ms total)
-T86E0 001:226 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0488ms total)
-T86E0 001:226 JLINK_ClrBPEx(BPHandle = 0x00000013)  returns 0x00 (0000ms, 0488ms total)
-T86E0 001:226 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0488ms total)
-T86E0 001:286 JLINK_WriteMem(0x20000000, 0x0188 Bytes, ...) - Data: 00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ... -- CPU_WriteMem(392 bytes @ 0x20000000)  returns 0x188 (0002ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R0, 0x08000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R1, 0x0501BD00)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R2, 0x00000003)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R3, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0490ms total)
-T86E0 001:288 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0001ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(R15 (PC), 0x2000005E)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2) -- CPU_ReadMem(2 bytes @ 0x20000000)  returns 0x00000014 (0000ms, 0491ms total)
-T86E0 001:289 JLINK_Go() -- CPU_WriteMem(2 bytes @ 0x20000000) -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0493ms total)
-T86E0 001:291 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0496ms total)
-T86E0 001:294 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_ClrBPEx(BPHandle = 0x00000014)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R0, 0xFFFFFFFF)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R1, 0x08000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R2, 0x0000317C)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R3, 0x04C11DB7)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0493ms total)
-T86E0 001:294 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0001ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(R15 (PC), 0x20000002)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000015 (0000ms, 0494ms total)
-T86E0 001:295 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0496ms total)
-T86E0 001:297 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:306 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:308 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:310 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:312 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:314 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:316 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:318 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:320 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:322 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:324 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:326 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:331 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:333 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:335 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:337 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:339 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:341 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:345 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:347 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:349 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:351 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:353 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:355 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:358 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:361 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:363 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:365 JLINK_IsHalted()  returns FALSE (0000ms, 0496ms total)
-T86E0 001:367 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0002ms, 0498ms total)
-T86E0 001:369 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0496ms total)
-T86E0 001:369 JLINK_ClrBPEx(BPHandle = 0x00000015)  returns 0x00 (0001ms, 0497ms total)
-T86E0 001:370 JLINK_ReadReg(R0)  returns 0x9E2A890F (0000ms, 0497ms total)
-T86E0 001:370 JLINK_WriteReg(R0, 0x00000003)  returns 0x00 (0000ms, 0497ms total)
-T86E0 001:370 JLINK_WriteReg(R1, 0x08000000)  returns 0x00 (0000ms, 0497ms total)
-T86E0 001:370 JLINK_WriteReg(R2, 0x0000317C)  returns 0x00 (0000ms, 0497ms total)
-T86E0 001:370 JLINK_WriteReg(R3, 0x04C11DB7)  returns 0x00 (0000ms, 0497ms total)
-T86E0 001:370 JLINK_WriteReg(R4, 0x00000000)  returns 0x00 (0001ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R5, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R6, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R7, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R8, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R9, 0x20000184)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R10, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R11, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R12, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R13 (SP), 0x20001000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R14, 0x20000001)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(R15 (PC), 0x2000008C)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(XPSR, 0x01000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(MSP, 0x20001000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(PSP, 0x20001000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_WriteReg(CFBP, 0x00000000)  returns 0x00 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)  returns 0x00000016 (0000ms, 0498ms total)
-T86E0 001:371 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) (0002ms, 0500ms total)
-T86E0 001:373 JLINK_IsHalted() -- CPU_ReadMem(2 bytes @ 0x20000000)  returns TRUE (0003ms, 0503ms total)
-T86E0 001:376 JLINK_ReadReg(R15 (PC))  returns 0x20000000 (0000ms, 0500ms total)
-T86E0 001:376 JLINK_ClrBPEx(BPHandle = 0x00000016)  returns 0x00 (0000ms, 0500ms total)
-T86E0 001:376 JLINK_ReadReg(R0)  returns 0x00000000 (0000ms, 0500ms total)
-T86E0 001:431 JLINK_WriteMemEx(0x20000000, 0x0002 Bytes, ..., Flags = 0x02000000) - Data: FE E7 -- CPU_WriteMem(2 bytes @ 0x20000000)  returns 0x02 (0000ms, 0500ms total)
-T86E0 001:431 JLINK_SetResetType(JLINKARM_CM3_RESET_TYPE_NORMAL)  returns JLINKARM_CM3_RESET_TYPE_NORMAL (0000ms, 0500ms total)
-T86E0 001:431 JLINK_Reset() -- CPU_WriteMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE000EDFC) >0x35 TIF>Setting AIRCR.SYSRESETREQ -- CPU_WriteMem(4 bytes @ 0xE000ED0C) >0x0D TIF> >0x28 TIF> -- CPU_ReadMem(4 bytes @ 0xE000ED0C) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE000EDFC) -- CPU_ReadMem(4 bytes @ 0xE000EDF0) -- CPU_WriteMem(4 bytes @ 0xE0002000)
- -- CPU_ReadMem(4 bytes @ 0xE000EDFC) -- CPU_ReadMem(4 bytes @ 0xE0001000) (0072ms, 0572ms total)
-T86E0 001:503 JLINK_Go() -- CPU_ReadMem(4 bytes @ 0xE0001000) -- CPU_WriteMem(4 bytes @ 0xE0002008) -- CPU_WriteMem(4 bytes @ 0xE000200C) -- CPU_WriteMem(4 bytes @ 0xE0002010) -- CPU_WriteMem(4 bytes @ 0xE0002014) -- CPU_WriteMem(4 bytes @ 0xE0002018) -- CPU_WriteMem(4 bytes @ 0xE000201C) -- CPU_WriteMem(4 bytes @ 0xE0001004) (0003ms, 0575ms total)
-T86E0 001:556 JLINK_Close() -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE0002008) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000200C) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE0002010) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE0002014) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE0002018) -- CPU is running -- CPU_WriteMem(4 bytes @ 0xE000201C) >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF>
- >0x28 TIF> >0x0D TIF> >0x28 TIF> >0x0D TIF> >0x21 TIF> >0x0D TIF> >0x28 TIF> (0020ms, 0595ms total)
-T86E0 001:556  (0020ms, 0595ms total)
-T86E0 001:556 Closed (0020ms, 0595ms total)
+T3EEC 6028:139.009   SEGGER J-Link V7.56d Log File
+T3EEC 6028:139.140   DLL Compiled: Oct 29 2021 13:57:10
+T3EEC 6028:139.153   Logging started @ 2022-06-25 03:10
+T3EEC 6028:139.165 - 1070753.377ms
+T3EEC 6028:139.187 JLINK_SetWarnOutHandler(...)
+T3EEC 6028:139.199 - 0.018ms
+T3EEC 6028:139.214 JLINK_OpenEx(...)
+T3EEC 6028:141.083   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T3EEC 6028:141.466   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T3EEC 6028:141.695   Decompressing FW timestamp took 192 us
+T3EEC 6028:148.168   Hardware: V9.50
+T3EEC 6028:148.194   S/N: 59518001
+T3EEC 6028:148.211   OEM: SEGGER
+T3EEC 6028:148.228   Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash, RDDI
+T3EEC 6028:149.431   TELNET listener socket opened on port 19021
+T3EEC 6028:156.213   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T3EEC 6028:156.439   WEBSRV Webserver running on local port 19080
+T3EEC 6028:218.567 - 79.368ms returns "O.K."
+T3EEC 6028:218.605 JLINK_GetEmuCaps()
+T3EEC 6028:218.618 - 0.019ms returns 0xB9FF7BBF
+T3EEC 6028:218.645 JLINK_TIF_GetAvailable(...)
+T3EEC 6028:218.875 - 0.242ms
+T3EEC 6028:218.906 JLINK_SetErrorOutHandler(...)
+T3EEC 6028:218.918 - 0.018ms
+T3EEC 6028:218.943 JLINK_ExecCommand("ProjectFile = "D:\Backable\hardware\2020\mutiADC\stm32f401\soft\MDK-ARM\JLinkSettings.ini"", ...). 
+T3EEC 6028:220.514 - 1.582ms returns 0x00
+T3EEC 6028:227.605 JLINK_ExecCommand("Device = STM32F401CCUx", ...). 
+T3EEC 6028:232.746   Device "STM32F401CC" selected.
+T3EEC 6028:233.391 - 5.774ms returns 0x00
+T3EEC 6028:233.417 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T3EEC 6028:233.435 - 0.008ms returns 0x01
+T3EEC 6028:233.454 JLINK_GetHardwareVersion()
+T3EEC 6028:233.466 - 0.017ms returns 95000
+T3EEC 6028:233.481 JLINK_GetDLLVersion()
+T3EEC 6028:233.492 - 0.017ms returns 75604
+T3EEC 6028:233.507 JLINK_GetOEMString(...)
+T3EEC 6028:233.522 JLINK_GetFirmwareString(...)
+T3EEC 6028:233.534 - 0.017ms
+T3EEC 6028:250.925 JLINK_GetDLLVersion()
+T3EEC 6028:250.961 - 0.049ms returns 75604
+T3EEC 6028:250.997 JLINK_GetCompileDateTime()
+T3EEC 6028:251.022 - 0.036ms
+T3EEC 6028:257.454 JLINK_GetFirmwareString(...)
+T3EEC 6028:257.473 - 0.026ms
+T3EEC 6028:262.132 JLINK_GetHardwareVersion()
+T3EEC 6028:262.152 - 0.025ms returns 95000
+T3EEC 6028:266.484 JLINK_GetSN()
+T3EEC 6028:266.503 - 0.025ms returns 59518001
+T3EEC 6028:270.974 JLINK_GetOEMString(...)
+T3EEC 6028:279.609 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T3EEC 6028:280.241 - 0.644ms returns 0x00
+T3EEC 6028:280.267 JLINK_HasError()
+T3EEC 6028:280.285 JLINK_SetSpeed(5000)
+T3EEC 6028:280.369 - 0.095ms
+T3EEC 6028:280.395 JLINK_GetId()
+T3EEC 6028:285.797   InitTarget() start
+T3EEC 6028:285.822    J-Link Script File: Executing InitTarget()
+T3EEC 6028:300.847   InitTarget() end
+T3EEC 6028:305.697   Found SW-DP with ID 0x2BA01477
+T3EEC 6028:314.007   DPIDR: 0x2BA01477
+T3EEC 6028:321.641   Scanning AP map to find all available APs
+T3EEC 6028:326.690   AP[1]: Stopped AP scan as end of AP map has been reached
+T3EEC 6028:331.150   AP[0]: AHB-AP (IDR: 0x24770011)
+T3EEC 6028:335.459   Iterating through AP map to find AHB-AP to use
+T3EEC 6028:340.556   AP[0]: Core found
+T3EEC 6028:348.054   AP[0]: AHB-AP ROM base: 0xE00FF000
+T3EEC 6028:352.823   CPUID register: 0x410FC241. Implementer code: 0x41 (ARM)
+T3EEC 6028:357.543   Found Cortex-M4 r0p1, Little endian.
+T3EEC 6028:458.940   -- Max. mem block: 0x00010C40
+T3EEC 6028:459.102   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:459.444   CPU_ReadMem(4 bytes @ 0xE0002000)
+T3EEC 6028:464.787   FPUnit: 6 code (BP) slots and 2 literal slots
+T3EEC 6028:464.819   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:465.157   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:465.470   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6028:465.824   CPU_WriteMem(4 bytes @ 0xE0001000)
+T3EEC 6028:466.231   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T3EEC 6028:466.659   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T3EEC 6028:466.996   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T3EEC 6028:467.287   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T3EEC 6028:472.556   CoreSight components:
+T3EEC 6028:477.673   ROMTbl[0] @ E00FF000
+T3EEC 6028:477.704   CPU_ReadMem(64 bytes @ 0xE00FF000)
+T3EEC 6028:478.278   CPU_ReadMem(32 bytes @ 0xE000EFE0)
+T3EEC 6028:484.097   [0][0]: E000E000 CID B105E00D PID 000BB00C SCS-M7
+T3EEC 6028:484.129   CPU_ReadMem(32 bytes @ 0xE0001FE0)
+T3EEC 6028:489.325   [0][1]: E0001000 CID B105E00D PID 003BB002 DWT
+T3EEC 6028:489.356   CPU_ReadMem(32 bytes @ 0xE0002FE0)
+T3EEC 6028:496.100   [0][2]: E0002000 CID B105E00D PID 002BB003 FPB
+T3EEC 6028:496.131   CPU_ReadMem(32 bytes @ 0xE0000FE0)
+T3EEC 6028:503.297   [0][3]: E0000000 CID B105E00D PID 003BB001 ITM
+T3EEC 6028:503.329   CPU_ReadMem(32 bytes @ 0xE0040FE0)
+T3EEC 6028:510.251   [0][4]: E0040000 CID B105900D PID 000BB9A1 TPIU
+T3EEC 6028:510.307   CPU_ReadMem(32 bytes @ 0xE0041FE0)
+T3EEC 6028:517.264   [0][5]: E0041000 CID B105900D PID 000BB925 ETM
+T3EEC 6028:517.600 - 237.217ms returns 0x2BA01477
+T3EEC 6028:517.630 JLINK_GetDLLVersion()
+T3EEC 6028:517.642 - 0.018ms returns 75604
+T3EEC 6028:517.728 JLINK_CORE_GetFound()
+T3EEC 6028:517.744 - 0.021ms returns 0xE0000FF
+T3EEC 6028:517.762 JLINK_GetDebugInfo(0x100 = JLINKARM_ROM_TABLE_ADDR_INDEX)
+T3EEC 6028:517.776   Value=0xE00FF000
+T3EEC 6028:517.793 - 0.037ms returns 0
+T3EEC 6028:522.543 JLINK_GetDebugInfo(0x100 = JLINKARM_ROM_TABLE_ADDR_INDEX)
+T3EEC 6028:522.567   Value=0xE00FF000
+T3EEC 6028:522.584 - 0.046ms returns 0
+T3EEC 6028:522.599 JLINK_GetDebugInfo(0x101 = JLINKARM_DEBUG_INFO_ETM_ADDR_INDEX)
+T3EEC 6028:522.611   Value=0xE0041000
+T3EEC 6028:522.627 - 0.034ms returns 0
+T3EEC 6028:522.682 JLINK_ReadMemEx(0xE0041FD0, 0x20 Bytes, Flags = 0x02000004)
+T3EEC 6028:522.725   CPU_ReadMem(32 bytes @ 0xE0041FD0)
+T3EEC 6028:523.159   Data:  04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...
+T3EEC 6028:523.182 - 0.506ms returns 32 (0x20)
+T3EEC 6028:523.200 JLINK_GetDebugInfo(0x102 = JLINKARM_DEBUG_INFO_MTB_ADDR_INDEX)
+T3EEC 6028:523.213   Value=0x00000000
+T3EEC 6028:523.229 - 0.035ms returns 0
+T3EEC 6028:523.243 JLINK_GetDebugInfo(0x103 = JLINKARM_DEBUG_INFO_TPIU_ADDR_INDEX)
+T3EEC 6028:523.255   Value=0xE0040000
+T3EEC 6028:523.271 - 0.034ms returns 0
+T3EEC 6028:523.285 JLINK_GetDebugInfo(0x104 = JLINKARM_DEBUG_INFO_ITM_ADDR_INDEX)
+T3EEC 6028:523.297   Value=0xE0000000
+T3EEC 6028:523.314 - 0.034ms returns 0
+T3EEC 6028:523.327 JLINK_GetDebugInfo(0x105 = JLINKARM_DEBUG_INFO_DWT_ADDR_INDEX)
+T3EEC 6028:523.339   Value=0xE0001000
+T3EEC 6028:523.355 - 0.034ms returns 0
+T3EEC 6028:523.369 JLINK_GetDebugInfo(0x106 = JLINKARM_DEBUG_INFO_FPB_ADDR_INDEX)
+T3EEC 6028:523.381   Value=0xE0002000
+T3EEC 6028:523.397 - 0.033ms returns 0
+T3EEC 6028:523.411 JLINK_GetDebugInfo(0x107 = JLINKARM_DEBUG_INFO_NVIC_ADDR_INDEX)
+T3EEC 6028:523.423   Value=0xE000E000
+T3EEC 6028:523.439 - 0.034ms returns 0
+T3EEC 6028:523.453 JLINK_GetDebugInfo(0x10C = JLINKARM_DEBUG_INFO_DBG_ADDR_INDEX)
+T3EEC 6028:523.465   Value=0xE000EDF0
+T3EEC 6028:523.481 - 0.034ms returns 0
+T3EEC 6028:523.495 JLINK_GetDebugInfo(0x01 = Unknown)
+T3EEC 6028:523.507   Value=0x00000001
+T3EEC 6028:523.523 - 0.034ms returns 0
+T3EEC 6028:523.543 JLINK_ReadMemU32(0xE000ED00, 0x1 Items)
+T3EEC 6028:523.564   CPU_ReadMem(4 bytes @ 0xE000ED00)
+T3EEC 6028:523.896   Data:  41 C2 0F 41
+T3EEC 6028:523.920   Debug reg: CPUID
+T3EEC 6028:523.937 - 0.399ms returns 1 (0x1)
+T3EEC 6028:523.954 JLINK_GetDebugInfo(0x10F = JLINKARM_DEBUG_INFO_HAS_CORTEX_M_SECURITY_EXT_INDEX)
+T3EEC 6028:523.967   Value=0x00000000
+T3EEC 6028:523.984 - 0.035ms returns 0
+T3EEC 6028:523.998 JLINK_HasError()
+T3EEC 6028:524.016 JLINK_SetResetType(JLINKARM_CM3_RESET_TYPE_NORMAL)
+T3EEC 6028:524.029 - 0.018ms returns JLINKARM_CM3_RESET_TYPE_NORMAL
+T3EEC 6028:524.044 JLINK_Reset()
+T3EEC 6028:524.064   CPU is running
+T3EEC 6028:524.083   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:524.421   CPU is running
+T3EEC 6028:524.446   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:529.479   Reset: Halt core after reset via DEMCR.VC_CORERESET.
+T3EEC 6028:538.373   Reset: Reset device via AIRCR.SYSRESETREQ.
+T3EEC 6028:538.427   CPU is running
+T3EEC 6028:538.482   CPU_WriteMem(4 bytes @ 0xE000ED0C)
+T3EEC 6028:591.943   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:592.254   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:592.606   CPU is running
+T3EEC 6028:592.633   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:592.967   CPU is running
+T3EEC 6028:592.993   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:598.548   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:600.824   CPU_WriteMem(4 bytes @ 0xE0002000)
+T3EEC 6028:601.168   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:601.475   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6028:601.772 - 77.741ms
+T3EEC 6028:601.822 JLINK_Halt()
+T3EEC 6028:601.837 - 0.021ms returns 0x00
+T3EEC 6028:601.928 JLINK_ReadMemU32(0xE000EDF0, 0x1 Items)
+T3EEC 6028:601.957   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:602.291   Data:  03 00 03 00
+T3EEC 6028:602.316   Debug reg: DHCSR
+T3EEC 6028:602.333 - 0.410ms returns 1 (0x1)
+T3EEC 6028:602.355 JLINK_WriteU32_64(0xE000EDF0, 0xA05F0003)
+T3EEC 6028:602.369   Debug reg: DHCSR
+T3EEC 6028:602.876   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3EEC 6028:603.296 - 0.954ms returns 0 (0x00000000)
+T3EEC 6028:603.322 JLINK_WriteU32_64(0xE000EDFC, 0x01000000)
+T3EEC 6028:603.335   Debug reg: DEMCR
+T3EEC 6028:603.362   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6028:603.759 - 0.450ms returns 0 (0x00000000)
+T3EEC 6028:630.274 JLINK_GetHWStatus(...)
+T3EEC 6028:630.521 - 0.259ms returns 0
+T3EEC 6028:648.056 JLINK_GetNumBPUnits(Type = 0xFFFFFF00)
+T3EEC 6028:648.098 - 0.055ms returns 0x06
+T3EEC 6028:648.129 JLINK_GetNumBPUnits(Type = 0xF0)
+T3EEC 6028:648.154 - 0.036ms returns 0x2000
+T3EEC 6028:648.185 JLINK_GetNumWPUnits()
+T3EEC 6028:648.209 - 0.036ms returns 4
+T3EEC 6028:664.781 JLINK_GetSpeed()
+T3EEC 6028:664.802 - 0.027ms returns 4000
+T3EEC 6028:676.178 JLINK_ReadMemU32(0xE000E004, 0x1 Items)
+T3EEC 6028:676.211   CPU_ReadMem(4 bytes @ 0xE000E004)
+T3EEC 6028:676.603   Data:  02 00 00 00
+T3EEC 6028:676.664 - 0.492ms returns 1 (0x1)
+T3EEC 6028:676.683 JLINK_ReadMemU32(0xE000E004, 0x1 Items)
+T3EEC 6028:676.704   CPU_ReadMem(4 bytes @ 0xE000E004)
+T3EEC 6028:677.015   Data:  02 00 00 00
+T3EEC 6028:677.039 - 0.362ms returns 1 (0x1)
+T3EEC 6028:677.060 JLINK_WriteMemEx(0xE0001000, 0x0000001C Bytes, Flags = 0x02000004)
+T3EEC 6028:677.074   Data:  01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...
+T3EEC 6028:677.102   CPU_WriteMem(28 bytes @ 0xE0001000)
+T3EEC 6028:677.597 - 0.549ms returns 0x1C
+T3EEC 6028:677.625 JLINK_Halt()
+T3EEC 6028:677.637 - 0.018ms returns 0x00
+T3EEC 6028:677.655 JLINK_IsHalted()
+T3EEC 6028:677.668 - 0.018ms returns TRUE
+T3EEC 6028:682.232 JLINK_WriteMem(0x20000000, 0x188 Bytes, ...)
+T3EEC 6028:682.250   Data:  00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ...
+T3EEC 6028:682.723   CPU_WriteMem(392 bytes @ 0x20000000)
+T3EEC 6028:684.360 - 2.140ms returns 0x188
+T3EEC 6028:684.422 JLINK_HasError()
+T3EEC 6028:684.443 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6028:684.460 - 0.023ms returns 0
+T3EEC 6028:684.475 JLINK_WriteReg(R1, 0x018CBA80)
+T3EEC 6028:684.488 - 0.018ms returns 0
+T3EEC 6028:684.501 JLINK_WriteReg(R2, 0x00000001)
+T3EEC 6028:684.514 - 0.020ms returns 0
+T3EEC 6028:684.530 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6028:684.542 - 0.018ms returns 0
+T3EEC 6028:684.556 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6028:684.568 - 0.018ms returns 0
+T3EEC 6028:684.582 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6028:684.594 - 0.018ms returns 0
+T3EEC 6028:684.608 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6028:684.620 - 0.018ms returns 0
+T3EEC 6028:684.634 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6028:684.646 - 0.018ms returns 0
+T3EEC 6028:684.660 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6028:684.673 - 0.018ms returns 0
+T3EEC 6028:684.687 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6028:684.699 - 0.018ms returns 0
+T3EEC 6028:684.713 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6028:684.725 - 0.018ms returns 0
+T3EEC 6028:684.739 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6028:684.751 - 0.018ms returns 0
+T3EEC 6028:684.765 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6028:684.783 - 0.026ms returns 0
+T3EEC 6028:684.800 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6028:684.813 - 0.019ms returns 0
+T3EEC 6028:684.827 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6028:684.839 - 0.018ms returns 0
+T3EEC 6028:684.853 JLINK_WriteReg(R15 (PC), 0x2000005E)
+T3EEC 6028:684.866 - 0.018ms returns 0
+T3EEC 6028:684.879 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6028:684.892 - 0.018ms returns 0
+T3EEC 6028:684.906 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6028:684.918 - 0.018ms returns 0
+T3EEC 6028:684.932 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6028:684.944 - 0.018ms returns 0
+T3EEC 6028:684.958 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6028:684.970 - 0.018ms returns 0
+T3EEC 6028:684.986 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6028:685.006   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6028:685.377 - 0.407ms returns 0x00000001
+T3EEC 6028:685.411 JLINK_Go()
+T3EEC 6028:685.431   CPU_WriteMem(2 bytes @ 0x20000000)
+T3EEC 6028:685.775   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6028:686.067   CPU_WriteMem(4 bytes @ 0xE0002008)
+T3EEC 6028:686.092   CPU_WriteMem(4 bytes @ 0xE000200C)
+T3EEC 6028:686.109   CPU_WriteMem(4 bytes @ 0xE0002010)
+T3EEC 6028:686.126   CPU_WriteMem(4 bytes @ 0xE0002014)
+T3EEC 6028:686.143   CPU_WriteMem(4 bytes @ 0xE0002018)
+T3EEC 6028:686.161   CPU_WriteMem(4 bytes @ 0xE000201C)
+T3EEC 6028:687.241   CPU_WriteMem(4 bytes @ 0xE0001004)
+T3EEC 6028:689.492 - 4.104ms
+T3EEC 6028:689.537 JLINK_IsHalted()
+T3EEC 6028:691.496   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6028:691.838 - 2.312ms returns TRUE
+T3EEC 6028:691.865 JLINK_ReadReg(R15 (PC))
+T3EEC 6028:691.880 - 0.022ms returns 0x20000000
+T3EEC 6028:691.897 JLINK_ClrBPEx(BPHandle = 0x00000001)
+T3EEC 6028:691.910 - 0.018ms returns 0x00
+T3EEC 6028:691.924 JLINK_ReadReg(R0)
+T3EEC 6028:691.936 - 0.018ms returns 0x00000000
+T3EEC 6028:692.353 JLINK_HasError()
+T3EEC 6028:692.375 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6028:692.391 - 0.022ms returns 0
+T3EEC 6028:692.405 JLINK_WriteReg(R1, 0x00004000)
+T3EEC 6028:692.417 - 0.018ms returns 0
+T3EEC 6028:692.431 JLINK_WriteReg(R2, 0x000000FF)
+T3EEC 6028:692.443 - 0.017ms returns 0
+T3EEC 6028:692.457 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6028:692.469 - 0.018ms returns 0
+T3EEC 6028:692.483 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6028:692.495 - 0.018ms returns 0
+T3EEC 6028:692.509 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6028:692.523 - 0.020ms returns 0
+T3EEC 6028:692.537 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6028:692.549 - 0.018ms returns 0
+T3EEC 6028:692.563 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6028:692.575 - 0.018ms returns 0
+T3EEC 6028:692.593 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6028:692.610 - 0.022ms returns 0
+T3EEC 6028:692.624 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6028:692.636 - 0.018ms returns 0
+T3EEC 6028:692.650 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6028:692.662 - 0.018ms returns 0
+T3EEC 6028:692.676 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6028:692.688 - 0.018ms returns 0
+T3EEC 6028:692.702 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6028:692.714 - 0.018ms returns 0
+T3EEC 6028:692.728 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6028:692.740 - 0.018ms returns 0
+T3EEC 6028:692.754 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6028:692.766 - 0.018ms returns 0
+T3EEC 6028:692.780 JLINK_WriteReg(R15 (PC), 0x20000020)
+T3EEC 6028:692.792 - 0.018ms returns 0
+T3EEC 6028:692.806 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6028:692.818 - 0.018ms returns 0
+T3EEC 6028:692.832 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6028:692.844 - 0.018ms returns 0
+T3EEC 6028:692.858 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6028:692.870 - 0.018ms returns 0
+T3EEC 6028:692.884 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6028:692.896 - 0.018ms returns 0
+T3EEC 6028:692.910 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6028:692.924 - 0.020ms returns 0x00000002
+T3EEC 6028:692.938 JLINK_Go()
+T3EEC 6028:692.960   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6028:695.182 - 2.256ms
+T3EEC 6028:695.206 JLINK_IsHalted()
+T3EEC 6028:697.208   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6028:697.600 - 2.406ms returns TRUE
+T3EEC 6028:697.703 JLINK_ReadReg(R15 (PC))
+T3EEC 6028:697.725 - 0.027ms returns 0x20000000
+T3EEC 6028:697.740 JLINK_ClrBPEx(BPHandle = 0x00000002)
+T3EEC 6028:697.753 - 0.018ms returns 0x00
+T3EEC 6028:697.767 JLINK_ReadReg(R0)
+T3EEC 6028:697.780 - 0.018ms returns 0x00000001
+T3EEC 6028:697.794 JLINK_HasError()
+T3EEC 6028:697.808 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6028:697.821 - 0.019ms returns 0
+T3EEC 6028:697.835 JLINK_WriteReg(R1, 0x00004000)
+T3EEC 6028:697.848 - 0.018ms returns 0
+T3EEC 6028:697.862 JLINK_WriteReg(R2, 0x000000FF)
+T3EEC 6028:697.874 - 0.018ms returns 0
+T3EEC 6028:697.888 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6028:697.900 - 0.018ms returns 0
+T3EEC 6028:697.914 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6028:697.926 - 0.018ms returns 0
+T3EEC 6028:697.940 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6028:697.952 - 0.018ms returns 0
+T3EEC 6028:697.966 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6028:697.978 - 0.018ms returns 0
+T3EEC 6028:697.992 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6028:698.004 - 0.018ms returns 0
+T3EEC 6028:698.018 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6028:698.030 - 0.018ms returns 0
+T3EEC 6028:698.044 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6028:698.057 - 0.018ms returns 0
+T3EEC 6028:698.070 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6028:698.083 - 0.018ms returns 0
+T3EEC 6028:698.097 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6028:698.109 - 0.018ms returns 0
+T3EEC 6028:698.123 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6028:698.135 - 0.018ms returns 0
+T3EEC 6028:698.149 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6028:698.161 - 0.018ms returns 0
+T3EEC 6028:698.175 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6028:698.188 - 0.018ms returns 0
+T3EEC 6028:698.201 JLINK_WriteReg(R15 (PC), 0x200000C6)
+T3EEC 6028:698.214 - 0.018ms returns 0
+T3EEC 6028:698.228 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6028:698.240 - 0.018ms returns 0
+T3EEC 6028:698.254 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6028:698.266 - 0.018ms returns 0
+T3EEC 6028:698.280 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6028:698.293 - 0.018ms returns 0
+T3EEC 6028:698.306 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6028:698.319 - 0.018ms returns 0
+T3EEC 6028:698.333 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6028:698.346 - 0.019ms returns 0x00000003
+T3EEC 6028:698.360 JLINK_Go()
+T3EEC 6028:698.382   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6028:700.631 - 2.283ms
+T3EEC 6028:700.655 JLINK_IsHalted()
+T3EEC 6028:700.985 - 0.350ms returns FALSE
+T3EEC 6028:701.027 JLINK_HasError()
+T3EEC 6028:746.496 JLINK_IsHalted()
+T3EEC 6028:746.837 - 0.353ms returns FALSE
+T3EEC 6028:746.862 JLINK_HasError()
+T3EEC 6028:752.525 JLINK_IsHalted()
+T3EEC 6028:752.882 - 0.372ms returns FALSE
+T3EEC 6028:752.911 JLINK_HasError()
+T3EEC 6028:754.546 JLINK_IsHalted()
+T3EEC 6028:754.860 - 0.326ms returns FALSE
+T3EEC 6028:754.883 JLINK_HasError()
+T3EEC 6028:756.532 JLINK_IsHalted()
+T3EEC 6028:756.846 - 0.326ms returns FALSE
+T3EEC 6028:756.869 JLINK_HasError()
+T3EEC 6028:758.498 JLINK_IsHalted()
+T3EEC 6028:758.886 - 0.400ms returns FALSE
+T3EEC 6028:758.909 JLINK_HasError()
+T3EEC 6028:760.527 JLINK_IsHalted()
+T3EEC 6028:760.843 - 0.327ms returns FALSE
+T3EEC 6028:760.865 JLINK_HasError()
+T3EEC 6028:762.506 JLINK_IsHalted()
+T3EEC 6028:762.817 - 0.323ms returns FALSE
+T3EEC 6028:762.841 JLINK_HasError()
+T3EEC 6028:767.551 JLINK_IsHalted()
+T3EEC 6028:767.874 - 0.335ms returns FALSE
+T3EEC 6028:767.897 JLINK_HasError()
+T3EEC 6028:769.555 JLINK_IsHalted()
+T3EEC 6028:769.900 - 0.356ms returns FALSE
+T3EEC 6028:769.923 JLINK_HasError()
+T3EEC 6028:771.557 JLINK_IsHalted()
+T3EEC 6028:771.867 - 0.322ms returns FALSE
+T3EEC 6028:771.890 JLINK_HasError()
+T3EEC 6028:773.530 JLINK_IsHalted()
+T3EEC 6028:773.842 - 0.323ms returns FALSE
+T3EEC 6028:773.865 JLINK_HasError()
+T3EEC 6028:775.531 JLINK_IsHalted()
+T3EEC 6028:775.847 - 0.327ms returns FALSE
+T3EEC 6028:775.870 JLINK_HasError()
+T3EEC 6028:777.542 JLINK_IsHalted()
+T3EEC 6028:777.852 - 0.321ms returns FALSE
+T3EEC 6028:777.874 JLINK_HasError()
+T3EEC 6028:779.554 JLINK_IsHalted()
+T3EEC 6028:780.038 - 0.500ms returns FALSE
+T3EEC 6028:780.065 JLINK_HasError()
+T3EEC 6028:781.509 JLINK_IsHalted()
+T3EEC 6028:781.844 - 0.351ms returns FALSE
+T3EEC 6028:781.874 JLINK_HasError()
+T3EEC 6028:783.508 JLINK_IsHalted()
+T3EEC 6028:783.833 - 0.337ms returns FALSE
+T3EEC 6028:783.856 JLINK_HasError()
+T3EEC 6028:785.549 JLINK_IsHalted()
+T3EEC 6028:785.885 - 0.348ms returns FALSE
+T3EEC 6028:785.908 JLINK_HasError()
+T3EEC 6028:787.542 JLINK_IsHalted()
+T3EEC 6028:787.832 - 0.302ms returns FALSE
+T3EEC 6028:787.856 JLINK_HasError()
+T3EEC 6028:789.550 JLINK_IsHalted()
+T3EEC 6028:789.894 - 0.356ms returns FALSE
+T3EEC 6028:789.917 JLINK_HasError()
+T3EEC 6028:791.520 JLINK_IsHalted()
+T3EEC 6028:791.843 - 0.335ms returns FALSE
+T3EEC 6028:791.867 JLINK_HasError()
+T3EEC 6028:793.545 JLINK_IsHalted()
+T3EEC 6028:793.894 - 0.361ms returns FALSE
+T3EEC 6028:793.918 JLINK_HasError()
+T3EEC 6028:795.549 JLINK_IsHalted()
+T3EEC 6028:795.894 - 0.357ms returns FALSE
+T3EEC 6028:795.918 JLINK_HasError()
+T3EEC 6028:797.539 JLINK_IsHalted()
+T3EEC 6028:797.859 - 0.333ms returns FALSE
+T3EEC 6028:797.883 JLINK_HasError()
+T3EEC 6028:799.522 JLINK_IsHalted()
+T3EEC 6028:799.836 - 0.326ms returns FALSE
+T3EEC 6028:799.860 JLINK_HasError()
+T3EEC 6028:801.539 JLINK_IsHalted()
+T3EEC 6028:801.859 - 0.333ms returns FALSE
+T3EEC 6028:801.883 JLINK_HasError()
+T3EEC 6028:803.548 JLINK_IsHalted()
+T3EEC 6028:803.913 - 0.385ms returns FALSE
+T3EEC 6028:803.955 JLINK_HasError()
+T3EEC 6028:805.523 JLINK_IsHalted()
+T3EEC 6028:805.843 - 0.333ms returns FALSE
+T3EEC 6028:805.868 JLINK_HasError()
+T3EEC 6028:807.550 JLINK_IsHalted()
+T3EEC 6028:807.888 - 0.363ms returns FALSE
+T3EEC 6028:807.938 JLINK_HasError()
+T3EEC 6028:809.551 JLINK_IsHalted()
+T3EEC 6028:809.863 - 0.325ms returns FALSE
+T3EEC 6028:809.888 JLINK_HasError()
+T3EEC 6028:811.550 JLINK_IsHalted()
+T3EEC 6028:811.875 - 0.338ms returns FALSE
+T3EEC 6028:811.899 JLINK_HasError()
+T3EEC 6028:813.542 JLINK_IsHalted()
+T3EEC 6028:813.954 - 0.437ms returns FALSE
+T3EEC 6028:814.005 JLINK_HasError()
+T3EEC 6028:815.521 JLINK_IsHalted()
+T3EEC 6028:815.852 - 0.344ms returns FALSE
+T3EEC 6028:815.877 JLINK_HasError()
+T3EEC 6028:817.539 JLINK_IsHalted()
+T3EEC 6028:817.904 - 0.397ms returns FALSE
+T3EEC 6028:817.949 JLINK_HasError()
+T3EEC 6028:819.555 JLINK_IsHalted()
+T3EEC 6028:819.874 - 0.345ms returns FALSE
+T3EEC 6028:819.899 JLINK_HasError()
+T3EEC 6028:821.541 JLINK_IsHalted()
+T3EEC 6028:821.886 - 0.358ms returns FALSE
+T3EEC 6028:821.911 JLINK_HasError()
+T3EEC 6028:823.547 JLINK_IsHalted()
+T3EEC 6028:823.871 - 0.338ms returns FALSE
+T3EEC 6028:823.897 JLINK_HasError()
+T3EEC 6028:825.577 JLINK_IsHalted()
+T3EEC 6028:825.904 - 0.352ms returns FALSE
+T3EEC 6028:825.955 JLINK_HasError()
+T3EEC 6028:844.543 JLINK_IsHalted()
+T3EEC 6028:844.923 - 0.404ms returns FALSE
+T3EEC 6028:844.972 JLINK_HasError()
+T3EEC 6028:850.581 JLINK_IsHalted()
+T3EEC 6028:850.983 - 0.426ms returns FALSE
+T3EEC 6028:851.030 JLINK_HasError()
+T3EEC 6028:852.579 JLINK_IsHalted()
+T3EEC 6028:852.962 - 0.407ms returns FALSE
+T3EEC 6028:853.009 JLINK_HasError()
+T3EEC 6028:854.575 JLINK_IsHalted()
+T3EEC 6028:854.984 - 0.432ms returns FALSE
+T3EEC 6028:855.031 JLINK_HasError()
+T3EEC 6028:856.573 JLINK_IsHalted()
+T3EEC 6028:857.015 - 0.465ms returns FALSE
+T3EEC 6028:857.062 JLINK_HasError()
+T3EEC 6028:858.530 JLINK_IsHalted()
+T3EEC 6028:858.890 - 0.386ms returns FALSE
+T3EEC 6028:858.942 JLINK_HasError()
+T3EEC 6028:863.579 JLINK_IsHalted()
+T3EEC 6028:863.918 - 0.359ms returns FALSE
+T3EEC 6028:863.961 JLINK_HasError()
+T3EEC 6028:865.585 JLINK_IsHalted()
+T3EEC 6028:865.934 - 0.364ms returns FALSE
+T3EEC 6028:865.964 JLINK_HasError()
+T3EEC 6028:867.617 JLINK_IsHalted()
+T3EEC 6028:868.004 - 0.410ms returns FALSE
+T3EEC 6028:868.051 JLINK_HasError()
+T3EEC 6028:869.614 JLINK_IsHalted()
+T3EEC 6028:870.032 - 0.433ms returns FALSE
+T3EEC 6028:870.062 JLINK_HasError()
+T3EEC 6028:871.613 JLINK_IsHalted()
+T3EEC 6028:871.972 - 0.375ms returns FALSE
+T3EEC 6028:872.002 JLINK_HasError()
+T3EEC 6028:873.610 JLINK_IsHalted()
+T3EEC 6028:874.013 - 0.438ms returns FALSE
+T3EEC 6028:874.073 JLINK_HasError()
+T3EEC 6028:875.552 JLINK_IsHalted()
+T3EEC 6028:875.886 - 0.349ms returns FALSE
+T3EEC 6028:875.914 JLINK_HasError()
+T3EEC 6028:877.564 JLINK_IsHalted()
+T3EEC 6028:877.902 - 0.359ms returns FALSE
+T3EEC 6028:877.945 JLINK_HasError()
+T3EEC 6028:879.563 JLINK_IsHalted()
+T3EEC 6028:879.870 - 0.321ms returns FALSE
+T3EEC 6028:879.898 JLINK_HasError()
+T3EEC 6028:881.571 JLINK_IsHalted()
+T3EEC 6028:881.897 - 0.340ms returns FALSE
+T3EEC 6028:881.924 JLINK_HasError()
+T3EEC 6028:883.562 JLINK_IsHalted()
+T3EEC 6028:883.905 - 0.357ms returns FALSE
+T3EEC 6028:883.932 JLINK_HasError()
+T3EEC 6028:885.566 JLINK_IsHalted()
+T3EEC 6028:885.898 - 0.346ms returns FALSE
+T3EEC 6028:885.925 JLINK_HasError()
+T3EEC 6028:887.567 JLINK_IsHalted()
+T3EEC 6028:887.905 - 0.358ms returns FALSE
+T3EEC 6028:887.947 JLINK_HasError()
+T3EEC 6028:889.565 JLINK_IsHalted()
+T3EEC 6028:889.899 - 0.348ms returns FALSE
+T3EEC 6028:889.926 JLINK_HasError()
+T3EEC 6028:893.568 JLINK_IsHalted()
+T3EEC 6028:893.919 - 0.372ms returns FALSE
+T3EEC 6028:893.963 JLINK_HasError()
+T3EEC 6028:895.569 JLINK_IsHalted()
+T3EEC 6028:895.892 - 0.337ms returns FALSE
+T3EEC 6028:895.920 JLINK_HasError()
+T3EEC 6028:897.559 JLINK_IsHalted()
+T3EEC 6028:897.900 - 0.362ms returns FALSE
+T3EEC 6028:897.943 JLINK_HasError()
+T3EEC 6028:899.570 JLINK_IsHalted()
+T3EEC 6028:899.866 - 0.324ms returns FALSE
+T3EEC 6028:899.894 JLINK_HasError()
+T3EEC 6028:901.554 JLINK_IsHalted()
+T3EEC 6028:901.875 - 0.342ms returns FALSE
+T3EEC 6028:901.918 JLINK_HasError()
+T3EEC 6028:903.535 JLINK_IsHalted()
+T3EEC 6028:903.894 - 0.372ms returns FALSE
+T3EEC 6028:903.921 JLINK_HasError()
+T3EEC 6028:905.561 JLINK_IsHalted()
+T3EEC 6028:905.899 - 0.359ms returns FALSE
+T3EEC 6028:905.942 JLINK_HasError()
+T3EEC 6028:907.558 JLINK_IsHalted()
+T3EEC 6028:907.896 - 0.364ms returns FALSE
+T3EEC 6028:907.948 JLINK_HasError()
+T3EEC 6028:909.567 JLINK_IsHalted()
+T3EEC 6028:909.882 - 0.329ms returns FALSE
+T3EEC 6028:909.909 JLINK_HasError()
+T3EEC 6028:911.556 JLINK_IsHalted()
+T3EEC 6028:911.913 - 0.371ms returns FALSE
+T3EEC 6028:911.940 JLINK_HasError()
+T3EEC 6028:913.554 JLINK_IsHalted()
+T3EEC 6028:913.915 - 0.381ms returns FALSE
+T3EEC 6028:913.962 JLINK_HasError()
+T3EEC 6028:915.559 JLINK_IsHalted()
+T3EEC 6028:915.957 - 0.412ms returns FALSE
+T3EEC 6028:915.985 JLINK_HasError()
+T3EEC 6028:917.535 JLINK_IsHalted()
+T3EEC 6028:917.864 - 0.343ms returns FALSE
+T3EEC 6028:917.891 JLINK_HasError()
+T3EEC 6028:919.555 JLINK_IsHalted()
+T3EEC 6028:919.924 - 0.395ms returns FALSE
+T3EEC 6028:919.975 JLINK_HasError()
+T3EEC 6028:921.554 JLINK_IsHalted()
+T3EEC 6028:921.886 - 0.346ms returns FALSE
+T3EEC 6028:921.913 JLINK_HasError()
+T3EEC 6028:923.566 JLINK_IsHalted()
+T3EEC 6028:923.863 - 0.310ms returns FALSE
+T3EEC 6028:923.890 JLINK_HasError()
+T3EEC 6028:925.568 JLINK_IsHalted()
+T3EEC 6028:925.912 - 0.359ms returns FALSE
+T3EEC 6028:925.942 JLINK_HasError()
+T3EEC 6028:927.601 JLINK_IsHalted()
+T3EEC 6028:927.991 - 0.406ms returns FALSE
+T3EEC 6028:928.021 JLINK_HasError()
+T3EEC 6028:929.600 JLINK_IsHalted()
+T3EEC 6028:929.989 - 0.412ms returns FALSE
+T3EEC 6028:930.045 JLINK_HasError()
+T3EEC 6028:931.606 JLINK_IsHalted()
+T3EEC 6028:931.967 - 0.376ms returns FALSE
+T3EEC 6028:931.996 JLINK_HasError()
+T3EEC 6028:933.675 JLINK_IsHalted()
+T3EEC 6028:934.062 - 0.410ms returns FALSE
+T3EEC 6028:934.109 JLINK_HasError()
+T3EEC 6028:935.606 JLINK_IsHalted()
+T3EEC 6028:935.987 - 0.404ms returns FALSE
+T3EEC 6028:936.034 JLINK_HasError()
+T3EEC 6028:937.610 JLINK_IsHalted()
+T3EEC 6028:937.987 - 0.392ms returns FALSE
+T3EEC 6028:938.017 JLINK_HasError()
+T3EEC 6028:939.590 JLINK_IsHalted()
+T3EEC 6028:939.975 - 0.400ms returns FALSE
+T3EEC 6028:940.004 JLINK_HasError()
+T3EEC 6028:945.610 JLINK_IsHalted()
+T3EEC 6028:946.038 - 0.451ms returns FALSE
+T3EEC 6028:946.094 JLINK_HasError()
+T3EEC 6028:947.567 JLINK_IsHalted()
+T3EEC 6028:947.921 - 0.380ms returns FALSE
+T3EEC 6028:947.980 JLINK_HasError()
+T3EEC 6028:949.589 JLINK_IsHalted()
+T3EEC 6028:949.972 - 0.406ms returns FALSE
+T3EEC 6028:950.019 JLINK_HasError()
+T3EEC 6028:951.598 JLINK_IsHalted()
+T3EEC 6028:951.953 - 0.369ms returns FALSE
+T3EEC 6028:951.981 JLINK_HasError()
+T3EEC 6028:959.598 JLINK_IsHalted()
+T3EEC 6028:959.984 - 0.419ms returns FALSE
+T3EEC 6028:960.035 JLINK_HasError()
+T3EEC 6028:961.590 JLINK_IsHalted()
+T3EEC 6028:961.949 - 0.374ms returns FALSE
+T3EEC 6028:961.979 JLINK_HasError()
+T3EEC 6028:963.583 JLINK_IsHalted()
+T3EEC 6028:963.973 - 0.406ms returns FALSE
+T3EEC 6028:964.003 JLINK_HasError()
+T3EEC 6028:965.604 JLINK_IsHalted()
+T3EEC 6028:965.955 - 0.372ms returns FALSE
+T3EEC 6028:966.000 JLINK_HasError()
+T3EEC 6028:973.632 JLINK_IsHalted()
+T3EEC 6028:973.972 - 0.361ms returns FALSE
+T3EEC 6028:974.016 JLINK_HasError()
+T3EEC 6028:975.634 JLINK_IsHalted()
+T3EEC 6028:976.021 - 0.410ms returns FALSE
+T3EEC 6028:976.072 JLINK_HasError()
+T3EEC 6028:977.627 JLINK_IsHalted()
+T3EEC 6028:978.014 - 0.411ms returns FALSE
+T3EEC 6028:978.061 JLINK_HasError()
+T3EEC 6028:979.629 JLINK_IsHalted()
+T3EEC 6028:979.997 - 0.383ms returns FALSE
+T3EEC 6028:980.027 JLINK_HasError()
+T3EEC 6028:981.626 JLINK_IsHalted()
+T3EEC 6028:982.011 - 0.401ms returns FALSE
+T3EEC 6028:982.041 JLINK_HasError()
+T3EEC 6028:983.642 JLINK_IsHalted()
+T3EEC 6028:984.022 - 0.403ms returns FALSE
+T3EEC 6028:984.069 JLINK_HasError()
+T3EEC 6028:985.643 JLINK_IsHalted()
+T3EEC 6028:986.011 - 0.395ms returns FALSE
+T3EEC 6028:986.063 JLINK_HasError()
+T3EEC 6028:989.632 JLINK_IsHalted()
+T3EEC 6028:990.016 - 0.407ms returns FALSE
+T3EEC 6028:990.072 JLINK_HasError()
+T3EEC 6028:991.572 JLINK_IsHalted()
+T3EEC 6028:991.882 - 0.325ms returns FALSE
+T3EEC 6028:991.911 JLINK_HasError()
+T3EEC 6028:993.622 JLINK_IsHalted()
+T3EEC 6028:994.007 - 0.408ms returns FALSE
+T3EEC 6028:994.061 JLINK_HasError()
+T3EEC 6028:995.632 JLINK_IsHalted()
+T3EEC 6028:996.007 - 0.391ms returns FALSE
+T3EEC 6028:996.037 JLINK_HasError()
+T3EEC 6028:997.620 JLINK_IsHalted()
+T3EEC 6028:997.979 - 0.375ms returns FALSE
+T3EEC 6028:998.009 JLINK_HasError()
+T3EEC 6028:999.623 JLINK_IsHalted()
+T3EEC 6029:000.061 - 0.461ms returns FALSE
+T3EEC 6029:000.108 JLINK_HasError()
+T3EEC 6029:001.646 JLINK_IsHalted()
+T3EEC 6029:002.035 - 0.427ms returns FALSE
+T3EEC 6029:002.090 JLINK_HasError()
+T3EEC 6029:003.562 JLINK_IsHalted()
+T3EEC 6029:003.923 - 0.378ms returns FALSE
+T3EEC 6029:003.957 JLINK_HasError()
+T3EEC 6029:005.636 JLINK_IsHalted()
+T3EEC 6029:006.032 - 0.419ms returns FALSE
+T3EEC 6029:006.079 JLINK_HasError()
+T3EEC 6029:007.621 JLINK_IsHalted()
+T3EEC 6029:008.007 - 0.406ms returns FALSE
+T3EEC 6029:008.045 JLINK_HasError()
+T3EEC 6029:009.616 JLINK_IsHalted()
+T3EEC 6029:009.998 - 0.406ms returns FALSE
+T3EEC 6029:010.045 JLINK_HasError()
+T3EEC 6029:011.618 JLINK_IsHalted()
+T3EEC 6029:012.016 - 0.413ms returns FALSE
+T3EEC 6029:012.046 JLINK_HasError()
+T3EEC 6029:013.623 JLINK_IsHalted()
+T3EEC 6029:013.997 - 0.396ms returns FALSE
+T3EEC 6029:014.036 JLINK_HasError()
+T3EEC 6029:017.630 JLINK_IsHalted()
+T3EEC 6029:018.016 - 0.409ms returns FALSE
+T3EEC 6029:018.062 JLINK_HasError()
+T3EEC 6029:019.611 JLINK_IsHalted()
+T3EEC 6029:020.000 - 0.412ms returns FALSE
+T3EEC 6029:020.058 JLINK_HasError()
+T3EEC 6029:021.616 JLINK_IsHalted()
+T3EEC 6029:022.012 - 0.419ms returns FALSE
+T3EEC 6029:022.059 JLINK_HasError()
+T3EEC 6029:023.628 JLINK_IsHalted()
+T3EEC 6029:024.010 - 0.405ms returns FALSE
+T3EEC 6029:024.062 JLINK_HasError()
+T3EEC 6029:025.617 JLINK_IsHalted()
+T3EEC 6029:025.981 - 0.379ms returns FALSE
+T3EEC 6029:026.011 JLINK_HasError()
+T3EEC 6029:027.636 JLINK_IsHalted()
+T3EEC 6029:028.035 - 0.414ms returns FALSE
+T3EEC 6029:028.065 JLINK_HasError()
+T3EEC 6029:029.620 JLINK_IsHalted()
+T3EEC 6029:029.988 - 0.383ms returns FALSE
+T3EEC 6029:030.018 JLINK_HasError()
+T3EEC 6029:031.610 JLINK_IsHalted()
+T3EEC 6029:032.002 - 0.419ms returns FALSE
+T3EEC 6029:032.055 JLINK_HasError()
+T3EEC 6029:033.616 JLINK_IsHalted()
+T3EEC 6029:034.001 - 0.414ms returns FALSE
+T3EEC 6029:034.066 JLINK_HasError()
+T3EEC 6029:035.609 JLINK_IsHalted()
+T3EEC 6029:035.974 - 0.381ms returns FALSE
+T3EEC 6029:036.004 JLINK_HasError()
+T3EEC 6029:037.615 JLINK_IsHalted()
+T3EEC 6029:038.014 - 0.423ms returns FALSE
+T3EEC 6029:038.066 JLINK_HasError()
+T3EEC 6029:039.610 JLINK_IsHalted()
+T3EEC 6029:039.996 - 0.402ms returns FALSE
+T3EEC 6029:040.026 JLINK_HasError()
+T3EEC 6029:041.562 JLINK_IsHalted()
+T3EEC 6029:041.875 - 0.327ms returns FALSE
+T3EEC 6029:041.903 JLINK_HasError()
+T3EEC 6029:043.619 JLINK_IsHalted()
+T3EEC 6029:043.982 - 0.378ms returns FALSE
+T3EEC 6029:044.012 JLINK_HasError()
+T3EEC 6029:045.622 JLINK_IsHalted()
+T3EEC 6029:046.011 - 0.411ms returns FALSE
+T3EEC 6029:046.065 JLINK_HasError()
+T3EEC 6029:047.581 JLINK_IsHalted()
+T3EEC 6029:047.911 - 0.350ms returns FALSE
+T3EEC 6029:047.949 JLINK_HasError()
+T3EEC 6029:055.643 JLINK_IsHalted()
+T3EEC 6029:057.759   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:058.145 - 2.518ms returns TRUE
+T3EEC 6029:058.175 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:058.194 - 0.026ms returns 0x20000000
+T3EEC 6029:058.212 JLINK_ClrBPEx(BPHandle = 0x00000003)
+T3EEC 6029:058.227 - 0.022ms returns 0x00
+T3EEC 6029:058.244 JLINK_ReadReg(R0)
+T3EEC 6029:058.258 - 0.021ms returns 0x00000000
+T3EEC 6029:058.918 JLINK_HasError()
+T3EEC 6029:058.945 JLINK_WriteReg(R0, 0x00000001)
+T3EEC 6029:058.964 - 0.025ms returns 0
+T3EEC 6029:058.981 JLINK_WriteReg(R1, 0x00004000)
+T3EEC 6029:058.995 - 0.021ms returns 0
+T3EEC 6029:059.011 JLINK_WriteReg(R2, 0x000000FF)
+T3EEC 6029:059.025 - 0.020ms returns 0
+T3EEC 6029:059.041 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:059.055 - 0.020ms returns 0
+T3EEC 6029:059.070 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:059.084 - 0.020ms returns 0
+T3EEC 6029:059.100 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:059.114 - 0.020ms returns 0
+T3EEC 6029:059.130 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:059.144 - 0.020ms returns 0
+T3EEC 6029:059.159 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:059.173 - 0.020ms returns 0
+T3EEC 6029:059.189 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:059.203 - 0.020ms returns 0
+T3EEC 6029:059.218 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:059.232 - 0.020ms returns 0
+T3EEC 6029:059.248 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:059.262 - 0.020ms returns 0
+T3EEC 6029:059.278 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:059.292 - 0.020ms returns 0
+T3EEC 6029:059.307 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:059.321 - 0.020ms returns 0
+T3EEC 6029:059.337 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:059.351 - 0.021ms returns 0
+T3EEC 6029:059.367 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:059.381 - 0.020ms returns 0
+T3EEC 6029:059.397 JLINK_WriteReg(R15 (PC), 0x2000008C)
+T3EEC 6029:059.411 - 0.020ms returns 0
+T3EEC 6029:059.427 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:059.441 - 0.020ms returns 0
+T3EEC 6029:059.456 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:059.470 - 0.020ms returns 0
+T3EEC 6029:059.486 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:059.500 - 0.020ms returns 0
+T3EEC 6029:059.516 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:059.532 - 0.023ms returns 0
+T3EEC 6029:059.548 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:059.564 - 0.022ms returns 0x00000004
+T3EEC 6029:059.581 JLINK_Go()
+T3EEC 6029:059.607   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:061.868 - 2.303ms
+T3EEC 6029:061.898 JLINK_IsHalted()
+T3EEC 6029:063.906   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:064.347 - 2.472ms returns TRUE
+T3EEC 6029:064.401 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:064.436 - 0.047ms returns 0x20000000
+T3EEC 6029:064.471 JLINK_ClrBPEx(BPHandle = 0x00000004)
+T3EEC 6029:064.504 - 0.045ms returns 0x00
+T3EEC 6029:064.542 JLINK_ReadReg(R0)
+T3EEC 6029:064.569 - 0.039ms returns 0x00000000
+T3EEC 6029:128.549 JLINK_WriteMem(0x20000000, 0x188 Bytes, ...)
+T3EEC 6029:128.572   Data:  00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ...
+T3EEC 6029:128.609   CPU_WriteMem(392 bytes @ 0x20000000)
+T3EEC 6029:130.322 - 1.789ms returns 0x188
+T3EEC 6029:130.401 JLINK_HasError()
+T3EEC 6029:130.427 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6029:130.447 - 0.027ms returns 0
+T3EEC 6029:130.464 JLINK_WriteReg(R1, 0x018CBA80)
+T3EEC 6029:130.478 - 0.021ms returns 0
+T3EEC 6029:130.494 JLINK_WriteReg(R2, 0x00000002)
+T3EEC 6029:130.511 - 0.024ms returns 0
+T3EEC 6029:130.527 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:130.541 - 0.020ms returns 0
+T3EEC 6029:130.557 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:130.571 - 0.020ms returns 0
+T3EEC 6029:130.586 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:130.600 - 0.020ms returns 0
+T3EEC 6029:130.616 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:130.630 - 0.020ms returns 0
+T3EEC 6029:130.646 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:130.660 - 0.020ms returns 0
+T3EEC 6029:130.675 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:130.689 - 0.020ms returns 0
+T3EEC 6029:130.705 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:130.719 - 0.020ms returns 0
+T3EEC 6029:130.735 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:130.749 - 0.020ms returns 0
+T3EEC 6029:130.765 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:130.779 - 0.020ms returns 0
+T3EEC 6029:130.795 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:130.809 - 0.020ms returns 0
+T3EEC 6029:130.825 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:130.840 - 0.021ms returns 0
+T3EEC 6029:130.855 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:130.869 - 0.020ms returns 0
+T3EEC 6029:130.885 JLINK_WriteReg(R15 (PC), 0x2000005E)
+T3EEC 6029:130.899 - 0.021ms returns 0
+T3EEC 6029:130.915 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:130.929 - 0.021ms returns 0
+T3EEC 6029:130.945 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:130.959 - 0.020ms returns 0
+T3EEC 6029:130.975 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:130.989 - 0.020ms returns 0
+T3EEC 6029:131.005 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:131.019 - 0.020ms returns 0
+T3EEC 6029:131.035 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:131.057   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:131.403 - 0.382ms returns 0x00000005
+T3EEC 6029:131.431 JLINK_Go()
+T3EEC 6029:131.451   CPU_WriteMem(2 bytes @ 0x20000000)
+T3EEC 6029:131.788   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:134.005 - 2.589ms
+T3EEC 6029:134.034 JLINK_IsHalted()
+T3EEC 6029:136.045   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:136.424 - 2.405ms returns TRUE
+T3EEC 6029:136.453 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:136.472 - 0.032ms returns 0x20000000
+T3EEC 6029:136.495 JLINK_ClrBPEx(BPHandle = 0x00000005)
+T3EEC 6029:136.514 - 0.025ms returns 0x00
+T3EEC 6029:136.530 JLINK_ReadReg(R0)
+T3EEC 6029:136.545 - 0.021ms returns 0x00000000
+T3EEC 6029:137.036 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:137.059   Data:  88 05 00 20 A9 01 00 08 7B 1F 00 08 19 1C 00 08 ...
+T3EEC 6029:137.094   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:139.547 - 2.533ms returns 0x278
+T3EEC 6029:139.593 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:139.621   Data:  02 F0 00 21 70 47 21 FA 02 F3 D0 40 C2 F1 20 02 ...
+T3EEC 6029:139.677   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:141.406 - 1.832ms returns 0x188
+T3EEC 6029:141.442 JLINK_HasError()
+T3EEC 6029:141.462 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6029:141.485 - 0.034ms returns 0
+T3EEC 6029:141.508 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:141.525 - 0.024ms returns 0
+T3EEC 6029:141.544 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:141.561 - 0.024ms returns 0
+T3EEC 6029:141.585 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:141.602 - 0.024ms returns 0
+T3EEC 6029:141.623 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:141.640 - 0.024ms returns 0
+T3EEC 6029:141.661 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:141.677 - 0.024ms returns 0
+T3EEC 6029:141.698 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:141.715 - 0.024ms returns 0
+T3EEC 6029:141.736 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:141.753 - 0.024ms returns 0
+T3EEC 6029:141.774 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:141.790 - 0.024ms returns 0
+T3EEC 6029:141.812 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:141.829 - 0.024ms returns 0
+T3EEC 6029:141.850 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:141.877 - 0.035ms returns 0
+T3EEC 6029:141.900 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:141.916 - 0.024ms returns 0
+T3EEC 6029:141.937 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:141.954 - 0.024ms returns 0
+T3EEC 6029:141.975 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:141.992 - 0.025ms returns 0
+T3EEC 6029:142.013 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:142.030 - 0.024ms returns 0
+T3EEC 6029:142.052 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:142.068 - 0.024ms returns 0
+T3EEC 6029:142.090 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:142.106 - 0.024ms returns 0
+T3EEC 6029:142.133 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:142.150 - 0.024ms returns 0
+T3EEC 6029:142.171 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:142.188 - 0.024ms returns 0
+T3EEC 6029:142.209 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:142.226 - 0.024ms returns 0
+T3EEC 6029:142.248 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:142.266 - 0.026ms returns 0x00000006
+T3EEC 6029:142.288 JLINK_Go()
+T3EEC 6029:142.317   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:144.634 - 2.361ms
+T3EEC 6029:144.668 JLINK_IsHalted()
+T3EEC 6029:144.983 - 0.333ms returns FALSE
+T3EEC 6029:145.023 JLINK_HasError()
+T3EEC 6029:153.588 JLINK_IsHalted()
+T3EEC 6029:155.647   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:156.017 - 2.454ms returns TRUE
+T3EEC 6029:156.067 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:156.101 - 0.046ms returns 0x20000000
+T3EEC 6029:156.132 JLINK_ClrBPEx(BPHandle = 0x00000006)
+T3EEC 6029:156.159 - 0.040ms returns 0x00
+T3EEC 6029:156.189 JLINK_ReadReg(R0)
+T3EEC 6029:156.215 - 0.038ms returns 0x00000000
+T3EEC 6029:157.477 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:157.504   Data:  9B 5C C3 65 00 D9 09 1D 81 65 08 46 70 47 00 00 ...
+T3EEC 6029:157.537   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:159.930 - 2.468ms returns 0x278
+T3EEC 6029:159.960 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:159.976   Data:  80 21 41 65 01 20 70 47 05 21 80 F8 35 10 00 68 ...
+T3EEC 6029:160.007   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:161.756 - 1.821ms returns 0x188
+T3EEC 6029:161.815 JLINK_HasError()
+T3EEC 6029:161.835 JLINK_WriteReg(R0, 0x08000400)
+T3EEC 6029:161.858 - 0.031ms returns 0
+T3EEC 6029:161.878 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:161.894 - 0.024ms returns 0
+T3EEC 6029:161.913 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:161.929 - 0.024ms returns 0
+T3EEC 6029:161.948 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:161.964 - 0.024ms returns 0
+T3EEC 6029:161.983 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:161.999 - 0.024ms returns 0
+T3EEC 6029:162.017 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:162.034 - 0.024ms returns 0
+T3EEC 6029:162.052 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:162.068 - 0.024ms returns 0
+T3EEC 6029:162.087 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:162.103 - 0.024ms returns 0
+T3EEC 6029:162.121 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:162.138 - 0.024ms returns 0
+T3EEC 6029:162.156 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:162.172 - 0.024ms returns 0
+T3EEC 6029:162.191 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:162.207 - 0.024ms returns 0
+T3EEC 6029:162.225 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:162.241 - 0.024ms returns 0
+T3EEC 6029:162.260 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:162.276 - 0.023ms returns 0
+T3EEC 6029:162.294 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:162.311 - 0.025ms returns 0
+T3EEC 6029:162.330 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:162.346 - 0.023ms returns 0
+T3EEC 6029:162.364 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:162.380 - 0.024ms returns 0
+T3EEC 6029:162.398 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:162.415 - 0.024ms returns 0
+T3EEC 6029:162.433 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:162.449 - 0.024ms returns 0
+T3EEC 6029:162.468 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:162.487 - 0.028ms returns 0
+T3EEC 6029:162.506 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:162.523 - 0.024ms returns 0
+T3EEC 6029:162.542 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:162.570 - 0.036ms returns 0x00000007
+T3EEC 6029:162.590 JLINK_Go()
+T3EEC 6029:162.619   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:164.820 - 2.246ms
+T3EEC 6029:164.850 JLINK_IsHalted()
+T3EEC 6029:165.149 - 0.313ms returns FALSE
+T3EEC 6029:165.177 JLINK_HasError()
+T3EEC 6029:169.566 JLINK_IsHalted()
+T3EEC 6029:171.599   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:171.980 - 2.430ms returns TRUE
+T3EEC 6029:172.014 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:172.033 - 0.026ms returns 0x20000000
+T3EEC 6029:172.050 JLINK_ClrBPEx(BPHandle = 0x00000007)
+T3EEC 6029:172.066 - 0.022ms returns 0x00
+T3EEC 6029:172.085 JLINK_ReadReg(R0)
+T3EEC 6029:172.100 - 0.021ms returns 0x00000000
+T3EEC 6029:173.500 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:173.525   Data:  84 F8 35 80 E1 6C 00 29 10 D0 01 B0 20 46 BD E8 ...
+T3EEC 6029:173.558   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:175.927 - 2.442ms returns 0x278
+T3EEC 6029:175.956 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:175.972   Data:  F8 8F 00 00 44 38 02 40 00 30 01 40 00 00 02 40 ...
+T3EEC 6029:176.003   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:177.743 - 1.810ms returns 0x188
+T3EEC 6029:177.790 JLINK_HasError()
+T3EEC 6029:177.835 JLINK_WriteReg(R0, 0x08000800)
+T3EEC 6029:177.854 - 0.026ms returns 0
+T3EEC 6029:177.871 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:177.885 - 0.021ms returns 0
+T3EEC 6029:177.901 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:177.915 - 0.020ms returns 0
+T3EEC 6029:177.931 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:177.945 - 0.020ms returns 0
+T3EEC 6029:177.961 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:177.975 - 0.020ms returns 0
+T3EEC 6029:177.991 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:178.005 - 0.020ms returns 0
+T3EEC 6029:178.020 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:178.034 - 0.020ms returns 0
+T3EEC 6029:178.050 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:178.064 - 0.020ms returns 0
+T3EEC 6029:178.080 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:178.094 - 0.021ms returns 0
+T3EEC 6029:178.110 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:178.124 - 0.020ms returns 0
+T3EEC 6029:178.140 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:178.154 - 0.021ms returns 0
+T3EEC 6029:178.170 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:178.184 - 0.020ms returns 0
+T3EEC 6029:178.200 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:178.214 - 0.020ms returns 0
+T3EEC 6029:178.230 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:178.244 - 0.021ms returns 0
+T3EEC 6029:178.260 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:178.274 - 0.020ms returns 0
+T3EEC 6029:178.290 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:178.304 - 0.020ms returns 0
+T3EEC 6029:178.320 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:178.334 - 0.021ms returns 0
+T3EEC 6029:178.350 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:178.364 - 0.020ms returns 0
+T3EEC 6029:178.380 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:178.394 - 0.020ms returns 0
+T3EEC 6029:178.410 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:178.424 - 0.020ms returns 0
+T3EEC 6029:178.440 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:178.456 - 0.022ms returns 0x00000008
+T3EEC 6029:178.472 JLINK_Go()
+T3EEC 6029:178.500   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:180.835 - 2.378ms
+T3EEC 6029:180.865 JLINK_IsHalted()
+T3EEC 6029:181.157 - 0.306ms returns FALSE
+T3EEC 6029:181.185 JLINK_HasError()
+T3EEC 6029:184.566 JLINK_IsHalted()
+T3EEC 6029:184.881 - 0.329ms returns FALSE
+T3EEC 6029:184.909 JLINK_HasError()
+T3EEC 6029:186.531 JLINK_IsHalted()
+T3EEC 6029:188.591   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:188.937 - 2.427ms returns TRUE
+T3EEC 6029:188.981 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:189.013 - 0.045ms returns 0x20000000
+T3EEC 6029:189.044 JLINK_ClrBPEx(BPHandle = 0x00000008)
+T3EEC 6029:189.071 - 0.039ms returns 0x00
+T3EEC 6029:189.100 JLINK_ReadReg(R0)
+T3EEC 6029:189.126 - 0.038ms returns 0x00000000
+T3EEC 6029:190.604 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:190.641   Data:  DF F8 1C 81 C8 F8 68 60 FF F7 4E FF 07 46 45 4D ...
+T3EEC 6029:190.708   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:193.173 - 2.593ms returns 0x278
+T3EEC 6029:193.220 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:193.248   Data:  82 21 51 5C C8 40 70 47 18 00 00 20 08 38 02 40 ...
+T3EEC 6029:193.302   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:195.144 - 1.947ms returns 0x188
+T3EEC 6029:195.191 JLINK_HasError()
+T3EEC 6029:195.222 JLINK_WriteReg(R0, 0x08000C00)
+T3EEC 6029:195.256 - 0.046ms returns 0
+T3EEC 6029:195.286 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:195.312 - 0.038ms returns 0
+T3EEC 6029:195.340 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:195.366 - 0.037ms returns 0
+T3EEC 6029:195.394 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:195.420 - 0.037ms returns 0
+T3EEC 6029:195.448 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:195.473 - 0.041ms returns 0
+T3EEC 6029:195.505 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:195.531 - 0.037ms returns 0
+T3EEC 6029:195.559 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:195.589 - 0.036ms returns 0
+T3EEC 6029:195.605 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:195.619 - 0.020ms returns 0
+T3EEC 6029:195.635 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:195.649 - 0.020ms returns 0
+T3EEC 6029:195.665 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:195.679 - 0.020ms returns 0
+T3EEC 6029:195.695 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:195.709 - 0.021ms returns 0
+T3EEC 6029:195.725 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:195.739 - 0.020ms returns 0
+T3EEC 6029:195.754 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:195.768 - 0.020ms returns 0
+T3EEC 6029:195.784 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:195.799 - 0.021ms returns 0
+T3EEC 6029:195.815 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:195.829 - 0.020ms returns 0
+T3EEC 6029:195.844 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:195.858 - 0.020ms returns 0
+T3EEC 6029:195.874 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:195.889 - 0.021ms returns 0
+T3EEC 6029:195.905 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:195.919 - 0.020ms returns 0
+T3EEC 6029:195.934 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:195.948 - 0.020ms returns 0
+T3EEC 6029:195.964 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:195.978 - 0.020ms returns 0
+T3EEC 6029:195.994 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:196.010 - 0.023ms returns 0x00000009
+T3EEC 6029:196.027 JLINK_Go()
+T3EEC 6029:196.051   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:198.281 - 2.270ms
+T3EEC 6029:198.315 JLINK_IsHalted()
+T3EEC 6029:198.600 - 0.300ms returns FALSE
+T3EEC 6029:198.632 JLINK_HasError()
+T3EEC 6029:201.553 JLINK_IsHalted()
+T3EEC 6029:201.913 - 0.380ms returns FALSE
+T3EEC 6029:201.950 JLINK_HasError()
+T3EEC 6029:205.547 JLINK_IsHalted()
+T3EEC 6029:207.578   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:207.960 - 2.433ms returns TRUE
+T3EEC 6029:207.997 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:208.020 - 0.031ms returns 0x20000000
+T3EEC 6029:208.040 JLINK_ClrBPEx(BPHandle = 0x00000009)
+T3EEC 6029:208.058 - 0.025ms returns 0x00
+T3EEC 6029:208.077 JLINK_ReadReg(R0)
+T3EEC 6029:208.094 - 0.024ms returns 0x00000000
+T3EEC 6029:209.093 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:209.119   Data:  00 00 FF F7 51 FD 06 46 05 E0 00 BF FF F7 4C FD ...
+T3EEC 6029:209.156   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:211.568 - 2.491ms returns 0x278
+T3EEC 6029:211.597 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:211.613   Data:  10 BD 4F F0 E0 24 60 61 0F 21 60 17 01 F0 55 FA ...
+T3EEC 6029:211.645   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:213.330 - 1.756ms returns 0x188
+T3EEC 6029:213.383 JLINK_HasError()
+T3EEC 6029:213.401 JLINK_WriteReg(R0, 0x08001000)
+T3EEC 6029:213.420 - 0.026ms returns 0
+T3EEC 6029:213.437 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:213.451 - 0.021ms returns 0
+T3EEC 6029:213.467 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:213.484 - 0.024ms returns 0
+T3EEC 6029:213.501 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:213.515 - 0.020ms returns 0
+T3EEC 6029:213.530 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:213.553 - 0.030ms returns 0
+T3EEC 6029:213.570 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:213.584 - 0.020ms returns 0
+T3EEC 6029:213.600 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:213.614 - 0.020ms returns 0
+T3EEC 6029:213.629 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:213.644 - 0.020ms returns 0
+T3EEC 6029:213.659 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:213.673 - 0.020ms returns 0
+T3EEC 6029:213.689 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:213.703 - 0.020ms returns 0
+T3EEC 6029:213.719 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:213.733 - 0.021ms returns 0
+T3EEC 6029:213.749 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:213.763 - 0.020ms returns 0
+T3EEC 6029:213.779 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:213.793 - 0.020ms returns 0
+T3EEC 6029:213.809 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:213.824 - 0.021ms returns 0
+T3EEC 6029:213.840 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:213.854 - 0.020ms returns 0
+T3EEC 6029:213.869 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:213.884 - 0.021ms returns 0
+T3EEC 6029:213.899 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:213.914 - 0.021ms returns 0
+T3EEC 6029:213.929 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:213.943 - 0.020ms returns 0
+T3EEC 6029:213.959 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:213.973 - 0.021ms returns 0
+T3EEC 6029:213.989 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:214.003 - 0.020ms returns 0
+T3EEC 6029:214.019 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:214.035 - 0.023ms returns 0x0000000A
+T3EEC 6029:214.052 JLINK_Go()
+T3EEC 6029:214.077   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:216.379 - 2.343ms
+T3EEC 6029:216.410 JLINK_IsHalted()
+T3EEC 6029:216.773 - 0.390ms returns FALSE
+T3EEC 6029:216.826 JLINK_HasError()
+T3EEC 6029:218.495 JLINK_IsHalted()
+T3EEC 6029:218.859 - 0.378ms returns FALSE
+T3EEC 6029:218.887 JLINK_HasError()
+T3EEC 6029:220.557 JLINK_IsHalted()
+T3EEC 6029:222.690   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:223.005 - 2.462ms returns TRUE
+T3EEC 6029:223.033 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:223.052 - 0.026ms returns 0x20000000
+T3EEC 6029:223.069 JLINK_ClrBPEx(BPHandle = 0x0000000A)
+T3EEC 6029:223.085 - 0.022ms returns 0x00
+T3EEC 6029:223.101 JLINK_ReadReg(R0)
+T3EEC 6029:223.115 - 0.020ms returns 0x00000000
+T3EEC 6029:224.108 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:224.132   Data:  05 91 01 21 00 91 02 21 CD E9 01 10 CD E9 03 01 ...
+T3EEC 6029:224.165   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:226.627 - 2.544ms returns 0x278
+T3EEC 6029:226.676 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:226.704   Data:  20 68 00 F0 A9 FD 01 20 84 F8 3D 00 00 20 10 BD ...
+T3EEC 6029:226.759   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:228.549 - 1.895ms returns 0x188
+T3EEC 6029:228.596 JLINK_HasError()
+T3EEC 6029:228.627 JLINK_WriteReg(R0, 0x08001400)
+T3EEC 6029:228.661 - 0.046ms returns 0
+T3EEC 6029:228.690 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:228.716 - 0.038ms returns 0
+T3EEC 6029:228.745 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:228.771 - 0.037ms returns 0
+T3EEC 6029:228.799 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:228.824 - 0.037ms returns 0
+T3EEC 6029:228.852 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:228.877 - 0.037ms returns 0
+T3EEC 6029:228.906 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:228.931 - 0.037ms returns 0
+T3EEC 6029:228.959 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:228.984 - 0.037ms returns 0
+T3EEC 6029:229.012 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:229.037 - 0.037ms returns 0
+T3EEC 6029:229.065 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:229.091 - 0.037ms returns 0
+T3EEC 6029:229.119 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:229.144 - 0.037ms returns 0
+T3EEC 6029:229.172 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:229.197 - 0.037ms returns 0
+T3EEC 6029:229.225 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:229.251 - 0.037ms returns 0
+T3EEC 6029:229.279 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:229.304 - 0.037ms returns 0
+T3EEC 6029:229.332 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:229.372 - 0.052ms returns 0
+T3EEC 6029:229.401 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:229.427 - 0.037ms returns 0
+T3EEC 6029:229.455 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:229.484 - 0.041ms returns 0
+T3EEC 6029:229.513 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:229.539 - 0.037ms returns 0
+T3EEC 6029:229.567 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:229.592 - 0.037ms returns 0
+T3EEC 6029:229.620 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:229.646 - 0.037ms returns 0
+T3EEC 6029:229.674 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:229.699 - 0.037ms returns 0
+T3EEC 6029:229.728 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:229.756 - 0.040ms returns 0x0000000B
+T3EEC 6029:229.785 JLINK_Go()
+T3EEC 6029:229.827   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:232.115 - 2.346ms
+T3EEC 6029:232.145 JLINK_IsHalted()
+T3EEC 6029:232.453 - 0.321ms returns FALSE
+T3EEC 6029:232.481 JLINK_HasError()
+T3EEC 6029:234.533 JLINK_IsHalted()
+T3EEC 6029:234.884 - 0.372ms returns FALSE
+T3EEC 6029:234.928 JLINK_HasError()
+T3EEC 6029:236.548 JLINK_IsHalted()
+T3EEC 6029:238.572   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:238.948 - 2.414ms returns TRUE
+T3EEC 6029:238.976 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:238.995 - 0.026ms returns 0x20000000
+T3EEC 6029:239.012 JLINK_ClrBPEx(BPHandle = 0x0000000B)
+T3EEC 6029:239.028 - 0.022ms returns 0x00
+T3EEC 6029:239.044 JLINK_ReadReg(R0)
+T3EEC 6029:239.058 - 0.021ms returns 0x00000000
+T3EEC 6029:239.947 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:239.971   Data:  20 68 88 42 03 D1 41 6C 41 F4 00 41 41 64 20 68 ...
+T3EEC 6029:240.003   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:242.464 - 2.534ms returns 0x278
+T3EEC 6029:242.495 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:242.511   Data:  20 68 41 69 49 06 1A D5 41 69 21 F0 40 01 41 61 ...
+T3EEC 6029:242.543   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:244.222 - 1.749ms returns 0x188
+T3EEC 6029:244.269 JLINK_HasError()
+T3EEC 6029:244.300 JLINK_WriteReg(R0, 0x08001800)
+T3EEC 6029:244.334 - 0.046ms returns 0
+T3EEC 6029:244.363 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:244.390 - 0.038ms returns 0
+T3EEC 6029:244.418 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:244.444 - 0.037ms returns 0
+T3EEC 6029:244.477 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:244.503 - 0.038ms returns 0
+T3EEC 6029:244.531 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:244.557 - 0.037ms returns 0
+T3EEC 6029:244.585 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:244.621 - 0.042ms returns 0
+T3EEC 6029:244.637 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:244.651 - 0.020ms returns 0
+T3EEC 6029:244.666 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:244.680 - 0.020ms returns 0
+T3EEC 6029:244.696 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:244.710 - 0.020ms returns 0
+T3EEC 6029:244.726 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:244.740 - 0.020ms returns 0
+T3EEC 6029:244.755 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:244.769 - 0.020ms returns 0
+T3EEC 6029:244.785 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:244.799 - 0.020ms returns 0
+T3EEC 6029:244.814 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:244.828 - 0.020ms returns 0
+T3EEC 6029:244.844 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:244.859 - 0.021ms returns 0
+T3EEC 6029:244.874 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:244.888 - 0.020ms returns 0
+T3EEC 6029:244.904 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:244.918 - 0.020ms returns 0
+T3EEC 6029:244.934 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:244.948 - 0.020ms returns 0
+T3EEC 6029:244.964 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:244.978 - 0.020ms returns 0
+T3EEC 6029:244.993 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:245.007 - 0.020ms returns 0
+T3EEC 6029:245.023 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:245.037 - 0.020ms returns 0
+T3EEC 6029:245.053 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:245.069 - 0.023ms returns 0x0000000C
+T3EEC 6029:245.086 JLINK_Go()
+T3EEC 6029:245.110   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:247.457 - 2.387ms
+T3EEC 6029:247.487 JLINK_IsHalted()
+T3EEC 6029:247.813 - 0.340ms returns FALSE
+T3EEC 6029:247.841 JLINK_HasError()
+T3EEC 6029:249.477 JLINK_IsHalted()
+T3EEC 6029:249.829 - 0.373ms returns FALSE
+T3EEC 6029:249.867 JLINK_HasError()
+T3EEC 6029:251.556 JLINK_IsHalted()
+T3EEC 6029:253.698   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:254.009 - 2.468ms returns TRUE
+T3EEC 6029:254.038 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:254.057 - 0.026ms returns 0x20000000
+T3EEC 6029:254.074 JLINK_ClrBPEx(BPHandle = 0x0000000C)
+T3EEC 6029:254.089 - 0.022ms returns 0x00
+T3EEC 6029:254.106 JLINK_ReadReg(R0)
+T3EEC 6029:254.120 - 0.021ms returns 0x00000000
+T3EEC 6029:254.995 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:255.018   Data:  00 10 01 40 44 38 02 40 00 04 02 40 40 64 02 40 ...
+T3EEC 6029:255.051   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:257.552 - 2.574ms returns 0x278
+T3EEC 6029:257.583 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:257.599   Data:  10 94 07 94 08 94 09 94 1C 21 68 46 0A 94 FE F7 ...
+T3EEC 6029:257.631   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:259.330 - 1.762ms returns 0x188
+T3EEC 6029:259.360 JLINK_HasError()
+T3EEC 6029:259.378 JLINK_WriteReg(R0, 0x08001C00)
+T3EEC 6029:259.397 - 0.026ms returns 0
+T3EEC 6029:259.414 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:259.429 - 0.021ms returns 0
+T3EEC 6029:259.444 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:259.461 - 0.024ms returns 0
+T3EEC 6029:259.478 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:259.492 - 0.020ms returns 0
+T3EEC 6029:259.507 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:259.522 - 0.020ms returns 0
+T3EEC 6029:259.537 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:259.552 - 0.021ms returns 0
+T3EEC 6029:259.567 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:259.581 - 0.020ms returns 0
+T3EEC 6029:259.597 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:259.611 - 0.020ms returns 0
+T3EEC 6029:259.627 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:259.641 - 0.020ms returns 0
+T3EEC 6029:259.656 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:259.670 - 0.020ms returns 0
+T3EEC 6029:259.686 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:259.700 - 0.020ms returns 0
+T3EEC 6029:259.716 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:259.730 - 0.020ms returns 0
+T3EEC 6029:259.745 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:259.759 - 0.020ms returns 0
+T3EEC 6029:259.775 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:259.790 - 0.021ms returns 0
+T3EEC 6029:259.806 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:259.820 - 0.020ms returns 0
+T3EEC 6029:259.835 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:259.850 - 0.020ms returns 0
+T3EEC 6029:259.865 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:259.880 - 0.020ms returns 0
+T3EEC 6029:259.895 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:259.909 - 0.020ms returns 0
+T3EEC 6029:259.925 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:259.939 - 0.020ms returns 0
+T3EEC 6029:259.955 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:259.969 - 0.020ms returns 0
+T3EEC 6029:259.985 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:260.000 - 0.022ms returns 0x0000000D
+T3EEC 6029:260.017 JLINK_Go()
+T3EEC 6029:260.042   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:262.232 - 2.231ms
+T3EEC 6029:262.262 JLINK_IsHalted()
+T3EEC 6029:262.614 - 0.372ms returns FALSE
+T3EEC 6029:262.657 JLINK_HasError()
+T3EEC 6029:264.526 JLINK_IsHalted()
+T3EEC 6029:264.893 - 0.382ms returns FALSE
+T3EEC 6029:264.922 JLINK_HasError()
+T3EEC 6029:271.546 JLINK_IsHalted()
+T3EEC 6029:273.519   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:273.837 - 2.305ms returns TRUE
+T3EEC 6029:273.865 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:273.884 - 0.026ms returns 0x20000000
+T3EEC 6029:273.901 JLINK_ClrBPEx(BPHandle = 0x0000000D)
+T3EEC 6029:273.916 - 0.022ms returns 0x00
+T3EEC 6029:273.933 JLINK_ReadReg(R0)
+T3EEC 6029:273.947 - 0.021ms returns 0x00000000
+T3EEC 6029:274.890 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:274.921   Data:  8D F8 54 40 11 A8 FE F7 EF FD 00 28 01 D0 72 B6 ...
+T3EEC 6029:275.074   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:277.527 - 2.675ms returns 0x278
+T3EEC 6029:277.579 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:277.595   Data:  01 6A 9A 40 11 43 01 62 10 BD 10 B5 84 68 42 EA ...
+T3EEC 6029:277.626   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:279.308 - 1.752ms returns 0x188
+T3EEC 6029:279.355 JLINK_HasError()
+T3EEC 6029:279.386 JLINK_WriteReg(R0, 0x08002000)
+T3EEC 6029:279.420 - 0.046ms returns 0
+T3EEC 6029:279.450 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:279.480 - 0.042ms returns 0
+T3EEC 6029:279.509 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:279.535 - 0.038ms returns 0
+T3EEC 6029:279.563 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:279.588 - 0.037ms returns 0
+T3EEC 6029:279.617 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:279.642 - 0.037ms returns 0
+T3EEC 6029:279.670 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:279.695 - 0.037ms returns 0
+T3EEC 6029:279.724 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:279.749 - 0.062ms returns 0
+T3EEC 6029:279.795 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:279.809 - 0.020ms returns 0
+T3EEC 6029:279.825 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:279.839 - 0.020ms returns 0
+T3EEC 6029:279.855 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:279.869 - 0.020ms returns 0
+T3EEC 6029:279.885 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:279.899 - 0.020ms returns 0
+T3EEC 6029:279.915 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:279.929 - 0.020ms returns 0
+T3EEC 6029:279.945 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:279.959 - 0.020ms returns 0
+T3EEC 6029:279.975 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:279.989 - 0.021ms returns 0
+T3EEC 6029:280.005 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:280.020 - 0.020ms returns 0
+T3EEC 6029:280.035 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:280.049 - 0.020ms returns 0
+T3EEC 6029:280.065 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:280.079 - 0.020ms returns 0
+T3EEC 6029:280.095 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:280.109 - 0.020ms returns 0
+T3EEC 6029:280.125 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:280.139 - 0.020ms returns 0
+T3EEC 6029:280.154 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:280.168 - 0.020ms returns 0
+T3EEC 6029:280.184 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:280.200 - 0.022ms returns 0x0000000E
+T3EEC 6029:280.217 JLINK_Go()
+T3EEC 6029:280.241   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:282.486 - 2.290ms
+T3EEC 6029:282.524 JLINK_IsHalted()
+T3EEC 6029:282.824 - 0.315ms returns FALSE
+T3EEC 6029:282.855 JLINK_HasError()
+T3EEC 6029:287.537 JLINK_IsHalted()
+T3EEC 6029:289.570   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:289.905 - 2.382ms returns TRUE
+T3EEC 6029:289.933 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:289.952 - 0.026ms returns 0x20000000
+T3EEC 6029:289.970 JLINK_ClrBPEx(BPHandle = 0x0000000E)
+T3EEC 6029:289.985 - 0.021ms returns 0x00
+T3EEC 6029:290.001 JLINK_ReadReg(R0)
+T3EEC 6029:290.016 - 0.021ms returns 0x00000000
+T3EEC 6029:290.900 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:290.924   Data:  02 14 23 F0 0A 02 0A 43 84 61 02 62 10 BD 00 00 ...
+T3EEC 6029:290.957   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:293.405 - 2.528ms returns 0x278
+T3EEC 6029:293.451 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:293.483   Data:  B0 FB F5 F0 6F F0 18 02 50 43 01 EB 80 00 06 EB ...
+T3EEC 6029:293.537   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:295.308 - 1.880ms returns 0x188
+T3EEC 6029:295.356 JLINK_HasError()
+T3EEC 6029:295.389 JLINK_WriteReg(R0, 0x08002400)
+T3EEC 6029:295.408 - 0.026ms returns 0
+T3EEC 6029:295.425 JLINK_WriteReg(R1, 0x00000400)
+T3EEC 6029:295.439 - 0.021ms returns 0
+T3EEC 6029:295.459 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:295.474 - 0.021ms returns 0
+T3EEC 6029:295.489 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:295.503 - 0.020ms returns 0
+T3EEC 6029:295.519 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:295.533 - 0.020ms returns 0
+T3EEC 6029:295.549 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:295.563 - 0.020ms returns 0
+T3EEC 6029:295.585 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:295.603 - 0.025ms returns 0
+T3EEC 6029:295.619 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:295.633 - 0.020ms returns 0
+T3EEC 6029:295.649 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:295.663 - 0.020ms returns 0
+T3EEC 6029:295.679 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:295.693 - 0.020ms returns 0
+T3EEC 6029:295.709 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:295.723 - 0.020ms returns 0
+T3EEC 6029:295.739 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:295.752 - 0.020ms returns 0
+T3EEC 6029:295.768 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:295.782 - 0.020ms returns 0
+T3EEC 6029:295.798 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:295.812 - 0.021ms returns 0
+T3EEC 6029:295.828 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:295.843 - 0.020ms returns 0
+T3EEC 6029:295.858 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:295.872 - 0.021ms returns 0
+T3EEC 6029:295.888 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:295.902 - 0.020ms returns 0
+T3EEC 6029:295.918 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:295.932 - 0.020ms returns 0
+T3EEC 6029:295.948 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:295.962 - 0.020ms returns 0
+T3EEC 6029:295.978 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:295.992 - 0.020ms returns 0
+T3EEC 6029:296.008 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:296.024 - 0.023ms returns 0x0000000F
+T3EEC 6029:296.040 JLINK_Go()
+T3EEC 6029:296.065   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:298.287 - 2.272ms
+T3EEC 6029:298.336 JLINK_IsHalted()
+T3EEC 6029:298.693 - 0.373ms returns FALSE
+T3EEC 6029:298.724 JLINK_HasError()
+T3EEC 6029:302.500 JLINK_IsHalted()
+T3EEC 6029:304.528   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:304.887 - 2.408ms returns TRUE
+T3EEC 6029:304.932 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:304.967 - 0.042ms returns 0x20000000
+T3EEC 6029:304.984 JLINK_ClrBPEx(BPHandle = 0x0000000F)
+T3EEC 6029:304.999 - 0.022ms returns 0x00
+T3EEC 6029:305.016 JLINK_ReadReg(R0)
+T3EEC 6029:305.030 - 0.021ms returns 0x00000000
+T3EEC 6029:306.359 JLINK_WriteMem(0x20000188, 0x278 Bytes, ...)
+T3EEC 6029:306.383   Data:  45 48 04 21 80 38 FF F7 9D F8 43 48 0C 21 80 38 ...
+T3EEC 6029:306.416   CPU_WriteMem(632 bytes @ 0x20000188)
+T3EEC 6029:308.823 - 2.480ms returns 0x278
+T3EEC 6029:308.853 JLINK_WriteMem(0x20000400, 0x188 Bytes, ...)
+T3EEC 6029:308.868   Data:  FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF ...
+T3EEC 6029:308.900   CPU_WriteMem(392 bytes @ 0x20000400)
+T3EEC 6029:310.663 - 1.833ms returns 0x188
+T3EEC 6029:310.710 JLINK_HasError()
+T3EEC 6029:310.741 JLINK_WriteReg(R0, 0x08002800)
+T3EEC 6029:310.775 - 0.046ms returns 0
+T3EEC 6029:310.804 JLINK_WriteReg(R1, 0x00000184)
+T3EEC 6029:310.830 - 0.038ms returns 0
+T3EEC 6029:310.859 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:310.884 - 0.037ms returns 0
+T3EEC 6029:310.913 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:310.938 - 0.037ms returns 0
+T3EEC 6029:310.967 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:310.992 - 0.037ms returns 0
+T3EEC 6029:311.020 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:311.046 - 0.037ms returns 0
+T3EEC 6029:311.085 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:311.099 - 0.020ms returns 0
+T3EEC 6029:311.114 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:311.129 - 0.021ms returns 0
+T3EEC 6029:311.144 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:311.206 - 0.070ms returns 0
+T3EEC 6029:311.225 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:311.239 - 0.020ms returns 0
+T3EEC 6029:311.254 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:311.268 - 0.020ms returns 0
+T3EEC 6029:311.284 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:311.297 - 0.020ms returns 0
+T3EEC 6029:311.313 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:311.326 - 0.020ms returns 0
+T3EEC 6029:311.342 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:311.356 - 0.020ms returns 0
+T3EEC 6029:311.371 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:311.385 - 0.020ms returns 0
+T3EEC 6029:311.401 JLINK_WriteReg(R15 (PC), 0x20000112)
+T3EEC 6029:311.414 - 0.020ms returns 0
+T3EEC 6029:311.430 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:311.454 - 0.031ms returns 0
+T3EEC 6029:311.471 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:311.485 - 0.020ms returns 0
+T3EEC 6029:311.501 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:311.515 - 0.020ms returns 0
+T3EEC 6029:311.530 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:311.544 - 0.020ms returns 0
+T3EEC 6029:311.560 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:311.576 - 0.022ms returns 0x00000010
+T3EEC 6029:311.592 JLINK_Go()
+T3EEC 6029:311.617   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:313.875 - 2.299ms
+T3EEC 6029:313.906 JLINK_IsHalted()
+T3EEC 6029:314.219 - 0.333ms returns FALSE
+T3EEC 6029:314.257 JLINK_HasError()
+T3EEC 6029:315.519 JLINK_IsHalted()
+T3EEC 6029:317.547   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:317.935 - 2.448ms returns TRUE
+T3EEC 6029:317.981 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:317.998 - 0.024ms returns 0x20000000
+T3EEC 6029:318.015 JLINK_ClrBPEx(BPHandle = 0x00000010)
+T3EEC 6029:318.029 - 0.021ms returns 0x00
+T3EEC 6029:318.045 JLINK_ReadReg(R0)
+T3EEC 6029:318.059 - 0.020ms returns 0x00000000
+T3EEC 6029:318.076 JLINK_HasError()
+T3EEC 6029:318.092 JLINK_WriteReg(R0, 0x00000002)
+T3EEC 6029:318.107 - 0.021ms returns 0
+T3EEC 6029:318.123 JLINK_WriteReg(R1, 0x00000184)
+T3EEC 6029:318.136 - 0.020ms returns 0
+T3EEC 6029:318.152 JLINK_WriteReg(R2, 0x20000188)
+T3EEC 6029:318.166 - 0.020ms returns 0
+T3EEC 6029:318.181 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:318.195 - 0.020ms returns 0
+T3EEC 6029:318.210 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:318.224 - 0.020ms returns 0
+T3EEC 6029:318.240 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:318.253 - 0.020ms returns 0
+T3EEC 6029:318.269 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:318.282 - 0.020ms returns 0
+T3EEC 6029:318.298 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:318.312 - 0.020ms returns 0
+T3EEC 6029:318.327 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:318.341 - 0.020ms returns 0
+T3EEC 6029:318.356 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:318.370 - 0.020ms returns 0
+T3EEC 6029:318.385 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:318.399 - 0.020ms returns 0
+T3EEC 6029:318.415 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:318.429 - 0.023ms returns 0
+T3EEC 6029:318.448 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:318.461 - 0.020ms returns 0
+T3EEC 6029:318.477 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:318.491 - 0.020ms returns 0
+T3EEC 6029:318.507 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:318.520 - 0.020ms returns 0
+T3EEC 6029:318.536 JLINK_WriteReg(R15 (PC), 0x2000008C)
+T3EEC 6029:318.550 - 0.020ms returns 0
+T3EEC 6029:318.565 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:318.579 - 0.020ms returns 0
+T3EEC 6029:318.595 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:318.608 - 0.020ms returns 0
+T3EEC 6029:318.624 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:318.637 - 0.020ms returns 0
+T3EEC 6029:318.653 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:318.667 - 0.020ms returns 0
+T3EEC 6029:318.682 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:318.697 - 0.021ms returns 0x00000011
+T3EEC 6029:318.713 JLINK_Go()
+T3EEC 6029:318.737   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:320.936 - 2.246ms
+T3EEC 6029:320.983 JLINK_IsHalted()
+T3EEC 6029:323.038   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:323.392 - 2.425ms returns TRUE
+T3EEC 6029:323.422 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:323.439 - 0.027ms returns 0x20000000
+T3EEC 6029:323.459 JLINK_ClrBPEx(BPHandle = 0x00000011)
+T3EEC 6029:323.474 - 0.021ms returns 0x00
+T3EEC 6029:323.491 JLINK_ReadReg(R0)
+T3EEC 6029:323.504 - 0.020ms returns 0x00000000
+T3EEC 6029:388.173 JLINK_WriteMem(0x20000000, 0x188 Bytes, ...)
+T3EEC 6029:388.194   Data:  00 BE 0A E0 0D 78 2D 06 68 40 08 24 40 00 00 D3 ...
+T3EEC 6029:388.226   CPU_WriteMem(392 bytes @ 0x20000000)
+T3EEC 6029:389.932 - 1.781ms returns 0x188
+T3EEC 6029:390.046 JLINK_HasError()
+T3EEC 6029:390.081 JLINK_WriteReg(R0, 0x08000000)
+T3EEC 6029:390.111 - 0.043ms returns 0
+T3EEC 6029:390.141 JLINK_WriteReg(R1, 0x018CBA80)
+T3EEC 6029:390.166 - 0.044ms returns 0
+T3EEC 6029:390.208 JLINK_WriteReg(R2, 0x00000003)
+T3EEC 6029:390.233 - 0.037ms returns 0
+T3EEC 6029:390.261 JLINK_WriteReg(R3, 0x00000000)
+T3EEC 6029:390.286 - 0.036ms returns 0
+T3EEC 6029:390.314 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:390.339 - 0.036ms returns 0
+T3EEC 6029:390.380 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:390.393 - 0.020ms returns 0
+T3EEC 6029:390.409 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:390.425 - 0.023ms returns 0
+T3EEC 6029:390.442 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:390.455 - 0.020ms returns 0
+T3EEC 6029:390.471 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:390.485 - 0.020ms returns 0
+T3EEC 6029:390.500 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:390.514 - 0.020ms returns 0
+T3EEC 6029:390.530 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:390.544 - 0.020ms returns 0
+T3EEC 6029:390.559 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:390.573 - 0.020ms returns 0
+T3EEC 6029:390.589 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:390.602 - 0.020ms returns 0
+T3EEC 6029:390.618 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:390.632 - 0.021ms returns 0
+T3EEC 6029:390.648 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:390.662 - 0.020ms returns 0
+T3EEC 6029:390.677 JLINK_WriteReg(R15 (PC), 0x2000005E)
+T3EEC 6029:390.691 - 0.020ms returns 0
+T3EEC 6029:390.706 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:390.720 - 0.020ms returns 0
+T3EEC 6029:390.736 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:390.750 - 0.020ms returns 0
+T3EEC 6029:390.765 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:390.779 - 0.020ms returns 0
+T3EEC 6029:390.795 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:390.808 - 0.020ms returns 0
+T3EEC 6029:390.824 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:390.845   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:391.226 - 0.428ms returns 0x00000012
+T3EEC 6029:391.277 JLINK_Go()
+T3EEC 6029:391.312   CPU_WriteMem(2 bytes @ 0x20000000)
+T3EEC 6029:391.714   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:393.995 - 2.733ms
+T3EEC 6029:394.024 JLINK_IsHalted()
+T3EEC 6029:396.105   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:396.517 - 2.508ms returns TRUE
+T3EEC 6029:396.547 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:396.564 - 0.024ms returns 0x20000000
+T3EEC 6029:396.581 JLINK_ClrBPEx(BPHandle = 0x00000012)
+T3EEC 6029:396.596 - 0.021ms returns 0x00
+T3EEC 6029:396.612 JLINK_ReadReg(R0)
+T3EEC 6029:396.626 - 0.020ms returns 0x00000000
+T3EEC 6029:396.643 JLINK_HasError()
+T3EEC 6029:396.659 JLINK_WriteReg(R0, 0xFFFFFFFF)
+T3EEC 6029:396.674 - 0.021ms returns 0
+T3EEC 6029:396.690 JLINK_WriteReg(R1, 0x08000000)
+T3EEC 6029:396.704 - 0.020ms returns 0
+T3EEC 6029:396.720 JLINK_WriteReg(R2, 0x00002984)
+T3EEC 6029:396.734 - 0.020ms returns 0
+T3EEC 6029:396.749 JLINK_WriteReg(R3, 0x04C11DB7)
+T3EEC 6029:396.763 - 0.020ms returns 0
+T3EEC 6029:396.778 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:396.792 - 0.020ms returns 0
+T3EEC 6029:396.808 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:396.821 - 0.020ms returns 0
+T3EEC 6029:396.837 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:396.851 - 0.020ms returns 0
+T3EEC 6029:396.866 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:396.880 - 0.020ms returns 0
+T3EEC 6029:396.895 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:396.909 - 0.020ms returns 0
+T3EEC 6029:396.925 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:396.938 - 0.020ms returns 0
+T3EEC 6029:396.954 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:396.968 - 0.020ms returns 0
+T3EEC 6029:396.983 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:396.997 - 0.020ms returns 0
+T3EEC 6029:397.012 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:397.026 - 0.020ms returns 0
+T3EEC 6029:397.042 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:397.056 - 0.020ms returns 0
+T3EEC 6029:397.071 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:397.085 - 0.020ms returns 0
+T3EEC 6029:397.101 JLINK_WriteReg(R15 (PC), 0x20000002)
+T3EEC 6029:397.114 - 0.020ms returns 0
+T3EEC 6029:397.130 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:397.144 - 0.020ms returns 0
+T3EEC 6029:397.160 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:397.178 - 0.028ms returns 0
+T3EEC 6029:397.198 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:397.212 - 0.020ms returns 0
+T3EEC 6029:397.228 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:397.242 - 0.020ms returns 0
+T3EEC 6029:397.257 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:397.273 - 0.021ms returns 0x00000013
+T3EEC 6029:397.289 JLINK_Go()
+T3EEC 6029:397.313   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:399.672 - 2.398ms
+T3EEC 6029:399.701 JLINK_IsHalted()
+T3EEC 6029:400.038 - 0.352ms returns FALSE
+T3EEC 6029:400.067 JLINK_HasError()
+T3EEC 6029:419.456 JLINK_IsHalted()
+T3EEC 6029:419.800 - 0.359ms returns FALSE
+T3EEC 6029:419.829 JLINK_HasError()
+T3EEC 6029:421.447 JLINK_IsHalted()
+T3EEC 6029:421.832 - 0.409ms returns FALSE
+T3EEC 6029:421.880 JLINK_HasError()
+T3EEC 6029:423.496 JLINK_IsHalted()
+T3EEC 6029:423.908 - 0.427ms returns FALSE
+T3EEC 6029:423.936 JLINK_HasError()
+T3EEC 6029:425.468 JLINK_IsHalted()
+T3EEC 6029:425.832 - 0.386ms returns FALSE
+T3EEC 6029:425.877 JLINK_HasError()
+T3EEC 6029:427.492 JLINK_IsHalted()
+T3EEC 6029:427.862 - 0.385ms returns FALSE
+T3EEC 6029:427.891 JLINK_HasError()
+T3EEC 6029:429.479 JLINK_IsHalted()
+T3EEC 6029:429.881 - 0.417ms returns FALSE
+T3EEC 6029:429.910 JLINK_HasError()
+T3EEC 6029:431.498 JLINK_IsHalted()
+T3EEC 6029:431.848 - 0.365ms returns FALSE
+T3EEC 6029:431.878 JLINK_HasError()
+T3EEC 6029:433.480 JLINK_IsHalted()
+T3EEC 6029:433.866 - 0.410ms returns FALSE
+T3EEC 6029:433.925 JLINK_HasError()
+T3EEC 6029:435.479 JLINK_IsHalted()
+T3EEC 6029:435.822 - 0.358ms returns FALSE
+T3EEC 6029:435.852 JLINK_HasError()
+T3EEC 6029:437.496 JLINK_IsHalted()
+T3EEC 6029:437.849 - 0.384ms returns FALSE
+T3EEC 6029:437.894 JLINK_HasError()
+T3EEC 6029:439.397 JLINK_IsHalted()
+T3EEC 6029:439.737 - 0.354ms returns FALSE
+T3EEC 6029:439.765 JLINK_HasError()
+T3EEC 6029:441.467 JLINK_IsHalted()
+T3EEC 6029:441.818 - 0.367ms returns FALSE
+T3EEC 6029:441.849 JLINK_HasError()
+T3EEC 6029:443.497 JLINK_IsHalted()
+T3EEC 6029:443.860 - 0.378ms returns FALSE
+T3EEC 6029:443.890 JLINK_HasError()
+T3EEC 6029:445.454 JLINK_IsHalted()
+T3EEC 6029:445.799 - 0.360ms returns FALSE
+T3EEC 6029:445.829 JLINK_HasError()
+T3EEC 6029:447.484 JLINK_IsHalted()
+T3EEC 6029:447.828 - 0.360ms returns FALSE
+T3EEC 6029:447.858 JLINK_HasError()
+T3EEC 6029:449.474 JLINK_IsHalted()
+T3EEC 6029:449.850 - 0.392ms returns FALSE
+T3EEC 6029:449.880 JLINK_HasError()
+T3EEC 6029:451.420 JLINK_IsHalted()
+T3EEC 6029:451.764 - 0.358ms returns FALSE
+T3EEC 6029:451.792 JLINK_HasError()
+T3EEC 6029:453.473 JLINK_IsHalted()
+T3EEC 6029:453.835 - 0.377ms returns FALSE
+T3EEC 6029:453.864 JLINK_HasError()
+T3EEC 6029:455.485 JLINK_IsHalted()
+T3EEC 6029:455.827 - 0.357ms returns FALSE
+T3EEC 6029:455.857 JLINK_HasError()
+T3EEC 6029:459.491 JLINK_IsHalted()
+T3EEC 6029:461.613   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:462.001 - 2.526ms returns TRUE
+T3EEC 6029:462.031 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:462.048 - 0.024ms returns 0x20000000
+T3EEC 6029:462.065 JLINK_ClrBPEx(BPHandle = 0x00000013)
+T3EEC 6029:462.080 - 0.021ms returns 0x00
+T3EEC 6029:462.096 JLINK_ReadReg(R0)
+T3EEC 6029:462.110 - 0.020ms returns 0xC7C710B4
+T3EEC 6029:463.549 JLINK_HasError()
+T3EEC 6029:463.576 JLINK_WriteReg(R0, 0x00000003)
+T3EEC 6029:463.593 - 0.024ms returns 0
+T3EEC 6029:463.609 JLINK_WriteReg(R1, 0x08000000)
+T3EEC 6029:463.623 - 0.020ms returns 0
+T3EEC 6029:463.639 JLINK_WriteReg(R2, 0x00002984)
+T3EEC 6029:463.653 - 0.020ms returns 0
+T3EEC 6029:463.668 JLINK_WriteReg(R3, 0x04C11DB7)
+T3EEC 6029:463.682 - 0.020ms returns 0
+T3EEC 6029:463.697 JLINK_WriteReg(R4, 0x00000000)
+T3EEC 6029:463.711 - 0.020ms returns 0
+T3EEC 6029:463.726 JLINK_WriteReg(R5, 0x00000000)
+T3EEC 6029:463.740 - 0.020ms returns 0
+T3EEC 6029:463.755 JLINK_WriteReg(R6, 0x00000000)
+T3EEC 6029:463.769 - 0.020ms returns 0
+T3EEC 6029:463.784 JLINK_WriteReg(R7, 0x00000000)
+T3EEC 6029:463.798 - 0.020ms returns 0
+T3EEC 6029:463.814 JLINK_WriteReg(R8, 0x00000000)
+T3EEC 6029:463.827 - 0.020ms returns 0
+T3EEC 6029:463.847 JLINK_WriteReg(R9, 0x20000184)
+T3EEC 6029:463.865 - 0.024ms returns 0
+T3EEC 6029:463.881 JLINK_WriteReg(R10, 0x00000000)
+T3EEC 6029:463.895 - 0.020ms returns 0
+T3EEC 6029:463.911 JLINK_WriteReg(R11, 0x00000000)
+T3EEC 6029:463.924 - 0.020ms returns 0
+T3EEC 6029:463.940 JLINK_WriteReg(R12, 0x00000000)
+T3EEC 6029:463.954 - 0.020ms returns 0
+T3EEC 6029:463.969 JLINK_WriteReg(R13 (SP), 0x20001000)
+T3EEC 6029:463.983 - 0.021ms returns 0
+T3EEC 6029:463.999 JLINK_WriteReg(R14, 0x20000001)
+T3EEC 6029:464.013 - 0.020ms returns 0
+T3EEC 6029:464.028 JLINK_WriteReg(R15 (PC), 0x2000008C)
+T3EEC 6029:464.042 - 0.020ms returns 0
+T3EEC 6029:464.058 JLINK_WriteReg(XPSR, 0x01000000)
+T3EEC 6029:464.071 - 0.020ms returns 0
+T3EEC 6029:464.087 JLINK_WriteReg(MSP, 0x20001000)
+T3EEC 6029:464.101 - 0.020ms returns 0
+T3EEC 6029:464.116 JLINK_WriteReg(PSP, 0x20001000)
+T3EEC 6029:464.130 - 0.020ms returns 0
+T3EEC 6029:464.146 JLINK_WriteReg(CFBP, 0x00000000)
+T3EEC 6029:464.159 - 0.020ms returns 0
+T3EEC 6029:464.175 JLINK_SetBPEx(Addr = 0x20000000, Type = 0xFFFFFFF2)
+T3EEC 6029:464.191 - 0.022ms returns 0x00000014
+T3EEC 6029:464.207 JLINK_Go()
+T3EEC 6029:464.232   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:466.666 - 2.482ms
+T3EEC 6029:466.713 JLINK_IsHalted()
+T3EEC 6029:468.807   CPU_ReadMem(2 bytes @ 0x20000000)
+T3EEC 6029:469.181 - 2.491ms returns TRUE
+T3EEC 6029:469.228 JLINK_ReadReg(R15 (PC))
+T3EEC 6029:469.258 - 0.043ms returns 0x20000000
+T3EEC 6029:469.289 JLINK_ClrBPEx(BPHandle = 0x00000014)
+T3EEC 6029:469.315 - 0.038ms returns 0x00
+T3EEC 6029:469.345 JLINK_ReadReg(R0)
+T3EEC 6029:469.370 - 0.037ms returns 0x00000000
+T3EEC 6029:527.142 JLINK_WriteMemEx(0x20000000, 0x00000002 Bytes, Flags = 0x02000000)
+T3EEC 6029:527.167   Data:  FE E7
+T3EEC 6029:527.199   CPU_WriteMem(2 bytes @ 0x20000000)
+T3EEC 6029:527.622 - 0.502ms returns 0x2
+T3EEC 6029:527.667 JLINK_HasError()
+T3EEC 6029:527.697 JLINK_HasError()
+T3EEC 6029:527.726 JLINK_SetResetType(JLINKARM_CM3_RESET_TYPE_NORMAL)
+T3EEC 6029:527.751 - 0.036ms returns JLINKARM_CM3_RESET_TYPE_NORMAL
+T3EEC 6029:527.780 JLINK_Reset()
+T3EEC 6029:527.816   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3EEC 6029:528.198   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6029:534.858   Reset: Halt core after reset via DEMCR.VC_CORERESET.
+T3EEC 6029:540.517   Reset: Reset device via AIRCR.SYSRESETREQ.
+T3EEC 6029:540.553   CPU_WriteMem(4 bytes @ 0xE000ED0C)
+T3EEC 6029:593.880   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6029:594.192   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6029:594.486   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3EEC 6029:594.780   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3EEC 6029:600.384   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3EEC 6029:602.756   CPU_WriteMem(4 bytes @ 0xE0002000)
+T3EEC 6029:603.137   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T3EEC 6029:603.435   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:603.766 - 75.999ms
+T3EEC 6029:603.797 JLINK_Go()
+T3EEC 6029:603.830   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3EEC 6029:604.119   CPU_WriteMem(4 bytes @ 0xE0002008)
+T3EEC 6029:604.146   CPU_WriteMem(4 bytes @ 0xE000200C)
+T3EEC 6029:604.164   CPU_WriteMem(4 bytes @ 0xE0002010)
+T3EEC 6029:604.181   CPU_WriteMem(4 bytes @ 0xE0002014)
+T3EEC 6029:604.198   CPU_WriteMem(4 bytes @ 0xE0002018)
+T3EEC 6029:604.216   CPU_WriteMem(4 bytes @ 0xE000201C)
+T3EEC 6029:605.249   CPU_WriteMem(4 bytes @ 0xE0001004)
+T3EEC 6029:605.965 - 2.182ms
+T3EEC 6029:631.649 JLINK_Close()
+T3EEC 6029:632.062   CPU is running
+T3EEC 6029:632.097   CPU_WriteMem(4 bytes @ 0xE0002008)
+T3EEC 6029:632.444   CPU is running
+T3EEC 6029:632.494   CPU_WriteMem(4 bytes @ 0xE000200C)
+T3EEC 6029:632.860   CPU is running
+T3EEC 6029:632.891   CPU_WriteMem(4 bytes @ 0xE0002010)
+T3EEC 6029:633.174   CPU is running
+T3EEC 6029:633.199   CPU_WriteMem(4 bytes @ 0xE0002014)
+T3EEC 6029:633.477   CPU is running
+T3EEC 6029:633.502   CPU_WriteMem(4 bytes @ 0xE0002018)
+T3EEC 6029:633.788   CPU is running
+T3EEC 6029:633.813   CPU_WriteMem(4 bytes @ 0xE000201C)
+T3EEC 6029:685.545 - 53.910ms
+T3EEC 6029:685.569   
+T3EEC 6029:685.584   Closed

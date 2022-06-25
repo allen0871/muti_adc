@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
- 
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -56,8 +56,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_adc1;
-extern ADC_HandleTypeDef hadc1;
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim5;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
@@ -65,7 +65,7 @@ extern UART_HandleTypeDef huart1;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M4 Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -76,7 +76,9 @@ void NMI_Handler(void)
 
   /* USER CODE END NonMaskableInt_IRQn 0 */
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
-
+  while (1)
+  {
+  }
   /* USER CODE END NonMaskableInt_IRQn 1 */
 }
 
@@ -201,17 +203,59 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles ADC1 global interrupt.
+  * @brief This function handles TIM1 capture compare interrupt.
   */
-void ADC_IRQHandler(void)
+__IO uint32_t run = 0;
+__IO uint32_t runDown = 0;
+__IO uint32_t haveRunDown = 0;
+void TIM1_CC_IRQHandler(void)
 {
-  /* USER CODE BEGIN ADC_IRQn 0 */
+  /* USER CODE BEGIN TIM1_CC_IRQn 0 */
+   if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4) != RESET) {
+		 if (__HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC4) != RESET)
+    {
+      __HAL_TIM_CLEAR_IT(&htim1, TIM_IT_CC4);
+			if(run) {
+				__IO uint32_t tmp = GPIOB->IDR;
+				tmp = tmp >> 14;
+				if(tmp == 0x3) {
+					htim1.Instance->CCR1 = 460;
+					htim1.Instance->CCR2 = 60;
+				}
+				else if( tmp == 0x0) {
+					htim1.Instance->CCR1 = 60;
+					htim1.Instance->CCR2 = 460;
+				}
+				else {
+					htim1.Instance->CCR1 = 460;
+					htim1.Instance->CCR2 = 460;
+				}
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
+		}
+		else {
+			if(!haveRunDown) {
+				htim1.Instance->ARR = 62000;
+				htim1.Instance->CCMR1 = 0x1040;
+				htim1.Instance->CCR4 = 62000;
+				htim1.Instance->CCR2 = 200;
+				htim1.Instance->CNT = 0;
+				runDown = 1;
+				haveRunDown = 1;
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
+			}
+		}
+	}
+	 }
+	 __HAL_TIM_CLEAR_IT(&htim1, TIM_IT_UPDATE);
+  /* USER CODE END TIM1_CC_IRQn 0 */
+  //HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_CC_IRQn 1 */
 
-  /* USER CODE END ADC_IRQn 0 */
-  HAL_ADC_IRQHandler(&hadc1);
-  /* USER CODE BEGIN ADC_IRQn 1 */
-
-  /* USER CODE END ADC_IRQn 1 */
+  /* USER CODE END TIM1_CC_IRQn 1 */
 }
 
 /**
@@ -228,19 +272,46 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 1 */
 }
 
-extern ADC_HandleTypeDef hadc1;
 /**
-  * @brief This function handles DMA2 stream0 global interrupt.
+  * @brief This function handles TIM5 global interrupt.
   */
-void DMA2_Stream0_IRQHandler(void)
+void TIM5_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
+  /* USER CODE BEGIN TIM5_IRQn 0 */
+	if (__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_UPDATE) != RESET)
+  {
+    if (__HAL_TIM_GET_IT_SOURCE(&htim5, TIM_IT_UPDATE) != RESET)
+    {
+      __HAL_TIM_CLEAR_IT(&htim5, TIM_IT_UPDATE);
+			run = 1;
+			htim1.Instance->ARR = 519;
+			htim1.Instance->CNT = 400;
+			htim1.Instance->CCR4 = 450;
+			htim1.Instance->CCR1 = 460;
+			htim1.Instance->CCR2 = 460;
+			htim1.Instance->CCMR1 = 0x7070;
+			runDown = 0;
+			haveRunDown = 0;
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
+		}
+	}
+  if (__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC2) != RESET) {
+		 if (__HAL_TIM_GET_IT_SOURCE(&htim5, TIM_IT_CC2) != RESET)
+    {
+      __HAL_TIM_CLEAR_IT(&htim5, TIM_IT_CC2);
+			run = 0;
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
+		}
+	}
+  /* USER CODE END TIM5_IRQn 0 */
+  //HAL_TIM_IRQHandler(&htim5);
+  /* USER CODE BEGIN TIM5_IRQn 1 */
 
-  /* USER CODE END DMA2_Stream0_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_adc1);
-  /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
-
-  /* USER CODE END DMA2_Stream0_IRQn 1 */
+  /* USER CODE END TIM5_IRQn 1 */
 }
 
 /**
@@ -258,209 +329,6 @@ void DMA2_Stream2_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim3;
-extern TIM_HandleTypeDef htim5;
-extern volatile char init;
-
-volatile char flag = 0;
-volatile unsigned int* ccra;
-volatile unsigned int* ccrb;
-void (*time2_handler)(void);
-int tim2needStop;
-int tim2needStart;
-extern volatile uint32_t refTime;
-extern volatile uint32_t refnTime;
-extern volatile uint32_t curRefCount;
-extern volatile uint32_t curRefnCount;
-extern volatile uint32_t debugRef;
-extern volatile uint32_t debugRefn;
-extern volatile uint32_t adc_status;
-extern volatile uint16_t *adc_log;
-extern volatile uint32_t adc_index;
-extern volatile uint32_t adc_reflast;
-extern volatile uint32_t adc_refnlast;
-extern volatile int32_t adc_count;
-extern volatile uint32_t adc_sumTime;
-
-void TIM2_IRQHandler(void)
-{
-	time2_handler();
-}
-int t;
-
-
-void TIM2_IRQClean(void)
-{
-	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
-	{
-			 REFCCR = 750;
-			 REFNCCR = 150;
-		   
-			TIM2->CCR4 = 750;
-		  TIM2->ARR = 1679;
-			TIM2->CCMR1 = 0x1010; 
-			//time2_handler = TIM2_IRQStart;
-		adc_status = 0;
-		curRefCount = 750;
-		curRefnCount = 150;
-		refTime = 0;
-		refnTime = 0;
-		
-		HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
-		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
-		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-				HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-		HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-	}
-	else if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
-	{
-		if(adc_status == 0) {
-			adc_status = 1;
-		}
-		else if(adc_status == 2){
-			debugRef = TIM2->CCR4;
-			REFCCR = TIM2->CNT + 80;
-			REFNCCR = REFCCR;
-			TIM2->CCMR1 = 0x2020;
-			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			
-			uint32_t tmp = (debugRef-curRefCount);
-			//refTime += tmp;
-			adc_reflast = tmp;
-			tmp = (debugRef-curRefnCount);
-			adc_refnlast = tmp;
-			//refnTime += (adc_refnlast-adc_reflast);
-			//adc_sumTime = debugRef;
-			adc_status = 3;
-		}
-		else if(adc_status == 4) {
-			HAL_GPIO_WritePin(CADC_GPIO_Port,CADC_Pin,GPIO_PIN_SET);
-		}
-		__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
-	}
-}
-
-void TIM2_IRQStart(void)
-{
-	 if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC4) != RESET)
-  {
-		 //HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-		 
-		 if(VCENT_GPIO_Port->IDR & VZERO_Pin)
-		 {
-			 REFCCR = 1650;
-			 REFNCCR = 1050;
-			 TIM2->CCMR1 = 0x2020;//强制低
-			 uint16_t tmp = (1650-curRefCount);
-			 refTime += tmp;
-			 //adc_log[adc_index++] = tmp;
-			 tmp = (1050 - curRefnCount);
-			 //adc_log[adc_index++] = tmp;
-			 refnTime += tmp;
-		 }
-		 else
-		 {
-			 REFCCR = 1050;
-			 REFNCCR = 1650;
-			 TIM2->CCMR1 = 0x2020;//强制低
-			 uint16_t tmp = (1050-curRefCount);
-			 refTime += tmp;
-			 //adc_log[adc_index++] = tmp;
-			 tmp = (1650 - curRefnCount);
-			 //adc_log[adc_index++] = tmp;
-			 refnTime += tmp;
-		 }
-		 	HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-			HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-		 adc_count--;
-		//HAL_GPIO_TogglePin(CLOG_GPIO_Port, CLOG_Pin);
-     __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC4);
-
-
-  }
-	if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE) != RESET)
-  {
-		 //if(tim2needStop && !tim2needStart)
-		 if(adc_count <= 0) 
-		//if(0)
-		 {
-			 //tim2needStop = 0;
-			 
-			 REFCCR = 150;
-			 REFNCCR = 419699;
-			 TIM2->CCMR1 = 0x1020;  //OC1M/2M 强制设高
-			 TIM2->ARR = 419599;
-			 time2_handler = TIM2_IRQClean;
-			 curRefCount = 150;
-		   TIM2->CCR4 = 350;
-			tim2needStop = 0;
-					HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			 		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-			 		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 }
-		 else {
-			 if(VCENT_GPIO_Port->IDR & VZERO_Pin)
-			 {
-				 REFCCR = 150;
-				 REFNCCR = 750;
-				 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
-				 curRefCount = 150;
-				 curRefnCount = 750;
-			 }
-			 else
-			 {
-				 REFCCR = 750;
-				 REFNCCR = 150;
-				 TIM2->CCMR1 = 0x1010;  //OC1M/2M 强制设高
-				 curRefCount = 750;
-				 curRefnCount = 150;
-			 }
-		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-	 }
-		__HAL_TIM_CLEAR_IT(&htim2, TIM_FLAG_UPDATE);
-
-  }
-}
-
-void TIM5_IRQHandler(void) 
-{
-	if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_UPDATE) != RESET)
-	{
-		__HAL_TIM_CLEAR_IT(&htim5, TIM_FLAG_UPDATE);
-					 REFCCR = 750;
-			 REFNCCR = 150;
-		   
-			TIM2->CCR4 = 750;
-		  TIM2->ARR = 1679;
-			TIM2->CCMR1 = 0x1010; 
-			//time2_handler = TIM2_IRQStart;
-		adc_status = 0;
-		curRefCount = 750;
-		curRefnCount = 150;
-		refTime = 0;
-		refnTime = 0;
-		TIM2->CNT=0;
-		time2_handler = TIM2_IRQStart;
-		tim2needStart = 1;
-	}
-	else if(__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC3) != RESET)
-	{
-		__HAL_TIM_CLEAR_IT(&htim5, TIM_FLAG_CC3);
-		tim2needStop = 1;
-		tim2needStart = 0;
-		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-		 HAL_GPIO_TogglePin(CLOG2_GPIO_Port, CLOG2_Pin);
-	}
-}
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

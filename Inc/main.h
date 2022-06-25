@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -56,37 +56,34 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-#define REFCCR TIM2->CCR2
-#define REFNCCR TIM2->CCR1
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define PC4_Pin GPIO_PIN_13
-#define PC4_GPIO_Port GPIOC
-#define PC3_Pin GPIO_PIN_14
-#define PC3_GPIO_Port GPIOC
-#define PC5_Pin GPIO_PIN_15
-#define PC5_GPIO_Port GPIOC
-#define CREFN_Pin GPIO_PIN_0
-#define CREFN_GPIO_Port GPIOA
-#define CREFP_Pin GPIO_PIN_1
-#define CREFP_GPIO_Port GPIOA
-#define CVIN_Pin GPIO_PIN_2
-#define CVIN_GPIO_Port GPIOA
-#define CZERO_Pin GPIO_PIN_3
-#define CZERO_GPIO_Port GPIOA
-#define VCENT_Pin GPIO_PIN_4
-#define VCENT_GPIO_Port GPIOA
-#define CADC_Pin GPIO_PIN_5
-#define CADC_GPIO_Port GPIOA
-#define VPREZ_Pin GPIO_PIN_0
-#define VPREZ_GPIO_Port GPIOB
-#define VZERO_Pin GPIO_PIN_3
+#define SYS_CLK1_Pin GPIO_PIN_0
+#define SYS_CLK1_GPIO_Port GPIOA
+#define CTVIN_Pin GPIO_PIN_1
+#define CTVIN_GPIO_Port GPIOA
+#define CTSZERO_Pin GPIO_PIN_2
+#define CTSZERO_GPIO_Port GPIOA
+#define SLOP_Pin GPIO_PIN_3
+#define SLOP_GPIO_Port GPIOA
+#define SPI_CS_Pin GPIO_PIN_4
+#define SPI_CS_GPIO_Port GPIOA
+#define MED_H_Pin GPIO_PIN_14
+#define MED_H_GPIO_Port GPIOB
+#define MED_L_Pin GPIO_PIN_15
+#define MED_L_GPIO_Port GPIOB
+#define REFN_Pin GPIO_PIN_8
+#define REFN_GPIO_Port GPIOA
+#define REFP_Pin GPIO_PIN_9
+#define REFP_GPIO_Port GPIOA
+#define VZERO_Pin GPIO_PIN_10
 #define VZERO_GPIO_Port GPIOA
-#define CLOG_Pin GPIO_PIN_2
-#define CLOG_GPIO_Port GPIOB
-#define CLOG2_Pin GPIO_PIN_10
+#define CLOG2_Pin GPIO_PIN_8
 #define CLOG2_GPIO_Port GPIOB
+#define CLOG1_Pin GPIO_PIN_9
+#define CLOG1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
