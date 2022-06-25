@@ -34,6 +34,9 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 extern __IO uint32_t runDown;
+extern __IO uint32_t refp;
+extern __IO uint32_t refn;
+extern __IO uint32_t nopn;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -102,7 +105,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
+  //MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_TIM5_Init();
   MX_ADC1_Init();
@@ -128,34 +131,53 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+			__IO uint32_t rd1 = 0;
+			__IO uint32_t rd2 = 0;
+			__IO uint32_t rd3 = 0;
+			__IO uint32_t tmp = 0;
 		if(runDown) {
 			//等待VZERO变低
 			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
 			//100 cnt后正ref关闭
 			htim1.Instance->CCR2 = htim1.Instance->CNT + 60;
-			htim1.Instance->CCR1 = htim1.Instance->CCR2 + 20;
+			htim1.Instance->CCR1 = htim1.Instance->CCR2;
 			htim1.Instance->CCMR1 = 0x2010;
+			rd1 = htim1.Instance->CCR2;
+			rd2 = rd1;		
 			//wait VZ-
 			while(htim1.Instance->CCR2>htim1.Instance->CNT);
 			htim1.Instance->CCR2 = htim1.Instance->CNT+115;
-			htim1.Instance->CCMR1 = 0x1020;
-			htim1.Instance->CCR1 = 60000;
-			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
-			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
-			htim1.Instance->CCMR1 = 0x4040;
-			runDown = 0;
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+			htim1.Instance->CCMR1 = 0x1050;
+			rd3 = htim1.Instance->CCR2;
+			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
+			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
+			tmp = htim1.Instance->CNT;
+			if(runDown) {
+				htim1.Instance->CCMR1 = 0x4040;
+				rd2 = tmp - rd2;
+				rd3 = tmp - rd3;
+				runDown = 0;
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-			htim5.Instance->CCMR2 = 0x50;
-			delay_us(100);
-			htim5.Instance->CCR3 = htim5.Instance->ARR - 60;
-			htim5.Instance->CCMR2 = 0x20;
+			
+				htim5.Instance->CCMR2 = 0x50;
+				delay_us(100);
+				htim5.Instance->CCR3 = htim5.Instance->ARR - 60;
+				htim5.Instance->CCMR2 = 0x20;
+				uint32_t t1,t2;
+				t1 = refp;
+				t2 = refn;
+				tmp = nopn;
+				printf("%d %d %d %d %d %d\n",t1, t2, tmp, rd1, rd2-rd3, rd3);
+			}
 		}
     /* USER CODE END WHILE */
 

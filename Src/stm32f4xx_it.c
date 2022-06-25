@@ -61,7 +61,12 @@ extern TIM_HandleTypeDef htim5;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
-
+__IO uint32_t run = 0;
+__IO uint32_t runDown = 0;
+__IO uint32_t haveRunDown = 0;
+__IO uint32_t refp = 0;
+__IO uint32_t refn = 0;
+__IO uint32_t nopn = 0;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -205,9 +210,7 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles TIM1 capture compare interrupt.
   */
-__IO uint32_t run = 0;
-__IO uint32_t runDown = 0;
-__IO uint32_t haveRunDown = 0;
+
 void TIM1_CC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_CC_IRQn 0 */
@@ -221,24 +224,28 @@ void TIM1_CC_IRQHandler(void)
 				if(tmp == 0x3) {
 					htim1.Instance->CCR1 = 460;
 					htim1.Instance->CCR2 = 60;
+					refn++;
 				}
 				else if( tmp == 0x0) {
 					htim1.Instance->CCR1 = 60;
 					htim1.Instance->CCR2 = 460;
+					refp++;
 				}
 				else {
 					htim1.Instance->CCR1 = 460;
 					htim1.Instance->CCR2 = 460;
+					nopn++;
 				}
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 		}
 		else {
 			if(!haveRunDown) {
+				while(htim1.Instance->CNT>20);
 				htim1.Instance->ARR = 62000;
 				htim1.Instance->CCMR1 = 0x1040;
 				htim1.Instance->CCR4 = 62000;
-				htim1.Instance->CCR2 = 200;
+				htim1.Instance->CCR2 = 300;
 				htim1.Instance->CNT = 0;
 				runDown = 1;
 				haveRunDown = 1;
@@ -284,6 +291,9 @@ void TIM5_IRQHandler(void)
     {
       __HAL_TIM_CLEAR_IT(&htim5, TIM_IT_UPDATE);
 			run = 1;
+			refp = 0;
+			refn = 0;
+			nopn = 0;
 			htim1.Instance->ARR = 519;
 			htim1.Instance->CNT = 400;
 			htim1.Instance->CCR4 = 450;
