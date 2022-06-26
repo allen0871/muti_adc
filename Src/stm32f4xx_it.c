@@ -222,18 +222,18 @@ void TIM1_CC_IRQHandler(void)
 				__IO uint32_t tmp = GPIOB->IDR;
 				tmp = tmp >> 14;
 				if(tmp == 0x3) {
-					htim1.Instance->CCR1 = 460;
+					htim1.Instance->CCR1 = 500;
 					htim1.Instance->CCR2 = 60;
 					refn++;
 				}
 				else if( tmp == 0x0) {
 					htim1.Instance->CCR1 = 60;
-					htim1.Instance->CCR2 = 460;
+					htim1.Instance->CCR2 = 500;
 					refp++;
 				}
 				else {
-					htim1.Instance->CCR1 = 460;
-					htim1.Instance->CCR2 = 460;
+					htim1.Instance->CCR1 = 500;
+					htim1.Instance->CCR2 = 500;
 					nopn++;
 				}
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
@@ -297,8 +297,8 @@ void TIM5_IRQHandler(void)
 			htim1.Instance->ARR = 519;
 			htim1.Instance->CNT = 400;
 			htim1.Instance->CCR4 = 450;
-			htim1.Instance->CCR1 = 460;
-			htim1.Instance->CCR2 = 460;
+			htim1.Instance->CCR1 = 500;
+			htim1.Instance->CCR2 = 500;
 			htim1.Instance->CCMR1 = 0x7070;
 			runDown = 0;
 			haveRunDown = 0;

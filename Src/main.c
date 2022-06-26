@@ -75,6 +75,63 @@ void delay_us(uint32_t value) {
 	__IO uint32_t tmp = value;
 	while(tmp--);
 }
+
+static void enableTim1OCInput(void) {
+	uint32_t tmpccmr2;
+  uint32_t tmpccer;
+	TIM_IC_InitTypeDef sConfigIC = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = VZERO_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
+  HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
+  /*sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+	
+	htim1.Instance->CCER &= ~TIM_CCER_CC3E;
+	tmpccmr2 = htim1.Instance->CCMR2;
+  tmpccer = htim1.Instance->CCER;
+  tmpccmr2 &= ~TIM_CCMR2_CC3S;
+  tmpccmr2 |= (sConfigIC.ICSelection << 0U);
+  tmpccmr2 &= ~TIM_CCMR2_IC3F;
+  //tmpccmr2 |= ((sConfigIC.ICFilter << 12U) & TIM_CCMR2_IC4F);
+  tmpccer &= ~(TIM_CCER_CC3P | TIM_CCER_CC3NP);
+  tmpccer |= ((sConfigIC.ICPolarity << 8U) & (TIM_CCER_CC3P | TIM_CCER_CC3NP));
+  htim1.Instance->CCMR2 = tmpccmr2;
+  htim1.Instance->CCER = tmpccer ;
+	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+  //HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4);
+	//HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4); */
+	sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+}
+
+static void disableTim2OCInput(void) {
+	TIM_OC_InitTypeDef sConfigOC = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = VZERO_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
+  /*sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 419999;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4);*/
+	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+}
 /* USER CODE END 0 */
 
 /**
@@ -152,8 +209,10 @@ int main(void)
 			htim1.Instance->CCMR1 = 0x1050;
 			rd3 = htim1.Instance->CCR2;
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
+			enableTim1OCInput();
 			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
-			tmp = htim1.Instance->CNT;
+			tmp = htim1.Instance->CCR3;
+			disableTim2OCInput();
 			if(runDown) {
 				htim1.Instance->CCMR1 = 0x4040;
 				rd2 = tmp - rd2;
@@ -165,8 +224,8 @@ int main(void)
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
+				//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 			
 				htim5.Instance->CCMR2 = 0x50;
 				delay_us(100);
