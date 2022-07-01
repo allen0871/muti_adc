@@ -66,7 +66,6 @@ __IO uint32_t runDown = 0;
 __IO uint32_t haveRunDown = 0;
 __IO uint32_t refp = 0;
 __IO uint32_t refn = 0;
-__IO uint32_t nopn = 0;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -224,20 +223,21 @@ void TIM1_CC_IRQHandler(void)
 				if(tmp == 0x3) {
 					htim1.Instance->CCR1 = 500;
 					htim1.Instance->CCR2 = 60;
-					refn++;
+					refp += 440;
+					refn += 20;
 				}
 				else if( tmp == 0x0) {
 					htim1.Instance->CCR1 = 60;
 					htim1.Instance->CCR2 = 500;
-					refp++;
+					refn += 440;
+					refp += 20;
 				}
 				else {
 					htim1.Instance->CCR1 = 500;
 					htim1.Instance->CCR2 = 500;
-					nopn++;
+					refp += 20;
+					refn += 20;
 				}
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 		}
 		else {
 			if(!haveRunDown) {
@@ -249,10 +249,6 @@ void TIM1_CC_IRQHandler(void)
 				htim1.Instance->CNT = 0;
 				runDown = 1;
 				haveRunDown = 1;
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 			}
 		}
 	}
@@ -293,7 +289,6 @@ void TIM5_IRQHandler(void)
 			run = 1;
 			refp = 0;
 			refn = 0;
-			nopn = 0;
 			htim1.Instance->ARR = 519;
 			htim1.Instance->CNT = 400;
 			htim1.Instance->CCR4 = 450;
@@ -302,8 +297,6 @@ void TIM5_IRQHandler(void)
 			htim1.Instance->CCMR1 = 0x7070;
 			runDown = 0;
 			haveRunDown = 0;
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
 		}
 	}
   if (__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC2) != RESET) {
@@ -311,10 +304,6 @@ void TIM5_IRQHandler(void)
     {
       __HAL_TIM_CLEAR_IT(&htim5, TIM_IT_CC2);
 			run = 0;
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
 		}
 	}
   /* USER CODE END TIM5_IRQn 0 */

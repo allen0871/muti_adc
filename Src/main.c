@@ -37,10 +37,16 @@ extern __IO uint32_t runDown;
 extern __IO uint32_t refp;
 extern __IO uint32_t refn;
 extern __IO uint32_t nopn;
+__IO uint32_t totalCT = 0;
+__IO uint32_t totalNPL = 0;
+__IO uint32_t tmpNPL = 0;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+	#define NPLC 20
+  #define NPLCCT (520000*NPLC-1)
+	#define RUNDOWN 52000
 
 /* USER CODE END PM */
 
@@ -87,29 +93,10 @@ static void enableTim1OCInput(void) {
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
   HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
-  /*sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
-  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-  sConfigIC.ICFilter = 0;
-	
-	htim1.Instance->CCER &= ~TIM_CCER_CC3E;
-	tmpccmr2 = htim1.Instance->CCMR2;
-  tmpccer = htim1.Instance->CCER;
-  tmpccmr2 &= ~TIM_CCMR2_CC3S;
-  tmpccmr2 |= (sConfigIC.ICSelection << 0U);
-  tmpccmr2 &= ~TIM_CCMR2_IC3F;
-  //tmpccmr2 |= ((sConfigIC.ICFilter << 12U) & TIM_CCMR2_IC4F);
-  tmpccer &= ~(TIM_CCER_CC3P | TIM_CCER_CC3NP);
-  tmpccer |= ((sConfigIC.ICPolarity << 8U) & (TIM_CCER_CC3P | TIM_CCER_CC3NP));
-  htim1.Instance->CCMR2 = tmpccmr2;
-  htim1.Instance->CCER = tmpccer ;
-	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
-  //HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_4);
-	//HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4); */
 	sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-  sConfigIC.ICFilter = 0;
+  sConfigIC.ICFilter = 1;
   if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
@@ -125,11 +112,6 @@ static void disableTim2OCInput(void) {
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
-  /*sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 419999;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4);*/
 	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
 }
 /* USER CODE END 0 */
@@ -193,10 +175,13 @@ int main(void)
 			__IO uint32_t rd3 = 0;
 			__IO uint32_t tmp = 0;
 		if(runDown) {
+			if(MED_H_GPIO_Port->IDR & MED_L_Pin) {
+				
+			}
+			else {
+			}
 			//等待VZERO变低
 			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
 			//100 cnt后正ref关闭
 			htim1.Instance->CCR2 = htim1.Instance->CNT + 60;
 			htim1.Instance->CCR1 = htim1.Instance->CCR2;
@@ -205,12 +190,13 @@ int main(void)
 			rd2 = rd1;		
 			//wait VZ-
 			while(htim1.Instance->CCR2>htim1.Instance->CNT);
-			htim1.Instance->CCR2 = htim1.Instance->CNT+115;
+			htim1.Instance->CCR2 = htim1.Instance->CNT+90;
 			htim1.Instance->CCMR1 = 0x1050;
 			rd3 = htim1.Instance->CCR2;
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
 			enableTim1OCInput();
 			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
+			uint32_t t3 = htim1.Instance->CNT;
 			tmp = htim1.Instance->CCR3;
 			disableTim2OCInput();
 			if(runDown) {
@@ -218,24 +204,30 @@ int main(void)
 				rd2 = tmp - rd2;
 				rd3 = tmp - rd3;
 				runDown = 0;
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
+				/*HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
-				//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET);
-				//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);*/
 			
 				htim5.Instance->CCMR2 = 0x50;
 				delay_us(100);
 				htim5.Instance->CCR3 = htim5.Instance->ARR - 60;
 				htim5.Instance->CCMR2 = 0x20;
 				uint32_t t1,t2;
-				t1 = refp;
-				t2 = refn;
-				tmp = nopn;
-				printf("%d %d %d %d %d %d\n",t1, t2, tmp, rd1, rd2-rd3, rd3);
+				float ws = rd3/1333.0;
+				t1 = refp + (rd1-300);
+				t2 = refn + (rd2-rd3);
+				/*if((totalNPL - tmpNPL) > 20000) {
+					tmpNPL = totalNPL;
+					printf("repeat...\n");
+				}
+				else {
+					tmpNPL--;
+				}*/
+				htim5.Instance->CCR2 = tmpNPL;
+				printf("%d %d %d %d %.2f %.2f %.2f %.2f\n",t1, t2, rd1-300, rd2-rd3, ws, t1+ws,t1+ws-t2, -14000000.0*(t1+ws-t2)/totalCT);
 			}
 		}
     /* USER CODE END WHILE */
@@ -439,7 +431,6 @@ static void MX_TIM1_Init(void)
   */
 static void MX_TIM5_Init(void)
 {
-
   /* USER CODE BEGIN TIM5_Init 0 */
 
   /* USER CODE END TIM5_Init 0 */
@@ -452,10 +443,11 @@ static void MX_TIM5_Init(void)
   /* USER CODE BEGIN TIM5_Init 1 */
 
   /* USER CODE END TIM5_Init 1 */
+	totalCT = NPLCCT + 1;
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 0;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 5251999;
+  htim5.Init.Period = NPLCCT + RUNDOWN;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
@@ -494,7 +486,8 @@ static void MX_TIM5_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 5199999;
+  sConfigOC.Pulse = NPLCCT;
+	totalNPL = NPLCCT;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -508,13 +501,13 @@ static void MX_TIM5_Init(void)
     Error_Handler();
   }
 	htim5.Instance->CCMR2 = 0x40;
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  /*sConfigOC.OCMode = TIM_OCMODE_TIMING;
   sConfigOC.Pulse = 5225899;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   if (HAL_TIM_OC_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
-  }
+  }*/
   /* USER CODE BEGIN TIM5_Init 2 */
 
   /* USER CODE END TIM5_Init 2 */
