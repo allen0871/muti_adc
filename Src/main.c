@@ -149,6 +149,7 @@ int main(void)
   MX_TIM5_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
+	HAL_ADC_Start(&hadc1);
   /* USER CODE BEGIN 2 */
 	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
 	//HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
@@ -170,16 +171,77 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		static double preValue;
 			__IO uint32_t rd1 = 0;
 			__IO uint32_t rd2 = 0;
 			__IO uint32_t rd3 = 0;
 			__IO uint32_t tmp = 0;
+		uint32_t tp = 0;
+		uint32_t tn = 0;
 		if(runDown) {
-			if(MED_H_GPIO_Port->IDR & MED_L_Pin) {
-				
+/*			if(MED_H_GPIO_Port->IDR & MED_L_Pin) {
+				htim1.Instance->CCMR1 = 0x1040;
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				tp = htim1.Instance->CCR2;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				while(MED_H_GPIO_Port->IDR & MED_L_Pin);
+				htim1.Instance->CCMR1 = 0x2040;
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				tp = htim1.Instance->CCR2 - tp;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				htim1.Instance->CNT = 0;
+				htim1.Instance->CCR2 = 2600;
+				htim1.Instance->CCMR1 = 0x1040;
 			}
 			else {
-			}
+				htim1.Instance->CCMR1 = 0x4010;
+				htim1.Instance->CCR1 = htim1.Instance->CNT + 100;
+				tn = htim1.Instance->CCR1;
+				while(htim1.Instance->CNT < htim1.Instance->CCR1);
+				while(!(MED_H_GPIO_Port->IDR & MED_L_Pin));
+				htim1.Instance->CCMR1 = 0x4020;
+				htim1.Instance->CCR1 = htim1.Instance->CNT + 100;
+				tn = htim1.Instance->CCR1 - tn;
+				while(htim1.Instance->CNT < htim1.Instance->CCR1);
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				htim1.Instance->CCMR1 = 0x1040;
+				tp = htim1.Instance->CCR2;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				while(MED_H_GPIO_Port->IDR & MED_L_Pin);
+				htim1.Instance->CCMR1 = 0x2040;
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				tp = htim1.Instance->CCR2 - tp;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				htim1.Instance->CNT = 0;
+				htim1.Instance->CCR2 = 2600;
+				htim1.Instance->CCMR1 = 0x1040;
+			} */
+			/*if(VZERO_GPIO_Port->IDR & VZERO_Pin) {
+				htim1.Instance->CCMR1 = 0x1040;
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				tp = htim1.Instance->CCR2;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+				htim1.Instance->CCMR1 = 0x2040;
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 100;
+				tp = htim1.Instance->CCR2 - tp;
+				while(htim1.Instance->CNT < htim1.Instance->CCR2);
+				
+				htim1.Instance->CCMR1 = 0x4010;
+				htim1.Instance->CCR1 = htim1.Instance->CNT + 100;
+				tn = htim1.Instance->CCR1;
+				while(htim1.Instance->CNT < htim1.Instance->CCR1);
+				while(!(VZERO_GPIO_Port->IDR & VZERO_Pin));
+				htim1.Instance->CCMR1 = 0x4020;
+				htim1.Instance->CCR1 = htim1.Instance->CNT + 300;
+				tn = htim1.Instance->CCR1 - tn;
+				while(htim1.Instance->CNT < htim1.Instance->CCR1);
+				
+				htim1.Instance->CNT = 0;
+				htim1.Instance->CCR2 = 2600;
+				htim1.Instance->CCMR1 = 0x1040;
+			}*/
+			htim1.Instance->CCR2 = 300;
 			//等待VZERO变低
 			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
 			//100 cnt后正ref关闭
@@ -187,12 +249,14 @@ int main(void)
 			htim1.Instance->CCR1 = htim1.Instance->CCR2;
 			htim1.Instance->CCMR1 = 0x2010;
 			rd1 = htim1.Instance->CCR2;
-			rd2 = rd1;		
+					
 			//wait VZ-
 			while(htim1.Instance->CCR2>htim1.Instance->CNT);
 			htim1.Instance->CCR2 = htim1.Instance->CNT+90;
 			htim1.Instance->CCMR1 = 0x1050;
 			rd3 = htim1.Instance->CCR2;
+			rd2 = rd1;
+			rd1 = rd1 - 300;
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
 			enableTim1OCInput();
 			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
@@ -215,19 +279,25 @@ int main(void)
 				delay_us(100);
 				htim5.Instance->CCR3 = htim5.Instance->ARR - 60;
 				htim5.Instance->CCMR2 = 0x20;
-				uint32_t t1,t2;
-				float ws = rd3/1333.0;
-				t1 = refp + (rd1-300);
-				t2 = refn + (rd2-rd3);
-				/*if((totalNPL - tmpNPL) > 20000) {
+				uint32_t trefp,trefn;
+				double ws = rd3/1333.0;
+				trefp = refp + rd1 + tp;
+				trefn = refn + (rd2-rd3) + tn;
+				/*//test for DA
+				if((totalNPL - tmpNPL) > 20000) {
 					tmpNPL = totalNPL;
 					printf("repeat...\n");
 				}
 				else {
 					tmpNPL--;
-				}*/
+				}
 				htim5.Instance->CCR2 = tmpNPL;
-				printf("%d %d %d %d %.2f %.2f %.2f %.2f\n",t1, t2, rd1-300, rd2-rd3, ws, t1+ws,t1+ws-t2, -14000000.0*(t1+ws-t2)/totalCT);
+				//end test for DA*/
+				double ttt = trefp+ws-trefn;
+				ttt = ttt *(-14000000);
+				ttt = ttt/(totalNPL+1.0);
+				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f\n",refp, refn,tp,tn, rd1, rd2-rd3, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue);
+				preValue = ttt;
 			}
 		}
     /* USER CODE END WHILE */
@@ -305,14 +375,14 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
-  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T1_CC3;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
   hadc1.Init.DMAContinuousRequests = DISABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -321,7 +391,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_15CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();

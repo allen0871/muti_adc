@@ -60,12 +60,14 @@ extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim5;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
+extern ADC_HandleTypeDef hadc1;
 /* USER CODE BEGIN EV */
 __IO uint32_t run = 0;
 __IO uint32_t runDown = 0;
 __IO uint32_t haveRunDown = 0;
 __IO uint32_t refp = 0;
 __IO uint32_t refn = 0;
+__IO int32_t ct = 20000;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -217,19 +219,41 @@ void TIM1_CC_IRQHandler(void)
 		 if (__HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC4) != RESET)
     {
       __HAL_TIM_CLEAR_IT(&htim1, TIM_IT_CC4);
+			//if(ct>0) {
 			if(run) {
-				__IO uint32_t tmp = GPIOB->IDR;
+				//for comp
+				/*__IO uint32_t tmp = GPIOB->IDR;
 				tmp = tmp >> 14;
 				if(tmp == 0x3) {
 					htim1.Instance->CCR1 = 500;
 					htim1.Instance->CCR2 = 60;
-					refp += 440;
+					refp += 460;
 					refn += 20;
 				}
 				else if( tmp == 0x0) {
 					htim1.Instance->CCR1 = 60;
 					htim1.Instance->CCR2 = 500;
-					refn += 440;
+					refn += 460;
+					refp += 20;
+				}
+				else {
+					htim1.Instance->CCR1 = 500;
+					htim1.Instance->CCR2 = 500;
+					refp += 20;
+					refn += 20;
+				}*/
+				//for ADC
+				__IO uint32_t tmp = hadc1.Instance->DR;
+				if(tmp > 2400) {
+					htim1.Instance->CCR1 = 500;
+					htim1.Instance->CCR2 = 60;
+					refp += 460;
+					refn += 20;
+				}
+				else if( tmp < 1000) {
+					htim1.Instance->CCR1 = 60;
+					htim1.Instance->CCR2 = 500;
+					refn += 460;
 					refp += 20;
 				}
 				else {
@@ -238,6 +262,7 @@ void TIM1_CC_IRQHandler(void)
 					refp += 20;
 					refn += 20;
 				}
+				ct--;
 		}
 		else {
 			if(!haveRunDown) {
@@ -245,7 +270,7 @@ void TIM1_CC_IRQHandler(void)
 				htim1.Instance->ARR = 62000;
 				htim1.Instance->CCMR1 = 0x1040;
 				htim1.Instance->CCR4 = 62000;
-				htim1.Instance->CCR2 = 300;
+				htim1.Instance->CCR2 = 62000;
 				htim1.Instance->CNT = 0;
 				runDown = 1;
 				haveRunDown = 1;
@@ -297,6 +322,7 @@ void TIM5_IRQHandler(void)
 			htim1.Instance->CCMR1 = 0x7070;
 			runDown = 0;
 			haveRunDown = 0;
+			ct = 20000;
 		}
 	}
   if (__HAL_TIM_GET_FLAG(&htim5, TIM_FLAG_CC2) != RESET) {
