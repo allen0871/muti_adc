@@ -19,3 +19,5 @@ MDK-ARM/mutiadc/mutiadc.map
 MDK-ARM/stm32f401.uvguix.baofu
 MDK-ARM/stm32f401/stm32f401.axf
 MDK-ARM/src.uvguix.baofu
+MDK-ARM/src.uvoptx
+MDK-ARM/src/src.axf
