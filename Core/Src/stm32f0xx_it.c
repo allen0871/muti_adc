@@ -27,7 +27,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-__IO uint32_t run = 1;
+uint32_t run = 1;
 __IO uint32_t runDown = 0;
 __IO uint32_t haveRunDown = 0;
 __IO uint32_t refp = 0;
@@ -167,36 +167,26 @@ void DMA1_Channel2_3_IRQHandler(void)
   */
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
 {
-	HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-	HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-	HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
   HAL_TIM_IRQHandler(&htim1);
 }	
 
 void TIM1_CC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_BRK_UP_TRG_COM_IRQn 0 */
-   if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4) != RESET) {
-		 if (__HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC4) != RESET)
-    {
-      __HAL_TIM_CLEAR_IT(&htim1, TIM_IT_CC4);
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
 			//if(ct>0) {
 			if(run) {
 				//for ADC, CCR1 refn, ccr2 refp
 				__IO uint32_t tmp = hadc.Instance->DR;
 				if(tmp > 2400) {
 					htim1.Instance->CCR1 = 10;
-					htim1.Instance->CCR2 = 490;
-					refp += 490;
+					htim1.Instance->CCR2 = 240;
+					refp += 240;
 					refn += 10;
 				}
 				else if( tmp < 1200) {
-					htim1.Instance->CCR1 = 490;
+					htim1.Instance->CCR1 = 240;
 					htim1.Instance->CCR2 = 10;
-					refn += 490;
+					refn += 240;
 					refp += 10;
 				}
 				else {
@@ -205,9 +195,9 @@ void TIM1_CC_IRQHandler(void)
 					refp += 10;
 					refn += 10;
 				}
-				ct--;
 				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
+				ct--;
 		}
 		else {
 			if(!haveRunDown) {
@@ -226,8 +216,7 @@ void TIM1_CC_IRQHandler(void)
 				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
 			}
 		}
-	}
-	 } 
+		__HAL_TIM_CLEAR_IT(&htim1, TIM_IT_CC4);
   /* USER CODE END TIM1_BRK_UP_TRG_COM_IRQn 0 */
 	//HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
 	//HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
@@ -252,9 +241,9 @@ void TIM3_IRQHandler(void)
 			run = 1;
 			refp = 0;
 			refn = 0;
-			htim1.Instance->ARR = 499;
-			htim1.Instance->CNT = 330;
-			htim1.Instance->CCR4 = 330;
+			htim1.Instance->ARR = 249;
+			htim1.Instance->CNT = 50;
+			htim1.Instance->CCR4 = 130;
 			htim1.Instance->CCR1 = 10;
 			htim1.Instance->CCR2 = 10;
 			htim1.Instance->CCMR1 = 0x6868;

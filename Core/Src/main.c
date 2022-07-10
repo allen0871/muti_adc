@@ -43,7 +43,8 @@ __IO uint32_t tmpNPL = 0;
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-	#define NPLC 1
+  #define TIMCLKDIV 1250
+	#define NPLC 20
   #define NPLCCT (400*NPLC)
 	#define RUNDOWN 40
 
@@ -175,8 +176,8 @@ int main(void)
   while (1)
   {
 				static double preValue;
-			__IO uint32_t rd1 = 0;
-			__IO uint32_t rd2 = 0;
+			__IO uint32_t rundownp1 = 0;
+			__IO uint32_t runupn1 = 0;
 			__IO uint32_t rd3 = 0;
 			__IO uint32_t tmp = 0;
 		uint32_t tp = 0;
@@ -190,18 +191,54 @@ int main(void)
 			//等待VZERO变低
 			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
 			//60 cnt后refp关闭,同时打开refn,积分电压上升
-			htim1.Instance->CCR2 = htim1.Instance->CNT + 60;
+			htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
 			htim1.Instance->CCR1 = htim1.Instance->CCR2;
 			htim1.Instance->CCMR1 = 0x2010;
-			rd1 = htim1.Instance->CCR2;
+			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
+			rundownp1 = htim1.Instance->CCR2;
 			//等待积分电压开始上升
 			while(htim1.Instance->CCR2>htim1.Instance->CNT);
-			htim1.Instance->CCR1 = htim1.Instance->CNT+150;
+			htim1.Instance->CCR1 = htim1.Instance->CNT+110;
 			htim1.Instance->CCMR1 = 0x4020;
 			rd3 = htim1.Instance->CCR2;
-			rd2 = rd1;
-			rd1 = rd1 - 300;
-      runDown = 0;
+			runupn1 = htim1.Instance->CCR1 - rundownp1;
+			rundownp1 = rundownp1 - 300;
+			//等待积分电压>0
+			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
+			htim1.Instance->CCR2 = htim1.Instance->CNT+1200;
+			htim1.Instance->CCMR1 = 0x1040;
+			rd3 = htim1.Instance->CCR2;
+			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
+			enableTim1OCInput();
+			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
+			uint32_t t3 = htim1.Instance->CNT;
+			htim1.Instance->CCMR1 = 0x4040;
+			tmp = htim1.Instance->CCR3;
+			disableTim2OCInput();
+			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+			if(runDown) {
+				rd3 = tmp - rd3;
+				runDown = 0;
+			  uint16_t t = htim3.Instance->CCMR1;
+				t = t & 0xFF00;
+				htim3.Instance->CCMR1 = t | 0x50;
+				delay_us(100);
+				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
+				htim3.Instance->CCMR1 = t | 0x20;
+				uint32_t trefp,trefn;
+				double ws = rd3/100.0;
+				trefp = refp + rundownp1 + tp;
+				trefn = refn + runupn1 + tn;
+				double ttt = trefp+ws-trefn;
+				ttt = ttt *(-14000000);
+				ttt = ttt/totalNPL;
+				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, totalNPL);
+				preValue = ttt;
+			}
+			runDown = 0;
 		}
     /* USER CODE END WHILE */
 
@@ -223,8 +260,10 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_HSI14;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.HSI14State = RCC_HSI14_ON;
+  RCC_OscInitStruct.HSI14CalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -327,7 +366,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 499;
+  htim1.Init.Period = 249;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -371,7 +410,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 480;
+  sConfigOC.Pulse = 10;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -396,7 +435,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 330;
+  sConfigOC.Pulse = 130;
   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
@@ -465,9 +504,10 @@ static void MX_TIM3_Init(void)
   {
     Error_Handler();
   }
+	__HAL_TIM_DISABLE_OCxPRELOAD(&htim3, TIM_CHANNEL_1);
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = NPLCCT;
-	totalNPL = NPLCCT;
+	totalNPL = NPLCCT*TIMCLKDIV;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
