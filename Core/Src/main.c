@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include "adc_config.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,10 +44,7 @@ __IO uint32_t tmpNPL = 0;
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-  #define TIMCLKDIV 1250
-	#define NPLC 20
-  #define NPLCCT (400*NPLC)
-	#define RUNDOWN 40
+
 
 /* USER CODE END PM */
 
@@ -183,42 +181,59 @@ int main(void)
 		uint32_t tp = 0;
 		uint32_t tn = 0;
 		if(runDown) {
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
 			htim1.Instance->CNT = 0;
 			htim1.Instance->CCMR1 = 0x1040;
 			htim1.Instance->CCR2 = 300;
-			//等待VZERO变低
-			while(VZERO_GPIO_Port->IDR & VZERO_Pin);
+			//等待积分电压<0
+			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
 			//60 cnt后refp关闭,同时打开refn,积分电压上升
-			htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
-			htim1.Instance->CCR1 = htim1.Instance->CCR2;
-			htim1.Instance->CCMR1 = 0x2010;
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-			HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-			rundownp1 = htim1.Instance->CCR2;
-			//等待积分电压开始上升
-			while(htim1.Instance->CCR2>htim1.Instance->CNT);
-			htim1.Instance->CCR1 = htim1.Instance->CNT+110;
-			htim1.Instance->CCMR1 = 0x4020;
-			rd3 = htim1.Instance->CCR2;
-			runupn1 = htim1.Instance->CCR1 - rundownp1;
-			rundownp1 = rundownp1 - 300;
+			if(htim1.Instance->CNT<50000) {
+				htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
+				htim1.Instance->CCR1 = htim1.Instance->CCR2;
+				htim1.Instance->CCMR1 = 0x2010;
+				rundownp1 = htim1.Instance->CCR2;
+			}
+			else {
+				goto Error;
+			}
 			//等待积分电压>0
-			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && runDown);
-			htim1.Instance->CCR2 = htim1.Instance->CNT+1200;
-			htim1.Instance->CCMR1 = 0x1040;
-			rd3 = htim1.Instance->CCR2;
-			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-		  HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
-			enableTim1OCInput();
-			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && runDown);
-			uint32_t t3 = htim1.Instance->CNT;
-			htim1.Instance->CCMR1 = 0x4040;
-			tmp = htim1.Instance->CCR3;
-			disableTim2OCInput();
-			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-		  HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+			//while(htim1.Instance->CCR2>htim1.Instance->CNT);
+			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin)  && (htim1.Instance->CNT<50000));
+			if(htim1.Instance->CNT<50000) {
+				htim1.Instance->CCR1 = htim1.Instance->CNT+50;
+				htim1.Instance->CCMR1 = 0x4020;
+				rd3 = htim1.Instance->CCR2;
+				runupn1 = htim1.Instance->CCR1 - rundownp1;
+				rundownp1 = rundownp1 - 300;
+			}
+			else {
+				goto Error;
+			}
+			//等待积分电压>0
+			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT<50000));
+			if(htim1.Instance->CNT<50000) {
+				htim1.Instance->CCR2 = htim1.Instance->CNT+1200;
+				htim1.Instance->CCMR1 = 0x1040;
+				rd3 = htim1.Instance->CCR2;
+				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
+				enableTim1OCInput();
+			}
+			else {
+				goto Error;
+			}
+			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
+			if(htim1.Instance->CNT<50000) {
+				uint32_t t3 = htim1.Instance->CNT;
+				htim1.Instance->CCMR1 = 0x4040;
+				tmp = htim1.Instance->CCR3;
+				disableTim2OCInput();
+				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+			}
+			else {
+				goto Error;
+			}
 			if(runDown) {
 				rd3 = tmp - rd3;
 				runDown = 0;
@@ -237,8 +252,14 @@ int main(void)
 				ttt = ttt/totalNPL;
 				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, totalNPL);
 				preValue = ttt;
+				continue;
 			}
+Error:
 			runDown = 0;
+			disableTim2OCInput();
+			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+			printf("Error -1\n");
 		}
     /* USER CODE END WHILE */
 
@@ -366,7 +387,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 249;
+  htim1.Init.Period = TZCLK;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -410,7 +431,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 10;
+  sConfigOC.Pulse = TZS;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -435,7 +456,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 130;
+  sConfigOC.Pulse = TZCC;
   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();

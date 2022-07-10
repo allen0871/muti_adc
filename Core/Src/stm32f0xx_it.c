@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f0xx_it.h"
+#include "adc_config.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -177,23 +178,23 @@ void TIM1_CC_IRQHandler(void)
 			if(run) {
 				//for ADC, CCR1 refn, ccr2 refp
 				__IO uint32_t tmp = hadc.Instance->DR;
-				if(tmp > 2400) {
-					htim1.Instance->CCR1 = 10;
-					htim1.Instance->CCR2 = 240;
-					refp += 240;
-					refn += 10;
+				if(tmp > ADH) {
+					htim1.Instance->CCR1 = TZS;
+					htim1.Instance->CCR2 = TZW;
+					refp += TZW;
+					refn += TZS;
 				}
-				else if( tmp < 1200) {
-					htim1.Instance->CCR1 = 240;
-					htim1.Instance->CCR2 = 10;
-					refn += 240;
-					refp += 10;
+				else if( tmp < ADL) {
+					htim1.Instance->CCR1 = TZW;
+					htim1.Instance->CCR2 = TZS;
+					refn += TZW;
+					refp += TZS;
 				}
 				else {
-					htim1.Instance->CCR1 = 10;
-					htim1.Instance->CCR2 = 10;
-					refp += 10;
-					refn += 10;
+					htim1.Instance->CCR1 = TZS;
+					htim1.Instance->CCR2 = TZS;
+					refp += TZS;
+					refn += TZS;
 				}
 				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
@@ -241,11 +242,11 @@ void TIM3_IRQHandler(void)
 			run = 1;
 			refp = 0;
 			refn = 0;
-			htim1.Instance->ARR = 249;
+			htim1.Instance->ARR = TZCLK;
 			htim1.Instance->CNT = 50;
-			htim1.Instance->CCR4 = 130;
-			htim1.Instance->CCR1 = 10;
-			htim1.Instance->CCR2 = 10;
+			htim1.Instance->CCR4 = TZCC;
+			htim1.Instance->CCR1 = TZS;
+			htim1.Instance->CCR2 = TZS;
 			htim1.Instance->CCMR1 = 0x6868;
 			runDown = 0;
 			haveRunDown = 0;
