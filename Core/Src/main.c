@@ -148,36 +148,38 @@ int main(void)
   MX_TIM3_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	HAL_ADC_Start(&hadc);
-	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+	HAL_NVIC_EnableIRQ(ADC1_IRQn);
+	__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
+	__HAL_ADC_ENABLE(&hadc);
+	hadc.Instance->CR |= ADC_CR_ADSTART;
+	//HAL_ADC_Start_IT(&hadc);
+	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
+	//zero ct
+	HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
 	
-	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+	//HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
 	//HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
 	HAL_TIM_Base_Start(&htim1);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	HAL_TIM_OC_Start_IT(&htim1, TIM_CHANNEL_4);
+	HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_4);
 	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_1);
-	/*GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = REFP_Pin|REFN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(REFP_GPIO_Port, &GPIO_InitStruct);*/
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-				static double preValue;
-			__IO uint32_t rundownp1 = 0;
-			__IO uint32_t runupn1 = 0;
-			__IO uint32_t rd3 = 0;
-			__IO uint32_t tmp = 0;
+		static double preValue;
+		__IO uint32_t rundownp1 = 0;
+		__IO uint32_t runupn1 = 0;
+		__IO uint32_t rd3 = 0;
+		__IO uint32_t tmp = 0;
+		uint32_t t3;
 		uint32_t tp = 0;
 		uint32_t tn = 0;
 		if(runDown) {
@@ -200,7 +202,7 @@ int main(void)
 			//while(htim1.Instance->CCR2>htim1.Instance->CNT);
 			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin)  && (htim1.Instance->CNT<50000));
 			if(htim1.Instance->CNT<50000) {
-				htim1.Instance->CCR1 = htim1.Instance->CNT+50;
+				htim1.Instance->CCR1 = htim1.Instance->CNT+30;
 				htim1.Instance->CCMR1 = 0x4020;
 				rd3 = htim1.Instance->CCR2;
 				runupn1 = htim1.Instance->CCR1 - rundownp1;
@@ -212,11 +214,11 @@ int main(void)
 			//等待积分电压>0
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT<50000));
 			if(htim1.Instance->CNT<50000) {
-				htim1.Instance->CCR2 = htim1.Instance->CNT+1200;
+				htim1.Instance->CCR2 = htim1.Instance->CNT+2200;
 				htim1.Instance->CCMR1 = 0x1040;
 				rd3 = htim1.Instance->CCR2;
 				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
+				//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
 				enableTim1OCInput();
 			}
 			else {
@@ -224,41 +226,42 @@ int main(void)
 			}
 			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
 			if(htim1.Instance->CNT<50000) {
-				uint32_t t3 = htim1.Instance->CNT;
+				t3 = htim1.Instance->CNT;
 				htim1.Instance->CCMR1 = 0x4040;
 				tmp = htim1.Instance->CCR3;
 				disableTim2OCInput();
-				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
+				//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
 			}
 			else {
 				goto Error;
 			}
 			if(runDown) {
+				t3 = t3-rd3;
 				rd3 = tmp - rd3;
 				runDown = 0;
-			  uint16_t t = htim3.Instance->CCMR1;
+			  /*uint16_t t = htim3.Instance->CCMR1;
 				t = t & 0xFF00;
 				htim3.Instance->CCMR1 = t | 0x50;
 				delay_us(100);
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
-				htim3.Instance->CCMR1 = t | 0x20;
+				htim3.Instance->CCMR1 = t | 0x20;*/
 				uint32_t trefp,trefn;
 				double ws = rd3/100.0;
 				trefp = refp + rundownp1 + tp;
 				trefn = refn + runupn1 + tn;
 				double ttt = trefp+ws-trefn;
-				ttt = ttt *(-14000000);
+				ttt = ttt *(-14100000);
 				ttt = ttt/totalNPL;
-				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, totalNPL);
+				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, rd3, t3);
 				preValue = ttt;
 				continue;
 			}
 Error:
 			runDown = 0;
 			disableTim2OCInput();
-			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
+			//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
 			printf("Error -1\n");
 		}
     /* USER CODE END WHILE */
@@ -337,12 +340,12 @@ static void MX_ADC_Init(void)
   hadc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   hadc.Init.LowPowerAutoWait = DISABLE;
   hadc.Init.LowPowerAutoPowerOff = DISABLE;
-  hadc.Init.ContinuousConvMode = ENABLE;
+  hadc.Init.ContinuousConvMode = DISABLE;
   hadc.Init.DiscontinuousConvMode = DISABLE;
-  hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc.Init.ExternalTrigConv = ADC1_2_EXTERNALTRIG_T1_CC4;
+  hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc.Init.DMAContinuousRequests = DISABLE;
-  hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   if (HAL_ADC_Init(&hadc) != HAL_OK)
   {
     Error_Handler();
@@ -455,7 +458,7 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.OCMode = TIM_OCMODE_PWM2;
   sConfigOC.Pulse = TZCC;
   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
@@ -613,8 +616,13 @@ static void MX_GPIO_Init(void)
                           |CT1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : VHED_Pin VMED_Pin */
-  GPIO_InitStruct.Pin = VHED_Pin|VMED_Pin;
+  GPIO_InitStruct.Pin = VHED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	
+	GPIO_InitStruct.Pin = VHED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 

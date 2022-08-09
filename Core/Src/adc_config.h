@@ -10,7 +10,7 @@
 #define TZCLK  (TZBASE-1)
 #define TZS  10
 #define TZW  TZBASE-TZS
-#define TZCC TZBASE-120
+#define TZCC TZBASE-180
 
 #define ADH  2600
 #define ADL  800
