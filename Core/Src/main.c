@@ -153,8 +153,9 @@ int main(void)
 	__HAL_ADC_ENABLE(&hadc);
 	hadc.Instance->CR |= ADC_CR_ADSTART;
 	//HAL_ADC_Start_IT(&hadc);
-	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
-	//zero ct
+	//slop FB1
+	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
+	//set>>VIN, reset>>REFGND
 	HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
 	
@@ -498,10 +499,10 @@ static void MX_TIM3_Init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM3_Init 1 */
-  totalCT = NPLCCT*1250;
+  totalCT = NPLCCT*TIMCLKDIV;
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 1249;
+  htim3.Init.Prescaler = TIMCLKDIV-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = NPLCCT + RUNDOWN - 1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -529,7 +530,7 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
 	__HAL_TIM_DISABLE_OCxPRELOAD(&htim3, TIM_CHANNEL_1);
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.OCMode = TIM_OCMODE_FORCED_INACTIVE;//TIM_OCMODE_PWM1;
   sConfigOC.Pulse = NPLCCT;
 	totalNPL = NPLCCT*TIMCLKDIV;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
