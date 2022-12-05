@@ -157,7 +157,7 @@ int main(void)
 	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 	//set>>VIN, reset>>REFGND
 	HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
-	HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
 	
 	//HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
 	//HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
@@ -185,11 +185,12 @@ int main(void)
 		uint32_t tn = 0;
 		if(runDown) {
 			htim1.Instance->CNT = 0;
+			//40>>forec inactive, 10 active on match,20>>inactive on match
 			htim1.Instance->CCMR1 = 0x1040;
 			htim1.Instance->CCR2 = 300;
 			//等待积分电压<0
 			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
-			//60 cnt后refp关闭,同时打开refn,积分电压上升
+			//50 cnt后refp关闭,同时打开refn,积分电压上升
 			if(htim1.Instance->CNT<50000) {
 				htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
 				htim1.Instance->CCR1 = htim1.Instance->CCR2;
@@ -205,6 +206,7 @@ int main(void)
 			if(htim1.Instance->CNT<50000) {
 				htim1.Instance->CCR1 = htim1.Instance->CNT+30;
 				htim1.Instance->CCMR1 = 0x4020;
+				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
 				rd3 = htim1.Instance->CCR2;
 				runupn1 = htim1.Instance->CCR1 - rundownp1;
 				rundownp1 = rundownp1 - 300;
@@ -216,10 +218,9 @@ int main(void)
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT<50000));
 			if(htim1.Instance->CNT<50000) {
 				htim1.Instance->CCR2 = htim1.Instance->CNT+2200;
-				htim1.Instance->CCMR1 = 0x1040;
+				htim1.Instance->CCR1 = htim1.Instance->CCR2;
+				htim1.Instance->CCMR1 = 0x1010;
 				rd3 = htim1.Instance->CCR2;
-				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-				//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
 				enableTim1OCInput();
 			}
 			else {
@@ -231,13 +232,12 @@ int main(void)
 				htim1.Instance->CCMR1 = 0x4040;
 				tmp = htim1.Instance->CCR3;
 				disableTim2OCInput();
-				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
-				//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
 			}
 			else {
 				goto Error;
 			}
 			if(runDown) {
+				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 				t3 = t3-rd3;
 				rd3 = tmp - rd3;
 				runDown = 0;
@@ -261,7 +261,7 @@ int main(void)
 Error:
 			runDown = 0;
 			disableTim2OCInput();
-			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 			//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
 			printf("Error -1\n");
 		}

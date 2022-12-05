@@ -5,8 +5,8 @@
 #define NPLCCT (400*NPLC)
 #define RUNDOWN 40
 
-//#define H25MHZ
-#define H26MHZ
+#define H25MHZ
+//#define H26MHZ
 #ifdef H25MHZ
 #define TIMCLKDIV 1250
 
