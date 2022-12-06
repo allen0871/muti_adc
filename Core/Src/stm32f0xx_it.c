@@ -217,7 +217,7 @@ void ADC1_IRQHandler(void) {
 				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
 				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
 			}
-			else {
+			/*else {
 				if(tmp>1000) {
 					adcbuf[adcindex++] = tmp;
 				}
@@ -226,7 +226,7 @@ void ADC1_IRQHandler(void) {
 				}
 				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
 				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
-			}
+			}*/
 		}
 		//HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_SET);
 		//HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_RESET);
@@ -236,56 +236,7 @@ void ADC1_IRQHandler(void) {
 
 void TIM1_CC_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM1_BRK_UP_TRG_COM_IRQn 0 */
-			//if(ct>0) {
-			/*if(run) {
-				//for ADC, CCR1 refn, ccr2 refp
-				__IO uint32_t tmp = hadc.Instance->DR;
-				if(tmp > ADH) {
-					htim1.Instance->CCR1 = TZS;
-					htim1.Instance->CCR2 = TZW;
-					refp += TZW;
-					refn += TZS;
-				}
-				else if( tmp < ADL) {
-					htim1.Instance->CCR1 = TZW;
-					htim1.Instance->CCR2 = TZS;
-					refn += TZW;
-					refp += TZS;
-				}
-				else {
-					htim1.Instance->CCR1 = TZS;
-					htim1.Instance->CCR2 = TZS;
-					refp += TZS;
-					refn += TZS;
-				}
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-				ct--;
-		}
-		else {
-			if(!haveRunDown) {
-				//__HAL_TIM_DISABLE(&htim1);
-				htim1.Instance->ARR = 62000;
-				while(htim1.Instance->CNT < 500);
-				htim1.Instance->CCMR1 = 0x4040;
-				htim1.Instance->CCR4 = 62000;
-				htim1.Instance->CCR2 = 62000;
-				runDown = 1;
-				haveRunDown = 1;
-				//HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-			}
-		}*/
 		__HAL_TIM_CLEAR_IT(&htim1, TIM_IT_CC4);
-  /* USER CODE END TIM1_BRK_UP_TRG_COM_IRQn 0 */
-  //HAL_TIM_IRQHandler(&htim1);
-  /* USER CODE BEGIN TIM1_BRK_UP_TRG_COM_IRQn 1 */
-
-  /* USER CODE END TIM1_BRK_UP_TRG_COM_IRQn 1 */
 }
 
 /**
@@ -307,8 +258,7 @@ void TIM3_IRQHandler(void)
 			hadc.Instance->CFGR1 &= ~(0x7<<6);
 			hadc.Instance->CFGR1 |= (0x1<<6);
 			__HAL_ADC_ENABLE(&hadc);*/
-			__HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_OVR);
-			__HAL_ADC_CLEAR_FLAG(&hadc, ADC_ISR_EOC|ADC_ISR_EOS);
+			__HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
 			adcindex = 0;
 			htim1.Instance->ARR = TZCLK;
 			htim1.Instance->CNT = 50;

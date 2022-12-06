@@ -40,6 +40,7 @@ extern __IO uint32_t nopn;
 __IO uint32_t totalCT = 0;
 __IO uint32_t totalNPL = 0;
 __IO uint32_t tmpNPL = 0;
+uint16_t adc_dma_buf[1024];
 
 /* USER CODE END PD */
 
@@ -55,7 +56,7 @@ ADC_HandleTypeDef hadc;
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim15;
-
+DMA_HandleTypeDef hdma_adc;
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
@@ -149,7 +150,7 @@ int main(void)
   /* Initialize all configured peripherals */
 	__HAL_RCC_TIM15_CLK_ENABLE();
   MX_GPIO_Init();
-  //MX_DMA_Init();
+  MX_DMA_Init();
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
@@ -186,14 +187,13 @@ int main(void)
   while (1)
   {
 		static double preValue;
+		static int32_t preV = 0;
 		if(runDown) {
-			__IO uint32_t rundownp1 = 0;
+			uint32_t rundownp1 = 0;
+			uint32_t rundownp2 = 0;
 			__IO uint32_t runupn1 = 0;
-			__IO uint32_t rd3 = 0;
 			__IO uint32_t tmp = 0;
-		uint32_t t3;
-		uint32_t tp = 0;
-		uint32_t tn = 0;
+			__IO uint32_t tmp2 = 0;
 			htim1.Instance->CNT = 0;
 			//40>>forec inactive, 10 active on match,20>>inactive on match
 			htim1.Instance->CCMR1 = 0x1040;
@@ -217,8 +217,9 @@ int main(void)
 				htim1.Instance->CCR1 = htim1.Instance->CNT+30;
 				htim1.Instance->CCMR1 = 0x4020;
 				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
-				rd3 = htim1.Instance->CCR2;
+				//runup时间
 				runupn1 = htim1.Instance->CCR1 - rundownp1;
+				//CCR2-300是第一次rundown时间
 				rundownp1 = rundownp1 - 300;
 			}
 			else {
@@ -227,41 +228,75 @@ int main(void)
 			//等待积分电压>0
 			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT<50000));
 			if(htim1.Instance->CNT<50000) {
-				htim1.Instance->CCR2 = htim1.Instance->CNT+2200;
+				//正负基准同时开启,因为副基准绝对值较小, 积分电压将缓慢下降
+				htim1.Instance->CCR2 = htim1.Instance->CNT+500;
 				htim1.Instance->CCR1 = htim1.Instance->CCR2;
 				htim1.Instance->CCMR1 = 0x1010;
-				//__HAL_ADC_DISABLE(&hadc);
-				
+				tmp = htim1.Instance->CCR1 + 250;
+
+				//开启tim15驱动ADC DMA, 存入adc_dma_buf, 监控积分波形, 找出慢速电压与时间关系
 				hadc.Instance->CFGR1 &= ~(0x7<<6);
 				hadc.Instance->CFGR1 |= (0x4<<6);
+				__HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
+				/* Disable the DMA */
+				hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+				/* Clear all flags */
+			  hdma_adc.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_adc.ChannelIndex);
+				/* Configure DMA Channel data length */
+				hdma_adc.Instance->CNDTR = 1024;
+				/* Configure DMA Channel source address */
+				hdma_adc.Instance->CPAR = (uint32_t)&hadc.Instance->DR;
+				/* Configure DMA Channel destination address */
+				hdma_adc.Instance->CMAR = (uint32_t)adc_dma_buf;
+				/* Enable the Peripheral */
+				hdma_adc.Instance->CCR |= DMA_CCR_EN;
+				//enable dma mode
+				hadc.Instance->CFGR1 |= ADC_CFGR1_DMAEN;
+				//disable adc it
+				__HAL_ADC_DISABLE_IT(&hadc, ADC_IT_EOC);
+				//enable timer
 				htim15.Instance->CR1|=(TIM_CR1_CEN);
-				//__HAL_ADC_ENABLE(&hadc);
-				rd3 = htim1.Instance->CCR2;
-				enableTim1OCInput();
+
+				tmp = htim1.Instance->CCR2;
+				//enableTim1OCInput();
 			}
 			else {
 				goto Error;
 			}
-			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
+			//等待正负基准开启
+			while((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT<50000));
+			//等待积分(电压x20)<1000
+			while((hadc.Instance->DR>1000) && (htim1.Instance->CNT<50000));
+			LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+			LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
 			if(htim1.Instance->CNT<50000) {
-				t3 = htim1.Instance->CNT;
-				htim1.Instance->CCMR1 = 0x4040;
-				tmp = htim1.Instance->CCR3;
-				disableTim2OCInput();
+				//tmp2中存入dma传输个数
+				tmp2 = hdma_adc.Instance->CNDTR;
+				tmp2 = 1024 - tmp2;
+				//关闭正负基准,积分电压保持不变
+				htim1.Instance->CCR2 = htim1.Instance->CNT+50;
+				htim1.Instance->CCR1 = htim1.Instance->CCR2;
+				htim1.Instance->CCMR1 = 0x2020;
+				//第二次rundown时间,慢速
+				rundownp2 = htim1.Instance->CCR2 - tmp; 
+				tmp = htim1.Instance->CCR1 + 3000;
 			}
 			else {
 				goto Error;
 			}
+			while((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT<50000));
 			if(runDown) {
 				//__HAL_TIM_DISABLE(&htim15);
 				//__HAL_ADC_DISABLE(&hadc);
 				htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+				hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+				hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
 				hadc.Instance->CFGR1 &= ~(0x7<<6);
 				hadc.Instance->CFGR1 |= (0x1<<6);
-				//__HAL_ADC_ENABLE(&hadc);
+				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
+				__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
 				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-				t3 = t3-rd3;
-				rd3 = tmp - rd3;
 				runDown = 0;
 			  uint16_t t = htim3.Instance->CCMR1;
 				t = t & 0xFF00;
@@ -270,24 +305,74 @@ int main(void)
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
 				htim3.Instance->CCMR1 = t | 0x20;
 				uint32_t trefp,trefn;
-				double ws = rd3/100.0;
+				/*double ws = rd3/100.0;
 				trefp = refp + rundownp1 + tp;
 				trefn = refn + runupn1 + tn;
 				double ttt = trefp+ws-trefn;
 				ttt = ttt *(-14100000);
 				ttt = ttt/totalNPL;
 				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, rd3, t3);
+				preValue = ttt;*/
+				//临时关闭tm3,进行输出
+				htim3.Instance->CR1 &= ~(TIM_CR1_CEN);
+				tmp = hdma_adc.Instance->CNDTR;
+				tmp = 1024 - tmp;
+				int16_t prev = 0;
+				int32_t sum = 0,sum2=0;
+				int32_t count = 0,count2=0;
+				int32_t step = 116;
+				int32_t remainV = 0;
+				double cha = 0;
+				for(int i=0;i<tmp;i++) {
+					if(adc_dma_buf[i]<2800) {
+						if(i>tmp2) {
+							printf("\n");
+							if(count == 16) {
+								step = sum>>4;
+							}
+							tmp2 = tmp;
+						}
+						if(tmp2 != tmp) {
+							if(count<16) {
+								sum+= prev-adc_dma_buf[i];
+								count++;
+							}
+							//printf("%d ", prev-adc_dma_buf[i]);
+						}
+						else {
+							if(i!=tmp-1) {
+								sum2+=adc_dma_buf[i];
+								count2++;
+							}
+							//printf("%d ", adc_dma_buf[i]);
+						}
+					}
+					prev = adc_dma_buf[i];
+				}
+				remainV = sum2/count2;
+				cha = remainV - preV;
+				cha = (cha/step)*125.0;
+				preV = remainV;
+				double ws = (rundownp2+cha)/55.55;
+				trefp = refp + rundownp1;
+				trefn = refn + runupn1;
+				double ttt = trefp + ws -trefn;
+				ttt = ttt *(-14100000);
+				ttt = ttt/totalNPL;
+				printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, cha, ttt, ttt - preValue);
 				preValue = ttt;
+				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
+				htim3.Instance->CR1|=(TIM_CR1_CEN);
 				continue;
 			}
 Error:
 			runDown = 0;
-			//__HAL_TIM_DISABLE(&htim15);
-			//__HAL_ADC_DISABLE(&hadc);
 			htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+			hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+			hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
 			hadc.Instance->CFGR1 &= ~(0x7<<6);
 			hadc.Instance->CFGR1 |= (0x1<<6);
-			//__HAL_ADC_ENABLE(&hadc);
+			__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
 			disableTim2OCInput();
 			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 			//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
@@ -593,7 +678,7 @@ static void MX_TIM15_Init(void)
   htim15.Instance = TIM15;
   htim15.Init.Prescaler = 0;
   htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim15.Init.Period = 249;
+  htim15.Init.Period = 124;
   htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim15.Init.RepetitionCounter = 0;
   htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
