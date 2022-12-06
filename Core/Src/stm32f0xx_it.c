@@ -34,6 +34,8 @@ __IO uint32_t haveRunDown = 0;
 __IO uint32_t refp = 0;
 __IO uint32_t refn = 0;
 __IO int32_t ct = 20000;
+uint16_t adcbuf[256];
+uint16_t adcindex = 0;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -64,6 +66,7 @@ __IO int32_t ct = 20000;
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim15;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 /* USER CODE BEGIN EV */
 extern ADC_HandleTypeDef hadc;
@@ -172,6 +175,9 @@ void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
 }	
 
 void ADC1_IRQHandler(void) {
+	LOG2_GPIO_Port->BSRR = (uint32_t)LOG2_Pin;
+	LOG2_GPIO_Port->BRR = (uint32_t)LOG2_Pin;
+	
 	__IO uint32_t tmp = hadc.Instance->DR;
 			if(run) {
 				//for ADC, CCR1 refn, ccr2 refp
@@ -193,8 +199,6 @@ void ADC1_IRQHandler(void) {
 					refp += TZS;
 					refn += TZS;
 				}
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
 				ct--;
 		}
 		else {
@@ -208,15 +212,26 @@ void ADC1_IRQHandler(void) {
 				runDown = 1;
 				haveRunDown = 1;
 				//HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(LOG1_GPIO_Port,LOG1_Pin,GPIO_PIN_RESET);
+				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
+				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
+			}
+			else {
+				if(tmp>1000) {
+					adcbuf[adcindex++] = tmp;
+				}
+				else {
+					htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+				}
+				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
 			}
 		}
-		HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_SET);
-		HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(LOG2_GPIO_Port,LOG2_Pin,GPIO_PIN_RESET);
 		//HAL_ADC_IRQHandler(&hadc);
+		__HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_OVR);
 }
 
 void TIM1_CC_IRQHandler(void)
@@ -288,6 +303,13 @@ void TIM3_IRQHandler(void)
 			run = 1;
 			refp = 0;
 			refn = 0;
+			/*__HAL_ADC_DISABLE(&hadc);
+			hadc.Instance->CFGR1 &= ~(0x7<<6);
+			hadc.Instance->CFGR1 |= (0x1<<6);
+			__HAL_ADC_ENABLE(&hadc);*/
+			__HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_OVR);
+			__HAL_ADC_CLEAR_FLAG(&hadc, ADC_ISR_EOC|ADC_ISR_EOS);
+			adcindex = 0;
 			htim1.Instance->ARR = TZCLK;
 			htim1.Instance->CNT = 50;
 			htim1.Instance->CCR4 = TZCC;

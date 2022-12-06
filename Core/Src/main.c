@@ -40,6 +40,7 @@ extern __IO uint32_t nopn;
 __IO uint32_t totalCT = 0;
 __IO uint32_t totalNPL = 0;
 __IO uint32_t tmpNPL = 0;
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -53,6 +54,7 @@ ADC_HandleTypeDef hadc;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim15;
 
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
@@ -68,6 +70,7 @@ static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM15_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -131,21 +134,26 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+	HAL_NVIC_DisableIRQ(SysTick_IRQn);
+	SysTick->CTRL=0x00;
+	SysTick->VAL=0x00;
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+	__HAL_RCC_TIM15_CLK_ENABLE();
   MX_GPIO_Init();
   //MX_DMA_Init();
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
+	MX_TIM15_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 	HAL_NVIC_EnableIRQ(ADC1_IRQn);
@@ -161,6 +169,7 @@ int main(void)
 	
 	//HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
 	//HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+	
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
 	HAL_TIM_Base_Start(&htim1);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
@@ -169,6 +178,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_1);
+	__HAL_TIM_ENABLE(&htim15);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -176,14 +186,14 @@ int main(void)
   while (1)
   {
 		static double preValue;
-		__IO uint32_t rundownp1 = 0;
-		__IO uint32_t runupn1 = 0;
-		__IO uint32_t rd3 = 0;
-		__IO uint32_t tmp = 0;
+		if(runDown) {
+			__IO uint32_t rundownp1 = 0;
+			__IO uint32_t runupn1 = 0;
+			__IO uint32_t rd3 = 0;
+			__IO uint32_t tmp = 0;
 		uint32_t t3;
 		uint32_t tp = 0;
 		uint32_t tn = 0;
-		if(runDown) {
 			htim1.Instance->CNT = 0;
 			//40>>forec inactive, 10 active on match,20>>inactive on match
 			htim1.Instance->CCMR1 = 0x1040;
@@ -220,6 +230,12 @@ int main(void)
 				htim1.Instance->CCR2 = htim1.Instance->CNT+2200;
 				htim1.Instance->CCR1 = htim1.Instance->CCR2;
 				htim1.Instance->CCMR1 = 0x1010;
+				//__HAL_ADC_DISABLE(&hadc);
+				
+				hadc.Instance->CFGR1 &= ~(0x7<<6);
+				hadc.Instance->CFGR1 |= (0x4<<6);
+				htim15.Instance->CR1|=(TIM_CR1_CEN);
+				//__HAL_ADC_ENABLE(&hadc);
 				rd3 = htim1.Instance->CCR2;
 				enableTim1OCInput();
 			}
@@ -237,16 +253,22 @@ int main(void)
 				goto Error;
 			}
 			if(runDown) {
+				//__HAL_TIM_DISABLE(&htim15);
+				//__HAL_ADC_DISABLE(&hadc);
+				htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+				hadc.Instance->CFGR1 &= ~(0x7<<6);
+				hadc.Instance->CFGR1 |= (0x1<<6);
+				//__HAL_ADC_ENABLE(&hadc);
 				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 				t3 = t3-rd3;
 				rd3 = tmp - rd3;
 				runDown = 0;
-			  /*uint16_t t = htim3.Instance->CCMR1;
+			  uint16_t t = htim3.Instance->CCMR1;
 				t = t & 0xFF00;
 				htim3.Instance->CCMR1 = t | 0x50;
 				delay_us(100);
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
-				htim3.Instance->CCMR1 = t | 0x20;*/
+				htim3.Instance->CCMR1 = t | 0x20;
 				uint32_t trefp,trefn;
 				double ws = rd3/100.0;
 				trefp = refp + rundownp1 + tp;
@@ -260,6 +282,12 @@ int main(void)
 			}
 Error:
 			runDown = 0;
+			//__HAL_TIM_DISABLE(&htim15);
+			//__HAL_ADC_DISABLE(&hadc);
+			htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+			hadc.Instance->CFGR1 &= ~(0x7<<6);
+			hadc.Instance->CFGR1 |= (0x1<<6);
+			//__HAL_ADC_ENABLE(&hadc);
 			disableTim2OCInput();
 			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 			//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
@@ -541,6 +569,52 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
+  * @brief TIM15 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM15_Init(void)
+{
+
+  /* USER CODE BEGIN TIM15_Init 0 */
+
+  /* USER CODE END TIM15_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM15_Init 1 */
+
+  /* USER CODE END TIM15_Init 1 */
+  htim15.Instance = TIM15;
+  htim15.Init.Prescaler = 0;
+  htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim15.Init.Period = 249;
+  htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim15.Init.RepetitionCounter = 0;
+  htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim15) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim15, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim15, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM15_Init 2 */
+
+  /* USER CODE END TIM15_Init 2 */
 
 }
 
