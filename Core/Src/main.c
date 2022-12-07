@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -51,7 +51,6 @@ uint32_t uartIndex = 0;
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
 
 /* USER CODE END PM */
 
@@ -89,17 +88,19 @@ void CMD_Parse(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void delay_us(uint32_t value) {
-	__IO uint32_t tmp = value;
-	while(tmp--);
+void delay_us(uint32_t value)
+{
+  __IO uint32_t tmp = value;
+  while (tmp--)
+    ;
 }
 
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -113,83 +114,87 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-	HAL_NVIC_DisableIRQ(SysTick_IRQn);
-	SysTick->CTRL=0x00;
-	SysTick->VAL=0x00;
+  HAL_NVIC_DisableIRQ(SysTick_IRQn);
+  SysTick->CTRL = 0x00;
+  SysTick->VAL = 0x00;
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-	__HAL_RCC_TIM15_CLK_ENABLE();
+  __HAL_RCC_TIM15_CLK_ENABLE();
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
-	MX_TIM15_Init();
+  MX_TIM15_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	HAL_NVIC_EnableIRQ(ADC1_IRQn);
-	__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
-	__HAL_ADC_ENABLE(&hadc);
-	hadc.Instance->CR |= ADC_CR_ADSTART;
-	//HAL_ADC_Start_IT(&hadc);
-	//slop FB1
-	HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-	//set>>VIN, reset>>REFGND
-	HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_SET);
-	//HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
-	
-	//HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
-	//HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
-	
-	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	HAL_TIM_Base_Start(&htim1);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start_IT(&htim3);
-	HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_2);
-	HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_1);
-	__HAL_TIM_ENABLE(&htim15);
-	Start_UartRx();
-	
+  HAL_NVIC_EnableIRQ(ADC1_IRQn);
+  __HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
+  __HAL_ADC_ENABLE(&hadc);
+  hadc.Instance->CR |= ADC_CR_ADSTART;
+  // HAL_ADC_Start_IT(&hadc);
+  // slop FB1
+  HAL_GPIO_WritePin(A0_GPIO_Port, A0_Pin, GPIO_PIN_RESET);
+  // set>>VIN, reset>>REFGND
+  HAL_GPIO_WritePin(A1_GPIO_Port, A1_Pin, GPIO_PIN_SET);
+  // HAL_GPIO_WritePin(VHED_GPIO_Port,VHED_Pin,GPIO_PIN_SET);
+
+  // HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+  // HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+
+  HAL_NVIC_EnableIRQ(TIM3_IRQn);
+  HAL_TIM_Base_Start(&htim1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_4);
+  HAL_TIM_Base_Start_IT(&htim3);
+  HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_1);
+  __HAL_TIM_ENABLE(&htim15);
+  Start_UartRx();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		if(runDown) {
-			ADC_Core();
-		}
-		else {
-				if((htim3.Instance->CNT<300*NPLC) && (huart1.Instance->ISR & USART_ISR_IDLE)) {
-					huart1.Instance->ICR |= USART_ICR_IDLECF;
-					hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
-					int endPos = hdma_usart1_rx.Instance->CNDTR;
-					int i=0;
-					for(;i<endPos;i++) {
-						if(uartIndex < 256) {
-							uart_cmd[uartIndex++] = uart_input[i];
-						}
-					}
-					uart_cmd[i] = 0;
-					/* Configure DMA Channel data length */
-					hdma_usart1_rx.Instance->CNDTR = 256;
-					/* Enable the Peripheral */
-					hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
-					sprintf(uart_cmd,"\n\raa=11 bb=22 cc=33\n\r\raa=44 bb=55\n\r\n\raaaaa=bbbbb");
-					uartIndex = strlen(uart_cmd);
-					CMD_Parse();
-				}
-			}
+    if (runDown)
+    {
+      ADC_Core();
+    }
+    else
+    {
+      if ((htim3.Instance->CNT < 300 * NPLC) && (huart1.Instance->ISR & USART_ISR_IDLE))
+      {
+        huart1.Instance->ICR |= USART_ICR_IDLECF;
+        hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
+        int endPos = hdma_usart1_rx.Instance->CNDTR;
+        int i = 0;
+        for (; i < endPos; i++)
+        {
+          if (uartIndex < 256)
+          {
+            uart_cmd[uartIndex++] = uart_input[i];
+          }
+        }
+        uart_cmd[i] = 0;
+        /* Configure DMA Channel data length */
+        hdma_usart1_rx.Instance->CNDTR = 256;
+        /* Enable the Peripheral */
+        hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
+        sprintf(uart_cmd, "\n\raa=11 bb=22 cc=33\n\r\raa=44 bb=55\n\r\n\raaaaa=bbbbb");
+        uartIndex = strlen(uart_cmd);
+        CMD_Parse();
+      }
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -197,300 +202,343 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-void CMD_ParseOptions(char **options, int size) {
-	for(int i=0;i<size;i++) {
-		char* cmd[2];
-		char *tmpstr = strtok(options[i],"=");
-		int ct = 0;
-		while(tmpstr != NULL) {
-			cmd[ct++] = tmpstr;
-			if(ct>=2) {
-				break;
-			}
-			tmpstr = strtok(NULL," ");
-		}
-		if(ct == 2) {
-			printf("cmd=%s value=%s\n",cmd[0],cmd[1]);
-		}
-	}
+void CMD_ParseOptions(char **options, int size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    char *cmd[2];
+    char *tmpstr = strtok(options[i], "=");
+    int ct = 0;
+    while (tmpstr != NULL)
+    {
+      cmd[ct++] = tmpstr;
+      if (ct >= 2)
+      {
+        break;
+      }
+      tmpstr = strtok(NULL, " ");
+    }
+    if (ct == 2)
+    {
+      //printf("cmd=%s value=%s\n", cmd[0], cmd[1]);
+    }
+  }
 }
 
-void CMD_Parse(void) {
-	int end = 0;
-	int start = 0;
-	int i = start;
-	//Ñ°ÕÒÃüÁîÆðÊ¼Î»ÖÃ
-	for(;i<uartIndex;i++) {
-		if((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n')) {
-			start = i;
-			break;
-		}
-	}
-	for(;i<uartIndex;i++) {
-		if((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n')) {
-			end = i;
-			break;
-		}
-	}
-	if(start<end) {
-		uart_cmd[end] = 0;
-		char* options[20];
-		int ct_opt = 0;
-		char *tmpstr = strtok(uart_cmd+start," ");
-		while(tmpstr != NULL) {
-			options[ct_opt++] = tmpstr;
-			if(ct_opt>=20) {
-				break;
-			}
-			tmpstr = strtok(NULL," ");
-		}
-		CMD_ParseOptions(options,ct_opt);
-	}
-	start = end+1;
-	for(i=start;i<uartIndex;i++) {
-		if((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n')) {
-			break;
-		}
-	}
-	start = 0;
-	char haveNewLine = 0;
-	for(;i<uartIndex;i++) {
-		uart_cmd[start++] = uart_cmd[i];
-		if((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n')) {
-			haveNewLine = 1;
-		}
-	}
-	uart_cmd[start] = 0;
-	uartIndex = start;
-	if(haveNewLine) {
-		CMD_Parse();
-	}
+void CMD_Parse(void)
+{
+  int end = 0;
+  int start = 0;
+  int i = start;
+  //å¯»æ‰¾å‘½ä»¤èµ·å§‹ä½ç½®
+  for (; i < uartIndex; i++)
+  {
+    if ((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n'))
+    {
+      start = i;
+      break;
+    }
+  }
+  for (; i < uartIndex; i++)
+  {
+    if ((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n'))
+    {
+      end = i;
+      break;
+    }
+  }
+  if (start < end)
+  {
+    uart_cmd[end] = 0;
+    char *options[20];
+    int ct_opt = 0;
+    char *tmpstr = strtok(uart_cmd + start, " ");
+    while (tmpstr != NULL)
+    {
+      options[ct_opt++] = tmpstr;
+      if (ct_opt >= 20)
+      {
+        break;
+      }
+      tmpstr = strtok(NULL, " ");
+    }
+    CMD_ParseOptions(options, ct_opt);
+  }
+  start = end + 1;
+  for (i = start; i < uartIndex; i++)
+  {
+    if ((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n'))
+    {
+      break;
+    }
+  }
+  start = 0;
+  char haveNewLine = 0;
+  for (; i < uartIndex; i++)
+  {
+    uart_cmd[start++] = uart_cmd[i];
+    if ((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n'))
+    {
+      haveNewLine = 1;
+    }
+  }
+  uart_cmd[start] = 0;
+  uartIndex = start;
+  if (haveNewLine)
+  {
+    CMD_Parse();
+  }
 }
 
-void ADC_Core(void) {
-			static double preValue;
-		static int32_t preV = 0;
-			uint32_t rundownp1 = 0;
-			uint32_t rundownp2 = 0;
-			__IO uint32_t runupn1 = 0;
-			__IO uint32_t tmp = 0;
-			__IO uint32_t tmp2 = 0;
-			htim1.Instance->CNT = 0;
-			//40>>forec inactive, 10 active on match,20>>inactive on match
-			htim1.Instance->CCMR1 = 0x1040;
-			htim1.Instance->CCR2 = 300;
-			//µÈ´ý»ý·ÖµçÑ¹<0
-			while((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT<50000));
-			//50 cntºórefp¹Ø±Õ,Í¬Ê±´ò¿ªrefn,»ý·ÖµçÑ¹ÉÏÉý
-			if(htim1.Instance->CNT<50000) {
-				htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
-				htim1.Instance->CCR1 = htim1.Instance->CCR2;
-				htim1.Instance->CCMR1 = 0x2010;
-				rundownp1 = htim1.Instance->CCR2;
-			}
-			else {
-				goto Error;
-			}
-			//µÈ´ý»ý·ÖµçÑ¹>0
-			//while(htim1.Instance->CCR2>htim1.Instance->CNT);
-			while(!(VZERO_GPIO_Port->IDR & VZERO_Pin)  && (htim1.Instance->CNT<50000));
-			if(htim1.Instance->CNT<50000) {
-				htim1.Instance->CCR1 = htim1.Instance->CNT+30;
-				htim1.Instance->CCMR1 = 0x4020;
-				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_SET);
-				//runupÊ±¼ä
-				runupn1 = htim1.Instance->CCR1 - rundownp1;
-				//CCR2-300ÊÇµÚÒ»´ÎrundownÊ±¼ä
-				rundownp1 = rundownp1 - 300;
-			}
-			else {
-				goto Error;
-			}
-			//µÈ´ý»ý·ÖµçÑ¹>0
-			while((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT<50000));
-			if(htim1.Instance->CNT<50000) {
-				//Õý¸º»ù×¼Í¬Ê±¿ªÆô,ÒòÎª¸±»ù×¼¾ø¶ÔÖµ½ÏÐ¡, »ý·ÖµçÑ¹½«»ºÂýÏÂ½µ
-				htim1.Instance->CCR2 = htim1.Instance->CNT+500;
-				htim1.Instance->CCR1 = htim1.Instance->CCR2;
-				htim1.Instance->CCMR1 = 0x1010;
-				tmp = htim1.Instance->CCR1 + 250;
+void ADC_Core(void)
+{
+  static double preValue;
+  static int32_t preV = 0;
+  uint32_t rundownp1 = 0;
+  uint32_t rundownp2 = 0;
+  __IO uint32_t runupn1 = 0;
+  __IO uint32_t tmp = 0;
+  __IO uint32_t tmp2 = 0;
+  htim1.Instance->CNT = 0;
+  // 40>>forec inactive, 10 active on match,20>>inactive on match
+  htim1.Instance->CCMR1 = 0x1040;
+  htim1.Instance->CCR2 = 300;
+  //ç­‰å¾…ç§¯åˆ†ç”µåŽ‹<0
+  while ((VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT < 50000))
+    ;
+  // 50 cntåŽrefpå…³é—­,åŒæ—¶æ‰“å¼€refn,ç§¯åˆ†ç”µåŽ‹ä¸Šå‡
+  if (htim1.Instance->CNT < 50000)
+  {
+    htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
+    htim1.Instance->CCR1 = htim1.Instance->CCR2;
+    htim1.Instance->CCMR1 = 0x2010;
+    rundownp1 = htim1.Instance->CCR2;
+  }
+  else
+  {
+    goto Error;
+  }
+  //ç­‰å¾…ç§¯åˆ†ç”µåŽ‹>0
+  // while(htim1.Instance->CCR2>htim1.Instance->CNT);
+  while (!(VZERO_GPIO_Port->IDR & VZERO_Pin) && (htim1.Instance->CNT < 50000))
+    ;
+  if (htim1.Instance->CNT < 50000)
+  {
+    htim1.Instance->CCR1 = htim1.Instance->CNT + 30;
+    htim1.Instance->CCMR1 = 0x4020;
+    HAL_GPIO_WritePin(A0_GPIO_Port, A0_Pin, GPIO_PIN_SET);
+    // runupæ—¶é—´
+    runupn1 = htim1.Instance->CCR1 - rundownp1;
+    // CCR2-300æ˜¯ç¬¬ä¸€æ¬¡rundownæ—¶é—´
+    rundownp1 = rundownp1 - 300;
+  }
+  else
+  {
+    goto Error;
+  }
+  //ç­‰å¾…ç§¯åˆ†ç”µåŽ‹>0
+  while ((!(VZERO_GPIO_Port->IDR & VZERO_Pin)) && (htim1.Instance->CNT < 50000))
+    ;
+  if (htim1.Instance->CNT < 50000)
+  {
+    //æ­£è´ŸåŸºå‡†åŒæ—¶å¼€å¯,å› ä¸ºå‰¯åŸºå‡†ç»å¯¹å€¼è¾ƒå°, ç§¯åˆ†ç”µåŽ‹å°†ç¼“æ…¢ä¸‹é™
+    htim1.Instance->CCR2 = htim1.Instance->CNT + 500;
+    htim1.Instance->CCR1 = htim1.Instance->CCR2;
+    htim1.Instance->CCMR1 = 0x1010;
+    tmp = htim1.Instance->CCR1 + 250;
 
-				//¿ªÆôtim15Çý¶¯ADC DMA, ´æÈëadc_dma_buf, ¼à¿Ø»ý·Ö²¨ÐÎ, ÕÒ³öÂýËÙµçÑ¹ÓëÊ±¼ä¹ØÏµ
-				hadc.Instance->CFGR1 &= ~(0x7<<6);
-				hadc.Instance->CFGR1 |= (0x4<<6);
-				__HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
-				//ÉèÖÃDMAÍ¨µÀ1
-				/* Disable the DMA */
-				hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
-				/* Clear all flags */
-			  hdma_adc.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_adc.ChannelIndex);
-				/* Configure DMA Channel data length */
-				hdma_adc.Instance->CNDTR = 1024;
-				/* Configure DMA Channel source address */
-				hdma_adc.Instance->CPAR = (uint32_t)&hadc.Instance->DR;
-				/* Configure DMA Channel destination address */
-				hdma_adc.Instance->CMAR = (uint32_t)adc_dma_buf;
-				/* Enable the Peripheral */
-				hdma_adc.Instance->CCR |= DMA_CCR_EN;
-				//enable dma mode
-				hadc.Instance->CFGR1 |= ADC_CFGR1_DMAEN;
-				//disable adc it
-				__HAL_ADC_DISABLE_IT(&hadc, ADC_IT_EOC);
-				//enable timer
-				htim15.Instance->CR1|=(TIM_CR1_CEN);
+    //å¼€å¯tim15é©±åŠ¨ADC DMA, å­˜å…¥adc_dma_buf, ç›‘æŽ§ç§¯åˆ†æ³¢å½¢, æ‰¾å‡ºæ…¢é€Ÿç”µåŽ‹ä¸Žæ—¶é—´å…³ç³»
+    hadc.Instance->CFGR1 &= ~(0x7 << 6);
+    hadc.Instance->CFGR1 |= (0x4 << 6);
+    __HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
+    //è®¾ç½®DMAé€šé“1
+    /* Disable the DMA */
+    hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+    /* Clear all flags */
+    hdma_adc.DmaBaseAddress->IFCR = (DMA_FLAG_GL1 << hdma_adc.ChannelIndex);
+    /* Configure DMA Channel data length */
+    hdma_adc.Instance->CNDTR = 1024;
+    /* Configure DMA Channel source address */
+    hdma_adc.Instance->CPAR = (uint32_t)&hadc.Instance->DR;
+    /* Configure DMA Channel destination address */
+    hdma_adc.Instance->CMAR = (uint32_t)adc_dma_buf;
+    /* Enable the Peripheral */
+    hdma_adc.Instance->CCR |= DMA_CCR_EN;
+    // enable dma mode
+    hadc.Instance->CFGR1 |= ADC_CFGR1_DMAEN;
+    // disable adc it
+    __HAL_ADC_DISABLE_IT(&hadc, ADC_IT_EOC);
+    // enable timer
+    htim15.Instance->CR1 |= (TIM_CR1_CEN);
 
-				tmp = htim1.Instance->CCR2;
-			}
-			else {
-				goto Error;
-			}
-			//µÈ´ýÕý¸º»ù×¼¿ªÆô
-			while((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT<50000));
-			//µÈ´ý»ý·Ö(µçÑ¹x20)<1000
-			while((hadc.Instance->DR>1000) && (htim1.Instance->CNT<50000));
-			LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
-			LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
-			if(htim1.Instance->CNT<50000) {
-				//tmp2ÖÐ´æÈëdma´«Êä¸öÊý
-				tmp2 = hdma_adc.Instance->CNDTR;
-				tmp2 = 1024 - tmp2;
-				//¹Ø±ÕÕý¸º»ù×¼,»ý·ÖµçÑ¹±£³Ö²»±ä
-				htim1.Instance->CCR2 = htim1.Instance->CNT+50;
-				htim1.Instance->CCR1 = htim1.Instance->CCR2;
-				htim1.Instance->CCMR1 = 0x2020;
-				//µÚ¶þ´ÎrundownÊ±¼ä,ÂýËÙ
-				rundownp2 = htim1.Instance->CCR2 - tmp; 
-				tmp = htim1.Instance->CCR1 + 3000;
-			}
-			else {
-				goto Error;
-			}
-			while((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT<50000));
-			if(runDown) {
-				//__HAL_TIM_DISABLE(&htim15);
-				//__HAL_ADC_DISABLE(&hadc);
-				htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
-				hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
-				hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
-				hadc.Instance->CFGR1 &= ~(0x7<<6);
-				hadc.Instance->CFGR1 |= (0x1<<6);
-				LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
-				LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
-				__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
-				HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-				runDown = 0;
-			  uint16_t t = htim3.Instance->CCMR1;
-				t = t & 0xFF00;
-				htim3.Instance->CCMR1 = t | 0x50;
-				delay_us(100);
-				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
-				htim3.Instance->CCMR1 = t | 0x20;
-				uint32_t trefp,trefn;
-				//ÁÙÊ±¹Ø±Õtm3,½øÐÐÊä³ö
-				htim3.Instance->CR1 &= ~(TIM_CR1_CEN);
-				tmp = hdma_adc.Instance->CNDTR;
-				tmp = 1024 - tmp;
-				int16_t prev = 0;
-				int32_t sum = 0,sum2=0;
-				int32_t count = 0,count2=0;
-				int32_t step = 116;
-				int32_t remainV = 0;
-				double cha = 0;
-				for(int i=0;i<tmp;i++) {
-					if(adc_dma_buf[i]<2800) {
-						if(i>tmp2) {
-							if(count == 16) {
-								step = sum/count;
-							}
-							tmp2 = tmp;
-						}
-						if(tmp2 != tmp) {
-								sum+= prev-adc_dma_buf[i];
-								count++;
-						}
-						else {
-							if(i!=tmp-1) {
-								sum2+=adc_dma_buf[i];
-								count2++;
-							}
-						}
-					}
-					prev = adc_dma_buf[i];
-				}
-				remainV = sum2/count2;
-				cha = remainV - preV;
-				cha = (cha/step)*125.0;
-				preV = remainV;
-				double ws = (rundownp2+cha)/55.55;
-				trefp = refp + rundownp1;
-				trefn = refn + runupn1;
-				double ttt = trefp + ws -trefn;
-				ttt = ttt *(-14100000);
-				ttt = ttt/totalNPL;
-				//printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
-				//sprintf(uart_output,"step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
-				preValue = ttt;
-				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
-				htim3.Instance->CR1|=(TIM_CR1_CEN);
-				//uartSend();
-				return;
-			}
+    tmp = htim1.Instance->CCR2;
+  }
+  else
+  {
+    goto Error;
+  }
+  //ç­‰å¾…æ­£è´ŸåŸºå‡†å¼€å¯
+  while ((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT < 50000))
+    ;
+  //ç­‰å¾…ç§¯åˆ†(ç”µåŽ‹x20)<1000
+  while ((hadc.Instance->DR > 1000) && (htim1.Instance->CNT < 50000))
+    ;
+  LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+  LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
+  if (htim1.Instance->CNT < 50000)
+  {
+    // tmp2ä¸­å­˜å…¥dmaä¼ è¾“ä¸ªæ•°
+    tmp2 = hdma_adc.Instance->CNDTR;
+    tmp2 = 1024 - tmp2;
+    //å…³é—­æ­£è´ŸåŸºå‡†,ç§¯åˆ†ç”µåŽ‹ä¿æŒä¸å˜
+    htim1.Instance->CCR2 = htim1.Instance->CNT + 50;
+    htim1.Instance->CCR1 = htim1.Instance->CCR2;
+    htim1.Instance->CCMR1 = 0x2020;
+    //ç¬¬äºŒæ¬¡rundownæ—¶é—´,æ…¢é€Ÿ
+    rundownp2 = htim1.Instance->CCR2 - tmp;
+    tmp = htim1.Instance->CCR1 + 3000;
+  }
+  else
+  {
+    goto Error;
+  }
+  while ((htim1.Instance->CNT < tmp) && (htim1.Instance->CNT < 50000))
+    ;
+  if (runDown)
+  {
+    //__HAL_TIM_DISABLE(&htim15);
+    //__HAL_ADC_DISABLE(&hadc);
+    htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+    hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+    hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
+    hadc.Instance->CFGR1 &= ~(0x7 << 6);
+    hadc.Instance->CFGR1 |= (0x1 << 6);
+    LOG1_GPIO_Port->BSRR = (uint32_t)LOG1_Pin;
+    LOG1_GPIO_Port->BRR = (uint32_t)LOG1_Pin;
+    __HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
+    HAL_GPIO_WritePin(A0_GPIO_Port, A0_Pin, GPIO_PIN_RESET);
+    runDown = 0;
+    uint16_t t = htim3.Instance->CCMR1;
+    t = t & 0xFF00;
+    htim3.Instance->CCMR1 = t | 0x50;
+    delay_us(100);
+    htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
+    htim3.Instance->CCMR1 = t | 0x20;
+    uint32_t trefp, trefn;
+    //ä¸´æ—¶å…³é—­tm3,è¿›è¡Œè¾“å‡º
+    htim3.Instance->CR1 &= ~(TIM_CR1_CEN);
+    tmp = hdma_adc.Instance->CNDTR;
+    tmp = 1024 - tmp;
+    int16_t prev = 0;
+    int32_t sum = 0, sum2 = 0;
+    int32_t count = 0, count2 = 0;
+    int32_t step = 116;
+    int32_t remainV = 0;
+    double cha = 0;
+    for (int i = 0; i < tmp; i++)
+    {
+      if (adc_dma_buf[i] < 2800)
+      {
+        if (i > tmp2)
+        {
+          if (count == 16)
+          {
+            step = sum / count;
+          }
+          tmp2 = tmp;
+        }
+        if (tmp2 != tmp)
+        {
+          sum += prev - adc_dma_buf[i];
+          count++;
+        }
+        else
+        {
+          if (i != tmp - 1)
+          {
+            sum2 += adc_dma_buf[i];
+            count2++;
+          }
+        }
+      }
+      prev = adc_dma_buf[i];
+    }
+    remainV = sum2 / count2;
+    cha = remainV - preV;
+    cha = (cha / step) * 125.0;
+    preV = remainV;
+    double ws = (rundownp2 + cha) / 55.55;
+    trefp = refp + rundownp1;
+    trefn = refn + runupn1;
+    double ttt = trefp + ws - trefn;
+    ttt = ttt * (-14100000);
+    ttt = ttt / totalNPL;
+    // printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
+    sprintf(uart_output,"step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
+    preValue = ttt;
+    htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
+    htim3.Instance->CR1 |= (TIM_CR1_CEN);
+    uartSend();
+    return;
+  }
 
 Error:
-			runDown = 0;
-			htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
-			hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
-			hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
-			hadc.Instance->CFGR1 &= ~(0x7<<6);
-			hadc.Instance->CFGR1 |= (0x1<<6);
-			__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
-			//disableTim2OCInput();
-			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-			printf("Error -1\n");
+  runDown = 0;
+  htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
+  hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
+  hadc.Instance->CFGR1 &= ~ADC_CFGR1_DMAEN;
+  hadc.Instance->CFGR1 &= ~(0x7 << 6);
+  hadc.Instance->CFGR1 |= (0x1 << 6);
+  __HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
+  // disableTim2OCInput();
+  HAL_GPIO_WritePin(A0_GPIO_Port, A0_Pin, GPIO_PIN_RESET);
+  printf("Error -1\n");
 }
 
-void Start_UartRx(void) {
-		//ÉèÖÃuart½ÓÊÕDMAÍ¨µÀ
-		/* Disable the DMA */
-		hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
-		/* Clear all flags */
-		hdma_usart1_rx.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_usart1_rx.ChannelIndex);
-		/* Configure DMA Channel data length */
-		hdma_usart1_rx.Instance->CNDTR = 256;
-		/* Configure DMA Channel source address */
-		hdma_usart1_rx.Instance->CPAR = (uint32_t)&huart1.Instance->RDR;
-		/* Configure DMA Channel destination address */
-		hdma_usart1_rx.Instance->CMAR = (uint32_t)uart_input;
-		/* Enable the Peripheral */
-		hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
-		ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAR);
+void Start_UartRx(void)
+{
+  //è®¾ç½®uartæŽ¥æ”¶DMAé€šé“
+  /* Disable the DMA */
+  hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
+  /* Clear all flags */
+  hdma_usart1_rx.DmaBaseAddress->IFCR = (DMA_FLAG_GL1 << hdma_usart1_rx.ChannelIndex);
+  /* Configure DMA Channel data length */
+  hdma_usart1_rx.Instance->CNDTR = 256;
+  /* Configure DMA Channel source address */
+  hdma_usart1_rx.Instance->CPAR = (uint32_t)&huart1.Instance->RDR;
+  /* Configure DMA Channel destination address */
+  hdma_usart1_rx.Instance->CMAR = (uint32_t)uart_input;
+  /* Enable the Peripheral */
+  hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
+  ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAR);
 }
 
-void uartSend() {
-	uart_output[255] = 0;
-	int length = strlen(uart_output);
-	//ÉèÖÃuart·¢ËÍDMAÍ¨µÀ
-		/* Disable the DMA */
-		hdma_usart1_tx.Instance->CCR &= ~DMA_CCR_EN;
-		/* Clear all flags */
-		hdma_usart1_tx.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_usart1_tx.ChannelIndex);
-		/* Configure DMA Channel data length */
-		hdma_usart1_tx.Instance->CNDTR = length;
-		/* Configure DMA Channel source address */
-		hdma_usart1_tx.Instance->CPAR = (uint32_t)&huart1.Instance->TDR;
-		/* Configure DMA Channel destination address */
-		hdma_usart1_tx.Instance->CMAR = (uint32_t)uart_output;
-		/* Enable the Peripheral */
-		hdma_usart1_tx.Instance->CCR |= DMA_CCR_EN;
-	/* Clear the TC flag in the ICR register */
-    __HAL_UART_CLEAR_FLAG(&huart1, UART_CLEAR_TCF);
-	ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAT);
+void uartSend()
+{
+  uart_output[255] = 0;
+  int length = strlen(uart_output);
+  //è®¾ç½®uartå‘é€DMAé€šé“
+  /* Disable the DMA */
+  hdma_usart1_tx.Instance->CCR &= ~DMA_CCR_EN;
+  /* Clear all flags */
+  hdma_usart1_tx.DmaBaseAddress->IFCR = (DMA_FLAG_GL1 << hdma_usart1_tx.ChannelIndex);
+  /* Configure DMA Channel data length */
+  hdma_usart1_tx.Instance->CNDTR = length;
+  /* Configure DMA Channel source address */
+  hdma_usart1_tx.Instance->CPAR = (uint32_t)&huart1.Instance->TDR;
+  /* Configure DMA Channel destination address */
+  hdma_usart1_tx.Instance->CMAR = (uint32_t)uart_output;
+  /* Enable the Peripheral */
+  hdma_usart1_tx.Instance->CCR |= DMA_CCR_EN;
+  /* Clear the TC flag in the ICR register */
+  __HAL_UART_CLEAR_FLAG(&huart1, UART_CLEAR_TCF);
+  ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAT);
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -498,9 +546,9 @@ void SystemClock_Config(void)
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14|RCC_OSCILLATORTYPE_HSE;
+   * in the RCC_OscInitTypeDef structure.
+   */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14 | RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.HSI14State = RCC_HSI14_ON;
   RCC_OscInitStruct.HSI14CalibrationValue = 16;
@@ -510,9 +558,8 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -530,10 +577,10 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief ADC Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief ADC Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_ADC_Init(void)
 {
 
@@ -547,7 +594,7 @@ static void MX_ADC_Init(void)
 
   /* USER CODE END ADC_Init 1 */
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
-  */
+   */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
   hadc.Init.Resolution = ADC_RESOLUTION_12B;
@@ -567,7 +614,7 @@ static void MX_ADC_Init(void)
     Error_Handler();
   }
   /** Configure for the selected ADC regular channel to be converted.
-  */
+   */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
   sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
@@ -578,14 +625,13 @@ static void MX_ADC_Init(void)
   /* USER CODE BEGIN ADC_Init 2 */
 
   /* USER CODE END ADC_Init 2 */
-
 }
 
 /**
-  * @brief TIM1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM1_Init(void)
 {
 
@@ -642,7 +688,7 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }*/
-	sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
   {
@@ -694,14 +740,13 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 2 */
   HAL_TIM_MspPostInit(&htim1);
-
 }
 
 /**
-  * @brief TIM3 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM3 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM3_Init(void)
 {
 
@@ -713,10 +758,10 @@ static void MX_TIM3_Init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM3_Init 1 */
-  totalCT = NPLCCT*TIMCLKDIV;
+  totalCT = NPLCCT * TIMCLKDIV;
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = TIMCLKDIV-1;
+  htim3.Init.Prescaler = TIMCLKDIV - 1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = NPLCCT + RUNDOWN - 1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -743,10 +788,10 @@ static void MX_TIM3_Init(void)
   {
     Error_Handler();
   }
-	__HAL_TIM_DISABLE_OCxPRELOAD(&htim3, TIM_CHANNEL_1);
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim3, TIM_CHANNEL_1);
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = NPLCCT;
-	totalNPL = NPLCCT*TIMCLKDIV;
+  totalNPL = NPLCCT * TIMCLKDIV;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
@@ -755,14 +800,13 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
-
 }
 
 /**
-  * @brief TIM15 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM15 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM15_Init(void)
 {
 
@@ -779,7 +823,7 @@ static void MX_TIM15_Init(void)
   htim15.Instance = TIM15;
   htim15.Init.Prescaler = 0;
   htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim15.Init.Period = SYSMHZ*5-1;
+  htim15.Init.Period = SYSMHZ * 5 - 1;
   htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim15.Init.RepetitionCounter = 0;
   htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -801,14 +845,13 @@ static void MX_TIM15_Init(void)
   /* USER CODE BEGIN TIM15_Init 2 */
 
   /* USER CODE END TIM15_Init 2 */
-
 }
 
 /**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief USART1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_USART1_UART_Init(void)
 {
 
@@ -836,12 +879,11 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
-
 }
 
 /**
-  * Enable DMA controller clock
-  */
+ * Enable DMA controller clock
+ */
 static void MX_DMA_Init(void)
 {
 
@@ -850,16 +892,15 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel2_3_IRQn interrupt configuration */
-  //HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-  //HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-
+  // HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
+  // HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
 }
 
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -870,25 +911,24 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, A0_Pin|A1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, A0_Pin | A1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LOG2_Pin|LOG1_Pin|CT3_Pin|CT2_Pin
-                          |CT1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LOG2_Pin | LOG1_Pin | CT3_Pin | CT2_Pin | CT1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : VHED_Pin VMED_Pin */
   GPIO_InitStruct.Pin = VHED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	
-	GPIO_InitStruct.Pin = VHED_Pin;
+
+  GPIO_InitStruct.Pin = VHED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : A0_Pin A1_Pin */
-  GPIO_InitStruct.Pin = A0_Pin|A1_Pin;
+  GPIO_InitStruct.Pin = A0_Pin | A1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -896,34 +936,32 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : LOG2_Pin LOG1_Pin CT3_Pin CT2_Pin
                            CT1_Pin */
-  GPIO_InitStruct.Pin = LOG2_Pin|LOG1_Pin|CT3_Pin|CT2_Pin
-                          |CT1_Pin;
+  GPIO_InitStruct.Pin = LOG2_Pin | LOG1_Pin | CT3_Pin | CT2_Pin | CT1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
 int fputc(int ch, FILE *f)
 {
-      HAL_UART_Transmit(&huart1, (uint8_t *)&ch,1, 0xFFFF);
-      return ch;
+  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+  return ch;
 }
 
 int fgetc(FILE *f)
 {
-  uint8_t  ch;
-	HAL_UART_Receive(&huart1,(uint8_t *)&ch, 1, 0xFFFF);
-	return  ch;
+  uint8_t ch;
+  HAL_UART_Receive(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+  return ch;
 }
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -935,14 +973,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
