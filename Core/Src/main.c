@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include <string.h>
 #include "adc_config.h"
 /* USER CODE END Includes */
 
@@ -41,6 +42,10 @@ __IO uint32_t totalCT = 0;
 __IO uint32_t totalNPL = 0;
 __IO uint32_t tmpNPL = 0;
 uint16_t adc_dma_buf[1024];
+char uart_output[256];
+char uart_input[256];
+char uart_cmd[256];
+uint32_t uartIndex = 0;
 
 /* USER CODE END PD */
 
@@ -74,6 +79,10 @@ static void MX_TIM1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM15_Init(void);
 static void MX_USART1_UART_Init(void);
+static void uartSend(void);
+static void Start_UartRx(void);
+static void ADC_Core(void);
+void CMD_Parse(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -149,15 +158,118 @@ int main(void)
 	HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_1);
 	__HAL_TIM_ENABLE(&htim15);
+	Start_UartRx();
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		static double preValue;
-		static int32_t preV = 0;
 		if(runDown) {
+			ADC_Core();
+		}
+		else {
+				if((htim3.Instance->CNT<300*NPLC) && (huart1.Instance->ISR & USART_ISR_IDLE)) {
+					huart1.Instance->ICR |= USART_ICR_IDLECF;
+					hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
+					int endPos = hdma_usart1_rx.Instance->CNDTR;
+					int i=0;
+					for(;i<endPos;i++) {
+						if(uartIndex < 256) {
+							uart_cmd[uartIndex++] = uart_input[i];
+						}
+					}
+					uart_cmd[i] = 0;
+					/* Configure DMA Channel data length */
+					hdma_usart1_rx.Instance->CNDTR = 256;
+					/* Enable the Peripheral */
+					hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
+					sprintf(uart_cmd,"\n\raa=11 bb=22 cc=33\n\r\raa=44 bb=55\n\r\n\raaaaa=bbbbb");
+					uartIndex = strlen(uart_cmd);
+					CMD_Parse();
+				}
+			}
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+void CMD_ParseOptions(char **options, int size) {
+	for(int i=0;i<size;i++) {
+		char* cmd[2];
+		char *tmpstr = strtok(options[i],"=");
+		int ct = 0;
+		while(tmpstr != NULL) {
+			cmd[ct++] = tmpstr;
+			if(ct>=2) {
+				break;
+			}
+			tmpstr = strtok(NULL," ");
+		}
+		if(ct == 2) {
+			printf("cmd=%s value=%s\n",cmd[0],cmd[1]);
+		}
+	}
+}
+
+void CMD_Parse(void) {
+	int end = 0;
+	int start = 0;
+	int i = start;
+	//寻找命令起始位置
+	for(;i<uartIndex;i++) {
+		if((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n')) {
+			start = i;
+			break;
+		}
+	}
+	for(;i<uartIndex;i++) {
+		if((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n')) {
+			end = i;
+			break;
+		}
+	}
+	if(start<end) {
+		uart_cmd[end] = 0;
+		char* options[20];
+		int ct_opt = 0;
+		char *tmpstr = strtok(uart_cmd+start," ");
+		while(tmpstr != NULL) {
+			options[ct_opt++] = tmpstr;
+			if(ct_opt>=20) {
+				break;
+			}
+			tmpstr = strtok(NULL," ");
+		}
+		CMD_ParseOptions(options,ct_opt);
+	}
+	start = end+1;
+	for(i=start;i<uartIndex;i++) {
+		if((uart_cmd[i] != '\r') && (uart_cmd[i] != '\n')) {
+			break;
+		}
+	}
+	start = 0;
+	char haveNewLine = 0;
+	for(;i<uartIndex;i++) {
+		uart_cmd[start++] = uart_cmd[i];
+		if((uart_cmd[i] == '\r') || (uart_cmd[i] == '\n')) {
+			haveNewLine = 1;
+		}
+	}
+	uart_cmd[start] = 0;
+	uartIndex = start;
+	if(haveNewLine) {
+		CMD_Parse();
+	}
+}
+
+void ADC_Core(void) {
+			static double preValue;
+		static int32_t preV = 0;
 			uint32_t rundownp1 = 0;
 			uint32_t rundownp2 = 0;
 			__IO uint32_t runupn1 = 0;
@@ -207,6 +319,7 @@ int main(void)
 				hadc.Instance->CFGR1 &= ~(0x7<<6);
 				hadc.Instance->CFGR1 |= (0x4<<6);
 				__HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
+				//设置DMA通道1
 				/* Disable the DMA */
 				hdma_adc.Instance->CCR &= ~DMA_CCR_EN;
 				/* Clear all flags */
@@ -287,15 +400,13 @@ int main(void)
 					if(adc_dma_buf[i]<2800) {
 						if(i>tmp2) {
 							if(count == 16) {
-								step = sum>>4;
+								step = sum/count;
 							}
 							tmp2 = tmp;
 						}
 						if(tmp2 != tmp) {
-							if(count<16) {
 								sum+= prev-adc_dma_buf[i];
 								count++;
-							}
 						}
 						else {
 							if(i!=tmp-1) {
@@ -316,12 +427,15 @@ int main(void)
 				double ttt = trefp + ws -trefn;
 				ttt = ttt *(-14100000);
 				ttt = ttt/totalNPL;
-				printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
+				//printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
+				//sprintf(uart_output,"step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
 				preValue = ttt;
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
 				htim3.Instance->CR1|=(TIM_CR1_CEN);
-				continue;
+				//uartSend();
+				return;
 			}
+
 Error:
 			runDown = 0;
 			htim15.Instance->CR1 &= ~(TIM_CR1_CEN);
@@ -333,12 +447,44 @@ Error:
 			//disableTim2OCInput();
 			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
 			printf("Error -1\n");
-		}
-    /* USER CODE END WHILE */
+}
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+void Start_UartRx(void) {
+		//设置uart接收DMA通道
+		/* Disable the DMA */
+		hdma_usart1_rx.Instance->CCR &= ~DMA_CCR_EN;
+		/* Clear all flags */
+		hdma_usart1_rx.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_usart1_rx.ChannelIndex);
+		/* Configure DMA Channel data length */
+		hdma_usart1_rx.Instance->CNDTR = 256;
+		/* Configure DMA Channel source address */
+		hdma_usart1_rx.Instance->CPAR = (uint32_t)&huart1.Instance->RDR;
+		/* Configure DMA Channel destination address */
+		hdma_usart1_rx.Instance->CMAR = (uint32_t)uart_input;
+		/* Enable the Peripheral */
+		hdma_usart1_rx.Instance->CCR |= DMA_CCR_EN;
+		ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAR);
+}
+
+void uartSend() {
+	uart_output[255] = 0;
+	int length = strlen(uart_output);
+	//设置uart发送DMA通道
+		/* Disable the DMA */
+		hdma_usart1_tx.Instance->CCR &= ~DMA_CCR_EN;
+		/* Clear all flags */
+		hdma_usart1_tx.DmaBaseAddress->IFCR  = (DMA_FLAG_GL1 << hdma_usart1_tx.ChannelIndex);
+		/* Configure DMA Channel data length */
+		hdma_usart1_tx.Instance->CNDTR = length;
+		/* Configure DMA Channel source address */
+		hdma_usart1_tx.Instance->CPAR = (uint32_t)&huart1.Instance->TDR;
+		/* Configure DMA Channel destination address */
+		hdma_usart1_tx.Instance->CMAR = (uint32_t)uart_output;
+		/* Enable the Peripheral */
+		hdma_usart1_tx.Instance->CCR |= DMA_CCR_EN;
+	/* Clear the TC flag in the ICR register */
+    __HAL_UART_CLEAR_FLAG(&huart1, UART_CLEAR_TCF);
+	ATOMIC_SET_BIT(huart1.Instance->CR3, USART_CR3_DMAT);
 }
 
 /**
