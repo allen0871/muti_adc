@@ -59,6 +59,7 @@ TIM_HandleTypeDef htim15;
 DMA_HandleTypeDef hdma_adc;
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -84,38 +85,6 @@ void delay_us(uint32_t value) {
 	while(tmp--);
 }
 
-static void enableTim1OCInput(void) {
-	uint32_t tmpccmr2;
-  uint32_t tmpccer;
-	TIM_IC_InitTypeDef sConfigIC = {0};
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = VZERO_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
-  HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
-	sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
-  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-  sConfigIC.ICFilter = 1;
-  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
-}
-
-static void disableTim2OCInput(void) {
-	TIM_OC_InitTypeDef sConfigOC = {0};
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = VZERO_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(VZERO_GPIO_Port, &GPIO_InitStruct);
-	TIM_CCxChannelCmd(htim1.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
-}
 /* USER CODE END 0 */
 
 /**
@@ -258,7 +227,6 @@ int main(void)
 				htim15.Instance->CR1|=(TIM_CR1_CEN);
 
 				tmp = htim1.Instance->CCR2;
-				//enableTim1OCInput();
 			}
 			else {
 				goto Error;
@@ -305,14 +273,6 @@ int main(void)
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
 				htim3.Instance->CCMR1 = t | 0x20;
 				uint32_t trefp,trefn;
-				/*double ws = rd3/100.0;
-				trefp = refp + rundownp1 + tp;
-				trefn = refn + runupn1 + tn;
-				double ttt = trefp+ws-trefn;
-				ttt = ttt *(-14100000);
-				ttt = ttt/totalNPL;
-				printf("%d %d %d %d %d %d %.2f %.2f %.2f %.2f %.2f %d %d\n",refp, refn,tp,tn, rundownp1, runupn1, ws, trefp+ws,trefn-trefp-ws, ttt, ttt - preValue, rd3, t3);
-				preValue = ttt;*/
 				//临时关闭tm3,进行输出
 				htim3.Instance->CR1 &= ~(TIM_CR1_CEN);
 				tmp = hdma_adc.Instance->CNDTR;
@@ -326,7 +286,6 @@ int main(void)
 				for(int i=0;i<tmp;i++) {
 					if(adc_dma_buf[i]<2800) {
 						if(i>tmp2) {
-							printf("\n");
 							if(count == 16) {
 								step = sum>>4;
 							}
@@ -337,14 +296,12 @@ int main(void)
 								sum+= prev-adc_dma_buf[i];
 								count++;
 							}
-							//printf("%d ", prev-adc_dma_buf[i]);
 						}
 						else {
 							if(i!=tmp-1) {
 								sum2+=adc_dma_buf[i];
 								count2++;
 							}
-							//printf("%d ", adc_dma_buf[i]);
 						}
 					}
 					prev = adc_dma_buf[i];
@@ -359,7 +316,7 @@ int main(void)
 				double ttt = trefp + ws -trefn;
 				ttt = ttt *(-14100000);
 				ttt = ttt/totalNPL;
-				printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, cha, ttt, ttt - preValue);
+				printf("step=%d remain=%d %d %d %d %d %d %d %d %.2f %.2f %.2f %.2f\n",step,remainV,refp,refn,rundownp1, runupn1, rundownp2,refp+rundownp1, refn+runupn1, rundownp2+cha, ttt, ttt - preValue, cha);
 				preValue = ttt;
 				htim3.Instance->CCR1 = htim3.Instance->ARR - 1;
 				htim3.Instance->CR1|=(TIM_CR1_CEN);
@@ -373,9 +330,8 @@ Error:
 			hadc.Instance->CFGR1 &= ~(0x7<<6);
 			hadc.Instance->CFGR1 |= (0x1<<6);
 			__HAL_ADC_ENABLE_IT(&hadc, ADC_IT_EOC);
-			disableTim2OCInput();
+			//disableTim2OCInput();
 			HAL_GPIO_WritePin(A0_GPIO_Port,A0_Pin,GPIO_PIN_RESET);
-			//HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,GPIO_PIN_RESET);
 			printf("Error -1\n");
 		}
     /* USER CODE END WHILE */
@@ -492,7 +448,6 @@ static void MX_TIM1_Init(void)
   /* USER CODE END TIM1_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_SlaveConfigTypeDef sSlaveConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
@@ -643,7 +598,7 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
 	__HAL_TIM_DISABLE_OCxPRELOAD(&htim3, TIM_CHANNEL_1);
-  sConfigOC.OCMode = TIM_OCMODE_FORCED_INACTIVE;//TIM_OCMODE_PWM1;
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = NPLCCT;
 	totalNPL = NPLCCT*TIMCLKDIV;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -678,7 +633,7 @@ static void MX_TIM15_Init(void)
   htim15.Instance = TIM15;
   htim15.Init.Prescaler = 0;
   htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim15.Init.Period = 124;
+  htim15.Init.Period = SYSMHZ*5-1;
   htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim15.Init.RepetitionCounter = 0;
   htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -749,8 +704,8 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel2_3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
+  //HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
+  //HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
 
 }
 

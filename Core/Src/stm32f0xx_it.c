@@ -34,8 +34,6 @@ __IO uint32_t haveRunDown = 0;
 __IO uint32_t refp = 0;
 __IO uint32_t refn = 0;
 __IO int32_t ct = 20000;
-uint16_t adcbuf[256];
-uint16_t adcindex = 0;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -259,7 +257,6 @@ void TIM3_IRQHandler(void)
 			hadc.Instance->CFGR1 |= (0x1<<6);
 			__HAL_ADC_ENABLE(&hadc);*/
 			__HAL_ADC_CLEAR_FLAG(&hadc, (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
-			adcindex = 0;
 			htim1.Instance->ARR = TZCLK;
 			htim1.Instance->CNT = 50;
 			htim1.Instance->CCR4 = TZCC;
